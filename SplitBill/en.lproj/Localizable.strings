@@ -1,0 +1,69 @@
+/* 
+  Localizable.strings
+  SplitBill
+
+  Created by fer0n on 21.12.22.
+  
+*/
+
+// Shared
+"settings" = "Settings";
+"delete" = "Delete";
+"cancel" = "Cancel";
+
+// ContentView
+"selectImage" = "Select image";
+"openScanner" = "Open scanner";
+"replaceImage" = "New image available, replace the current one?";
+"replaceNo" = "Keep current image";
+"replaceYes" = "Use new image";
+
+// CardModel
+"empty" = "Empty";
+"sum" = "Sum";
+"remaining" = "Remaining";
+"unnamed" = "Unnamed";
+"total" = "Total";
+"shared" = "Shared";
+
+// CardsView
+"deleteTransaction" = "Delete transaction";
+"editCard" = "Edit card";
+"removeFromSession" = "Remove from session";
+"clearAllTransactions" = "Clear all transactions";
+"shareResult" = "Share value";
+"shareSummary" = "Share summary";
+"resetManualShare" = "Reset share";
+"addToActive" = "Make active as well";
+"setToInactive" = "Make inactive";
+"clearAllTransactionsInEveryCard" = "Clear all transactions for all cards";
+
+// EditCardsView
+"newCard" = "New Card";
+"specialCard" = "Special Card";
+
+// SettingsView
+"openOnStartUp" = "Open on startup";
+"nothing" = "Nothing";
+"scanner" = "Scanner";
+"imagePicker" = "Image Picker";
+"flashTransactionValue" = "Preview recognized number";
+
+// ButtonsOverlayView
+"clearImage" = "Clear image";
+"documentScanner" = "Document Scanner";
+"photoLibrary" = "Photo Library";
+
+// ShareExtension
+"openInApp" = "Open App";
+"imageSaved" = "Image added to SplitBill";
+"openInAppExplanation" = "Next time you open the app the image will be loaded automatically";
+"error" = "An error occured";
+"errorMessage" = "Please try again or import the image from within the app";
+
+// Alerts
+"cannotEditShare" = "Share cannot be edited";
+"lastShareCannotBeAdjustedManually" = "All shares have to add up to the value and all other shares have already been adjusted manually. You can edit the total value or change/reset other shares to adjust this one.";
+"numberTooLargeTitle" = "The selected number is too large";
+"numberTooLargeMessage" = "The number may have been recognized incorrectly. Long press the item to correct it.";
+"unknown" = "Un unknown error occured";

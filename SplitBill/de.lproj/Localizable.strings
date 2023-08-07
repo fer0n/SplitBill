@@ -1,0 +1,69 @@
+/* 
+  Localizable.strings
+  SplitBill
+
+  Created by fer0n on 21.12.22.
+  
+*/
+
+// Shared
+"settings" = "Einstellungen";
+"delete" = "Löschen";
+"cancel" = "Abbrechen";
+
+// ContentView
+"selectImage" = "Bild auswählen";
+"openScanner" = "Scanner öffnen";
+"replaceImage" = "Ein neues Bild ist verfügbar, soll das aktuelle Bild ersetzt werden?";
+"replaceNo" = "Aktuelles Bild behalten";
+"replaceYes" = "Neues Bild verwenden";
+
+// CardModel
+"empty" = "Leer";
+"sum" = "Summe";
+"remaining" = "Verbleiben";
+"unnamed" = "Unnamed";
+"total" = "Gesamt";
+"shared" = "Geteilt";
+
+// CardsView
+"deleteTransaction" = "Transaktion löschen";
+"editCard" = "Karte bearbeiten";
+"removeFromSession" = "Aus Session entfernen";
+"clearAllTransactions" = "Alle Transaktionen löschen";
+"shareResult" = "Wert teilen";
+"shareSummary" = "Zusammenfassung teilen";
+"resetManualShare" = "Aufteilung zurücksetzen";
+"addToActive" = "Ebenfalls aktiv machen";
+"setToInactive" = "Inaktiv setzen";
+"clearAllTransactionsInEveryCard" = "Alle Transaktionen in allen Kartn löschen";
+
+// EditCardsView
+"newCard" = "Neue Karte";
+"specialCard" = "Besondere Karte";
+
+// SettingsView
+"openOnStartUp" = "Beim start öffnen";
+"nothing" = "Nichts";
+"scanner" = "Scanner";
+"imagePicker" = "Bild Auswahl";
+"flashTransactionValue" = "Erkannte Zahl anzeigen";
+
+// ButtonsOverlayView
+"clearImage" = "Bild löschen";
+"documentScanner" = "Dokument Scanner";
+"photoLibrary" = "Foto Bibliothek";
+
+// ShareExtension
+"openInApp" = "App öffnen";
+"imageSaved" = "Bild zu SplitBill hinzugefügt";
+"openInAppExplanation" = "Beim nächsten öffnen der App wird das Bild automatisch geladen";
+"error" = "Ein Fehler ist aufgetreten";
+"errorMessage" = "Bitte versuche es erneut oder importiere das Bild von der App aus";
+
+// Alerts
+"cannotEditShare" = "Anteil kann nicht bearbeitet werden";
+"lastShareCannotBeAdjustedManually" = "Alle Anteile müssen zusammen den gesamten Wert ergeben und alle anderen Anteile wurden bereits manuell angepasst. Du kannst den gesamten Wert anpassen oder andere Anteile ändern/zurückseten um diesen Anteil zu ändern.";
+"numberTooLargeTitle" = "Die ausgewählte Zahl ist zu groß";
+"numberTooLargeMessage" = "Die Zahl wurde eventuell falsch erkannt. Drücke länger auf die Zahl um sie zu korrigieren.";
+"unknown" = "Ein unbekannter Fehler ist aufgetreten";
