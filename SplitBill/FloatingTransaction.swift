@@ -41,6 +41,7 @@ struct FloatingTransactionView: View {
                 floatingTransaction = nil
             }
         }
+        floatingTransactionInfo.center = false
     }
     
     
@@ -101,6 +102,7 @@ struct FloatingTransactionView: View {
             }
             floatingTransaction = nil
         }
+        floatingTransactionInfo.center = false
     }
     
     var FloatingTransactionTextField: some View {

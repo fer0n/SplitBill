@@ -48,6 +48,9 @@
 "scanner" = "Scanner";
 "imagePicker" = "Bild Auswahl";
 "flashTransactionValue" = "Erkannte Zahl anzeigen";
+"contact" = "Kontakt";
+"rateApp" = "Bitte bewerte SplitBill";
+"github" = "SplitBill auf Github";
 
 // ButtonsOverlayView
 "clearImage" = "Bild löschen";

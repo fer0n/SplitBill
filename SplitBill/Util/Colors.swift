@@ -14,6 +14,7 @@ extension Color {
     static let markerColor = Color("MarkerColor")
     static let backgroundColor = Color(UIColor.systemGray6)
     static let foregroundColor = Color(UIColor.label)
+    static let labelColor = Color("LabelColor")
 }
 
 
