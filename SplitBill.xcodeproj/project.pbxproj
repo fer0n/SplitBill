@@ -29,6 +29,7 @@
 		8892F61C2A7C2094001D00C0 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
 		88B3738E295305EB007AD933 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B3738D295305EB007AD933 /* SettingsView.swift */; };
 		88B3739129531CAA007AD933 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88B3739329531CAA007AD933 /* Localizable.strings */; };
+		88EA86092A825334004F2332 /* FloatingTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EA86082A825334004F2332 /* FloatingTransaction.swift */; };
 		88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA4B1429A35D97001375B4 /* Alerter.swift */; };
 		BDD13230285217CA00C69619 /* SplitBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1322F285217CA00C69619 /* SplitBill.swift */; };
 		BDD13232285217CA00C69619 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD13231285217CA00C69619 /* ContentView.swift */; };
@@ -111,6 +112,7 @@
 		88B3738D295305EB007AD933 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		88B3739229531CAA007AD933 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		88B3739729531D25007AD933 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		88EA86082A825334004F2332 /* FloatingTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTransaction.swift; sourceTree = "<group>"; };
 		88FA4B1429A35D97001375B4 /* Alerter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerter.swift; sourceTree = "<group>"; };
 		BDD1322C285217CA00C69619 /* SplitBill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitBill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDD1322F285217CA00C69619 /* SplitBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitBill.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				887E09632924311C00A6A116 /* CardModel.swift */,
 				888495B3291E6E4400AB74D7 /* ContentViewModel.swift */,
 				BDD13231285217CA00C69619 /* ContentView.swift */,
+				88EA86082A825334004F2332 /* FloatingTransaction.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
 				888495B5291FDD4700AB74D7 /* EditCardsView.swift */,
 				88B3738D295305EB007AD933 /* SettingsView.swift */,
@@ -404,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88B3738E295305EB007AD933 /* SettingsView.swift in Sources */,
+				88EA86092A825334004F2332 /* FloatingTransaction.swift in Sources */,
 				88677493291C3340002C675C /* CardsView.swift in Sources */,
 				888495B6291FDD4700AB74D7 /* EditCardsView.swift in Sources */,
 				8800D7C02932B1DA00FA6ADE /* util.swift in Sources */,
@@ -470,7 +474,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -482,7 +486,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -499,7 +503,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -511,7 +515,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -647,7 +651,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -702,7 +706,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -721,7 +725,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -739,7 +743,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -761,7 +765,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -779,7 +783,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

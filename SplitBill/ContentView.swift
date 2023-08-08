@@ -24,14 +24,7 @@ struct ContentView: View {
     
     @State private var presentationDetent: PresentationDetent? = nil
     @State private var settingsDetent: PresentationDetent = .medium
-    
-    @State var floatingTransaction: Transaction? = nil
-    @State var floatingTransactionValue: String = ""
-    @State var floatingTransactionColor: Color = .blue
-    @State var floatingTransactionContrastColor: Color = .white
-    @FocusState private var floatingTransactionIsFocused: Bool
-    @State var floatingTransactionDisappearTimer: Timer? = nil
-    
+
     let zoomBufferPadding: CGFloat = 500
         
     
@@ -73,7 +66,8 @@ struct ContentView: View {
         self.isLoadingReplacingImage = false
         return isPreservation
     }
-    
+
+
     func handleTransactionTap(_ transaction: Transaction) {
         withAnimation {
             if (!vm.hasActiveCards) { return }
@@ -81,131 +75,24 @@ struct ContentView: View {
                 vm.removeTransaction(transaction.id, from: vm.activeCardsIds)
             } else {
                 if (vm.flashTransactionValue) {
-                    flashTransaction(transaction)
-                }
+                    vm.flashTransaction(transaction)
+                }   
                 vm.linkTransactionToActiveCards(transaction)
             }
         }
     }
     
-    func setFloatingTransactionColor(_ transaction: Transaction?) {
-        let firstactiveCard = vm.getFirstActiveCard()
-        if let t = transaction, let card = vm.getFirstChosencardOfTransaction(t) {
-            let cards = vm.getChosencardsOfTransaction(t)
-            if let firstactiveCard = firstactiveCard, cards.contains(firstactiveCard) {
-                floatingTransactionColor = firstactiveCard.color.light
-                floatingTransactionContrastColor = firstactiveCard.color.contrast
-            } else {
-                floatingTransactionColor = card.color.light
-                floatingTransactionContrastColor = card.color.contrast
-            }
-        } else {
-            floatingTransactionColor = firstactiveCard?.color.light ?? Color(vm.markerColor ?? .blue)
-            floatingTransactionContrastColor = firstactiveCard?.color.contrast ?? .white
-        }
-    }
-    
-    func flashTransaction(_ t: Transaction) {
-        if (vm.getFirstChosencardOfTransaction(t) != nil) {
-            return
-        }
-        withAnimation {
-            setFloatingTransactionColor(t)
-            floatingTransaction = t
-            floatingTransactionValue = t.stringValue
-        }
-        debouncedHideFloatingTransaction()
-    }
-    
-    func debouncedHideFloatingTransaction() {
-        floatingTransactionDisappearTimer?.invalidate()
-        floatingTransactionDisappearTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { _ in
-            withAnimation {
-                animationWorkaroundResetFloatingTransaction()
-                floatingTransaction = nil
-            }
-        }
-    }
-    
-    func animationWorkaroundResetFloatingTransaction() {
-        // Workaround: for whatever reason, without this the fade out animation isn't working
-        let val = (floatingTransaction?.stringValue ?? "").replacingOccurrences(of: ".", with: ",")
-        floatingTransactionValue = val
-    }
     
     func ignoreTapsAt(_ point: CGPoint) -> Bool {
         return vm.lastTapWasHitting
     }
     
-    func handleTransactionLongPress(_ transaction: Transaction?, _ point: CGPoint?) {
-        setFloatingTransactionColor(transaction)
-        floatingTransactionIsFocused = true
-        if let t = transaction {
-            // edit existing transaction
-            floatingTransaction = transaction
-            floatingTransactionValue = String(t.value)
-        } else {
-            // new transaction
-            guard let point = point else { return }
-            floatingTransactionValue = ""
-            floatingTransaction = Transaction(value: 0, boundingBox: CGRect(x: point.x, y: point.y, width: .zero, height: .zero))
-        }
-    }
-    
-    
-    func handleFreeformTransaction() {
-        withAnimation {
-            if let value = Double.parse(from: floatingTransactionValue), var transaction = floatingTransaction {
-                transaction.value = value
-                let hitCard = vm.getFirstChosencardOfTransaction(transaction)
-                if (hitCard != nil || vm.hasTransaction(transaction)) {
-                    vm.correctTransaction(transaction)
-                } else  {
-                    let boundingBox = vm.getProposedMarkerRect(basedOn: transaction.boundingBox)
-                    let t = vm.createNewTransaction(value: value, boundingBox: boundingBox)
-                    vm.linkTransactionToActiveCards(t)
-                }
-            }
-            floatingTransaction = nil
-        }
-    }
-    
-    var FloatingTransactionTextField: some View {
-        TextField("", text: $floatingTransactionValue, onEditingChanged: { edit in
-            if (!edit) {
-                handleFreeformTransaction()
-            } else {
-                floatingTransactionDisappearTimer?.invalidate()
-            }
-        })
-        .keyboardType(.numbersAndPunctuation)
-        .submitLabel(.done)
-        .disableAutocorrection(true)
-        .onSubmit {
-            handleFreeformTransaction()
-        }
-        .fixedSize()
-        .font(.system(size: 30))
-        .accentColor(.white)
-        .foregroundColor(floatingTransactionContrastColor)
-        .focused($floatingTransactionIsFocused)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 1)
-        .background(RoundedRectangle(cornerRadius: 1).fill(floatingTransactionColor))
-        .clipShape(RoundedRectangle(cornerRadius: floatingTransaction?.boundingBox?.cornerRadius ?? 0))
-        .frame(width: floatingTransaction?.boundingBox?.width, height: floatingTransaction?.boundingBox?.height)
-        .position(x: (floatingTransaction?.boundingBox?.minX ?? 0) - 20 - (floatingTransaction?.boundingBox?.width ?? 0) / 2, y: floatingTransaction?.boundingBox?.midY ?? 0)
-    }
 
     var LiveTextImage: some View {
         ZoomableScrollView(contentPadding: zoomBufferPadding, ignoreTapsAt: self.ignoreTapsAt, contentChanged: vm.contentChanged) {
             ZStack {
                 LiveTextInteraction(vm: vm)
-                    if (floatingTransaction != nil) {
-                        FloatingTransactionTextField
-                            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                            .zIndex(1)
-                    }
+                FloatingTransactionView(vm: vm)
             }
             .padding(zoomBufferPadding)
             .overlay(
@@ -330,9 +217,8 @@ struct ContentView: View {
          })
         .onAppear {
             vm.undoManager = undoManager
-            vm.onTransactionTap = self.handleTransactionTap
-            vm.onImageLongPress = self.handleTransactionLongPress
             vm.alerter = self.alerter
+            vm.onTransactionTap = self.handleTransactionTap
             handleOpenOnStart()
         }
         .onOpenURL { _ in
@@ -355,13 +241,10 @@ struct ContentView: View {
 }
 
 
-extension UIFont {
-    func calculateHeight(text: String, width: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-        let boundingBox = text.boundingRect(with: constraintRect,
-                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                            attributes: [NSAttributedString.Key.font: self],
-                                        context: nil)
-        return boundingBox.height
+struct ViewSizeKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
     }
 }

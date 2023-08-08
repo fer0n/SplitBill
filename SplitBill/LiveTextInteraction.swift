@@ -133,7 +133,7 @@ struct LiveTextInteraction: UIViewRepresentable {
     private func drawRectsOnImage(_ rects: [(rect: CGRect, corners: UIRectCorner?)], _ image: UIImage, color: Color, fill: Bool = true, stroke: Bool = false) -> CALayer {
         let strokeColor = UIColor(color).cgColor
         let fillColor = UIColor(color.opacity(0.5)).cgColor
-        
+        let lineWidth = vm.lineWidth ?? 3.0
         let layer = CALayer()
         
         for (rect, corners) in rects {
@@ -154,7 +154,7 @@ struct LiveTextInteraction: UIViewRepresentable {
             if (stroke) {
                 sublayer.strokeColor = strokeColor
                 sublayer.lineCap = .square
-                sublayer.lineWidth = 3.0
+                sublayer.lineWidth = lineWidth
             }
             
             layer.addSublayer(sublayer)

@@ -28,9 +28,11 @@ class ContentViewModel: ObservableObject {
     weak var alerter: Alerter?
     weak var undoManager: UndoManager?
     var markerColor: UIColor? = nil
+    var lineWidth: CGFloat? = nil
     var imageIsHeic = false
     var observations: [VNRecognizedTextObservation] = []
     var onTransactionTap: ((_ transaction: Transaction) -> Void)?
+    var onFlashTransaction: ((_ transaction: Transaction) -> Void)?
     var onImageLongPress: ((_ transaction: Transaction?, _ point: CGPoint?) -> Void)?
     var lastTapWasHitting = false
     var previouslyActiveCardsIds: Set<UUID> = []
@@ -724,6 +726,17 @@ class ContentViewModel: ObservableObject {
         }
     }
     
+    func getLineWidthFromTransactionBoundingBoxes() -> CGFloat? {
+        let heights = transactionList.compactMap { $0.boundingBox?.height }
+        if (heights.count == 0) {
+            return nil
+        }
+        let medianHeight = heights.sorted()[heights.count / 2]
+        var result = medianHeight / 14
+        result = round(100 * result) / 100
+        return max(result, 0.5)
+    }
+    
     func getTransactionFromCandidate(_ number: Double, _ candidate: VNRecognizedText, _ stringRange: Range<String.Index>, _ image: UIImage) -> Transaction {
         // Find the bounding-box observation for the string range.
         let boxObservation = try? candidate.boundingBox(for: stringRange)
@@ -782,23 +795,21 @@ class ContentViewModel: ObservableObject {
     }
     
     func getProposedMarkerRect(basedOn rect: CGRect?) -> CGRect {
-        let boundingRect = getMinBoundingBox()
+        let boundingRect = getMedianBoundingBox()
         let x = (rect?.minX ?? 0) - (boundingRect.width / 2),
             y = (rect?.minY ?? 0) - (boundingRect.height / 2)
         return CGRect(x: x, y: y, width: boundingRect.width, height: boundingRect.height)
     }
     
-    func getMinBoundingBox() -> CGRect {
+    func getMedianBoundingBox() -> CGRect {
         let list = transactionList.filter { $0.boundingBox?.width ?? 0 > 0 && $0.boundingBox?.height ?? 0 > 0 }
-        let minHeight = list.min(by: { (a, b) -> Bool in
-            return a.boundingBox?.height ?? 0 < b.boundingBox?.height ?? 0
-        })?.boundingBox?.height ?? 0;
-
-        let minWidth = list.min(by: { (a, b) -> Bool in
-            return a.boundingBox?.width ?? 0 < b.boundingBox?.width ?? 0
-        })?.boundingBox?.width ?? 0;
-
-        return CGRect(x: 0, y: 0, width: minWidth, height: minHeight);
+        let medianWidth = list.sorted { $0.boundingBox!.width < $1.boundingBox!.width }[list.count / 2].boundingBox!.width
+        let medianHeight = list.sorted { $0.boundingBox!.height < $1.boundingBox!.height }[list.count / 2].boundingBox!.height
+        return CGRect(x: 0, y: 0, width: medianWidth, height: medianHeight)
+    }
+    
+    func flashTransaction(_ transaction: Transaction) {
+        self.onFlashTransaction?(transaction)
     }
     
     func handleTap(at point: CGPoint) {
@@ -823,6 +834,7 @@ class ContentViewModel: ObservableObject {
                 request.results as? [VNRecognizedTextObservation] else { return }
         DispatchQueue.main.async {
             self.storeObservationsAsTappableText(observations)
+            self.lineWidth = self.getLineWidthFromTransactionBoundingBoxes()
         }
     }
     

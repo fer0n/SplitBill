@@ -123,10 +123,16 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
               oldZoomScale = scrollView.zoomScale
           } else if (sender.state == .changed) {
               guard let oldZoomScale = oldZoomScale else { return }
-              let translationValue = oldZoomScale - sender.yOffset / 500
-              scrollView.setZoomScale(translationValue, animated: true)
-          } else if (sender.state == .ended) {
+
+              let zoomFactor: CGFloat = 0.005
+              let zoomChange = sender.yOffset * zoomFactor
               
+              // Calculate the new zoom scale using a logarithmic approach
+              // (otherwise zooming while being close feels slow and zooming while being further away feel too fast)
+              let logOldZoomScale = log(oldZoomScale)
+              let logNewZoomScale = logOldZoomScale - zoomChange
+              let newZoomScale = exp(logNewZoomScale)
+              scrollView.setZoomScale(newZoomScale, animated: true)
           }
       }
       
