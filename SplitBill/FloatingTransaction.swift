@@ -20,7 +20,7 @@ struct FloatingTransactionView: View {
     @FocusState private var floatingTransactionIsFocused: Bool
     @State var floatingTransactionDisappearTimer: Timer? = nil
     
-
+    
     func flashTransaction(_ t: Transaction) {
         if (vm.getFirstChosencardOfTransaction(t) != nil) {
             return
@@ -47,12 +47,13 @@ struct FloatingTransactionView: View {
     
     func handleTransactionLongPress(_ transaction: Transaction?, _ point: CGPoint?) {
         setFloatingTransactionColor(transaction)
+        floatingTransactionInfo.editable = true
         floatingTransactionIsFocused = true
         if let t = transaction {
             // edit existing transaction
-            floatingTransaction = transaction
             floatingTransactionInfo.value = String(t.value)
             floatingTransactionInfo.center = false
+            floatingTransaction = transaction
         } else {
             // new transaction
             guard let point = point else { return }
@@ -103,46 +104,47 @@ struct FloatingTransactionView: View {
             floatingTransaction = nil
         }
         floatingTransactionInfo.center = false
+        floatingTransactionInfo.editable = false
     }
     
-    var FloatingTransactionTextField: some View {
-        TextField("", text: $floatingTransactionInfo.value, onEditingChanged: { edit in
-            if (!edit) {
-                handleFreeformTransaction()
-            } else {
-                floatingTransactionDisappearTimer?.invalidate()
-            }
-        })
-        .keyboardType(.numbersAndPunctuation)
-        .submitLabel(.done)
-        .disableAutocorrection(true)
-        .onSubmit {
-            handleFreeformTransaction()
+    
+    func handleSizeChange(_ size: CGSize) {
+        withAnimation {
+            floatingTransactionInfo.width = size.width
+            floatingTransactionInfo.padding = size.height * 0.2
         }
-        .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30)))
-        .fixedSize()
-        .background(
-            GeometryReader { geometry in
-                Color.clear
-                    .preference(key: ViewSizeKey.self, value: geometry.size)
-                    .onPreferenceChange(ViewSizeKey.self) {
-                        floatingTransactionInfo.width = $0.width
-                        floatingTransactionInfo.padding = $0.height * 0.2
+    }
+
+    
+    var FloatingTransactionTextField: some View {
+        ZStack {
+            if (floatingTransactionInfo.editable) {
+                TextField("", text: $floatingTransactionInfo.value, onEditingChanged: { edit in
+                        if (!edit) {
+                            handleFreeformTransaction()
+                        } else {
+                            floatingTransactionDisappearTimer?.invalidate()
+                        }
+                    })
+                    .keyboardType(.numbersAndPunctuation)
+                    .submitLabel(.done)
+                    .disableAutocorrection(true)
+                    .onSubmit {
+                        handleFreeformTransaction()
+                    }
+                    .onSizeChange(handleSizeChange)
+                    .fixedSize()
+                    .focused($floatingTransactionIsFocused)
+            } else {
+                Text(floatingTransactionInfo.value)
+                    .onSizeChange(handleSizeChange)
+                    .onTapGesture {
+                        floatingTransactionInfo.editable = true
+                        floatingTransactionIsFocused = true
                     }
             }
-        )
-        .accentColor(.white)
-        .foregroundColor(floatingTransactionInfo.contrastColor)
-        .focused($floatingTransactionIsFocused)
-        .padding(.horizontal, floatingTransactionInfo.padding)
-        .background(floatingTransactionInfo.color)
-        .clipShape(RoundedRectangle(cornerRadius: floatingTransaction?.boundingBox?.cornerRadius ?? floatingTransaction?.boundingBox?.minX ?? 0))
-        .position(x: floatingTransactionInfo.center
-                      ? floatingTransaction?.boundingBox?.midX ?? 0
-                      : (floatingTransaction?.boundingBox?.minX ?? 0)
-                            - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
-                            - floatingTransactionInfo.padding * 3,
-                  y: floatingTransaction?.boundingBox?.midY ?? 0)
+        }
+        .floatingTransactionModifier(floatingTransaction, floatingTransactionInfo)
     }
     
     var body: some View {
@@ -174,4 +176,47 @@ struct FloatingTransactionInfo {
     var value: String
     var color: Color
     var contrastColor: Color
+    var editable = false
+}
+
+
+extension View {
+    func floatingTransactionModifier(_ floatingTransaction: Transaction?, _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
+        self
+            .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30)))
+            .animation(nil, value: UUID())
+            .accentColor(.white)
+            .foregroundColor(floatingTransactionInfo.contrastColor)
+            .padding(.horizontal, floatingTransactionInfo.padding)
+            .background(floatingTransactionInfo.color)
+            .clipShape(RoundedRectangle(cornerRadius: floatingTransaction?.boundingBox?.cornerRadius ?? floatingTransaction?.boundingBox?.minX ?? 0))
+            .position(x: floatingTransactionInfo.center
+                          ? floatingTransaction?.boundingBox?.midX ?? 0
+                          : (floatingTransaction?.boundingBox?.minX ?? 0)
+                                - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
+                                - floatingTransactionInfo.padding * 3,
+                      y: floatingTransaction?.boundingBox?.midY ?? 0)
+    }
+    
+    func onSizeChange(_ onSizeChange: @escaping (_ size: CGSize) -> Void) -> some View {
+        self
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .preference(key: ViewSizeKey.self, value: geometry.size)
+                        .onPreferenceChange(ViewSizeKey.self) { s in
+                            onSizeChange(s)
+                        }
+                }
+            )
+    }
+}
+
+
+struct ViewSizeKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
 }
