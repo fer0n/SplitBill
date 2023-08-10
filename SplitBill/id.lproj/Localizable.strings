@@ -1,0 +1,72 @@
+/* 
+  Localizable.strings
+  SplitBill
+
+  Created by fer0n on 21.12.22.
+  
+*/
+
+// Shared
+"settings" = "Pengaturan";
+"delete" = "Hapus";
+"cancel" = "Batal";
+
+// ContentView
+"selectImage" = "Pilih gambar";
+"openScanner" = "Buka pemindai";
+"replaceImage" = "Gambar baru tersedia, ganti yang sekarang?";
+"replaceNo" = "Pertahankan gambar saat ini";
+"replaceYes" = "Gunakan gambar baru";
+
+// CardModel
+"empty" = "Kosong";
+"sum" = "Jumlah";
+"remaining" = "Sisa";
+"unnamed" = "Tanpa Nama";
+"total" = "Total";
+"shared" = "Dibagi";
+
+// CardsView
+"deleteTransaction" = "Hapus transaksi";
+"editCard" = "Edit kartu";
+"removeFromSession" = "Hapus dari sesi";
+"clearAllTransactions" = "Hapus semua transaksi";
+"shareResult" = "Bagikan nilai";
+"shareSummary" = "Ringkasan pembagian";
+"resetManualShare" = "Atur ulang pembagian";
+"addToActive" = "Jadikan aktif juga";
+"setToInactive" = "Jadikan tidak aktif";
+"clearAllTransactionsInEveryCard" = "Hapus semua transaksi dari semua kartu";
+
+// EditCardsView
+"newCard" = "Kartu Baru";
+"specialCard" = "Kartu Spesial";
+
+// SettingsView
+"openOnStartUp" = "Buka saat startup";
+"nothing" = "Tidak ada";
+"scanner" = "Pemindai";
+"imagePicker" = "Pemilih Gambar";
+"flashTransactionValue" = "Pratinjau angka yang dikenali";
+"contact" = "Hubungi kami";
+"rateApp" = "Berikan Rating untuk SplitBill";
+"github" = "SplitBill di Github";
+
+// ButtonsOverlayView
+"clearImage" = "Hapus gambar";
+"documentScanner" = "Pemindai Dokumen";
+"photoLibrary" = "Pustaka Foto";
+
+// ShareExtension
+"openInApp" = "Buka Aplikasi";
+"imageSaved" = "Gambar ditambahkan ke SplitBill";
+"openInAppExplanation" = "Ketika Anda membuka aplikasi lain kali, gambar akan dimuat secara otomatis";
+"error" = "Terjadi kesalahan";
+"errorMessage" = "Silakan coba lagi atau impor gambar dari dalam aplikasi";
+
+// Alerts
+"cannotEditShare" = "Pembagian tidak dapat diedit";
+"lastShareCannotBeAdjustedManually" = "Semua pembagian harus mencapai nilai total, dan semua pembagian lainnya telah diatur ulang secara manual. Anda dapat mengedit nilai total atau mengubah/mengatur ulang pembagian lainnya untuk menyesuaikan ini.";
+"numberTooLargeTitle" = "Angka yang dipilih terlalu besar";
+"numberTooLargeMessage" = "Angka mungkin dikenali dengan tidak benar. Tekan lama pada item untuk mengoreksinya.";
+"unknown" = "Terjadi kesalahan yang tidak diketahui";

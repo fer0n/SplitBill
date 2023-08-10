@@ -1,0 +1,9 @@
+
+/* Class = "UIButton"; normalTitle = "openInApp"; ObjectID = "Ejp-7b-CWG"; */
+"Ejp-7b-CWG.normalTitle" = "openInApp";
+
+/* Class = "UILabel"; text = "imageSaved"; ObjectID = "r5p-e7-ScY"; */
+"r5p-e7-ScY.text" = "imageSaved";
+
+/* Class = "UILabel"; text = "Next time you open the app the image will be loaded automatically"; ObjectID = "tZJ-Aj-Yru"; */
+"tZJ-Aj-Yru.text" = "Next time you open the app the image will be loaded automatically";
