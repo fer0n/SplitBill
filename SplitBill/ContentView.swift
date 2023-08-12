@@ -30,7 +30,7 @@ struct ContentView: View {
     
     func handleOpenOnStart() {
         let isPreservation = handleStoredImage()
-        if (replacingImage != nil || isPreservation != true) {
+        if (replacingImage != nil && isPreservation == false) {
             // avoid opening scanner/picker if an image is loaded via extension, do open it if the image was simply preserved
             return
         }
