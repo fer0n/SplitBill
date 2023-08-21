@@ -51,13 +51,17 @@ struct ContentView: View {
     
     
     func handleStoredImage() -> Bool? {
+        
         let (imageFromExtension, isHeic, isPreservation) = self.vm.consumeStoredImage()
         guard let img = imageFromExtension else {
             self.isLoadingReplacingImage = false
             return nil
         }
         if (vm.image == nil) {
-            vm.changeImage(img, isHeic)
+            // NEXT: here, avoid calling this if transactions are present?
+            let hasTransactions = vm.transactions.count > 0
+            print("hasTransactions", hasTransactions, vm.transactions)
+            vm.changeImage(img, isHeic, analyseTransactions: !hasTransactions)
         } else {
             replacingImage = imageFromExtension
             replacingImageIsHeic = isHeic

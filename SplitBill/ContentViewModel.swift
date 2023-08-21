@@ -11,7 +11,7 @@ import SplitBillShared
 class ContentViewModel: ObservableObject {    
     @Published var cards: [Card]
     @Published private(set) var activeCardsIds: Set<UUID> = []
-    @Published var transactions: [UUID: Transaction] = [:]
+    @Published var transactions: [UUID: Transaction]
     @Published var image: UIImage?
     @Published private var rawStartupItem: StartupItem
     @Published private var rawFlashTransactionValue: Bool
@@ -21,6 +21,7 @@ class ContentViewModel: ObservableObject {
     private static let cardsSaveKey = "Cards"
     private static let startupItemSaveKey = "startupItem"
     private static let flashTransactionValueSaveKey = "flashTransactionValue"
+    private static let transactionsSaveKey = "transactions"
     
     static var totalTransactionId: UUID? = nil
     private let dividerId = UUID(uuidString: "BD89DE13-54FF-4C1D-8B45-C090858689FE")!
@@ -137,7 +138,9 @@ class ContentViewModel: ObservableObject {
     // MARK: Init
     
     init() {
+        print("init contentViewModel")
         cards = ContentViewModel.getCardData()
+        transactions = ContentViewModel.getTransactionData()
         rawStartupItem = ContentViewModel.loadStartupItem() ?? .scanner
         rawFlashTransactionValue = ContentViewModel.loadFlashTransactionValue() ?? true
         if let index = cards.firstIndex(where: { $0.cardType == .total }) {
@@ -189,11 +192,24 @@ class ContentViewModel: ObservableObject {
     
     func handleAppWillTerminate() {
         saveCardData()
-        guard let img = self.image else { return }
-        do {
-            let _ = try saveImageDataToSplitBill(img, isHeic: self.imageIsHeic, isPreservation: true)
-        } catch {
-            print("error saving image: \(error)")
+        saveImageData()
+        saveTransactionData()
+    }
+    
+    func saveTransactionData() {
+        if let encoded = try? JSONEncoder().encode(self.transactions) {
+            UserDefaults.standard.set(encoded, forKey: ContentViewModel.transactionsSaveKey)
+            print("saving transactions: \(encoded)")
+        }
+    }
+    
+    func saveImageData() {
+        if let img = self.image {
+            do {
+                let _ = try saveImageDataToSplitBill(img, isHeic: self.imageIsHeic, isPreservation: true)
+            } catch {
+                print("error saving image: \(error)")
+            }
         }
     }
     
@@ -258,6 +274,15 @@ class ContentViewModel: ObservableObject {
     
     func clearImage() {
         image = nil
+    }
+    
+    static func getTransactionData() -> [UUID: Transaction] {
+        if let data = UserDefaults.standard.data(forKey: ContentViewModel.transactionsSaveKey) {
+            if let decoded = try? JSONDecoder().decode([UUID: Transaction].self, from: data) {
+                return decoded
+            }
+        }
+        return [:]
     }
     
     static func getCardData() -> [Card] {
@@ -706,13 +731,17 @@ class ContentViewModel: ObservableObject {
         })
     }
     
-    func changeImage(_ image: UIImage, _ isHeic: Bool? = false) {
+    func changeImage(_ image: UIImage, _ isHeic: Bool? = false, analyseTransactions: Bool = true) {
         self.isLoadingCounter += 1
-        self.transactions = [:]
         self.image = image
         self.contentChanged.send()
         self.imageIsHeic = isHeic ?? false
-        self.processImage()
+        
+        if (analyseTransactions) {
+            self.transactions = [:]
+            self.processImage()
+        }
+        
         DispatchQueue.main.async {
             let averageColorOfImage = image.averageColor
             self.markerColor = averageColorOfImage?.isLight() ?? false ? .black : .white
@@ -852,6 +881,7 @@ class ContentViewModel: ObservableObject {
     }
     
     func processImage() {
+        print("processImage")
         self.isLoadingCounter += 1
         guard let cgImage = image?.cgImage else { return }
         let requestHandler = VNImageRequestHandler(cgImage: cgImage)

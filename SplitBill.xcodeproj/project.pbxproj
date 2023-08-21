@@ -17,6 +17,7 @@
 		883CA8D42A7BCB68000C7381 /* SplitBillShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		883CA8D92A7BCB86000C7381 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CA8D82A7BCB86000C7381 /* Shared.swift */; };
 		88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */; };
+		88523C9A2A93B607002AFEA6 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88523C992A93B607002AFEA6 /* TransactionModel.swift */; };
 		8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8867748E291C2ABA002C675C /* ImagePickerView.swift */; };
 		88677493291C3340002C675C /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677492291C3340002C675C /* CardsView.swift */; };
 		88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677494291C3C17002C675C /* ZoomableScrollView.swift */; };
@@ -102,6 +103,7 @@
 		883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitBillShared.h; sourceTree = "<group>"; };
 		883CA8D82A7BCB86000C7381 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsOverlayLogic.swift; sourceTree = "<group>"; };
+		88523C992A93B607002AFEA6 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		8867748E291C2ABA002C675C /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		88677492291C3340002C675C /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		88677494291C3C17002C675C /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				88990A082930FF36003F7D8F /* Info.plist */,
 				BDD1322F285217CA00C69619 /* SplitBill.swift */,
 				887E09632924311C00A6A116 /* CardModel.swift */,
+				88523C992A93B607002AFEA6 /* TransactionModel.swift */,
 				888495B3291E6E4400AB74D7 /* ContentViewModel.swift */,
 				BDD13231285217CA00C69619 /* ContentView.swift */,
 				88EA86082A825334004F2332 /* FloatingTransaction.swift */,
@@ -436,6 +439,7 @@
 				8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */,
 				BDD13230285217CA00C69619 /* SplitBill.swift in Sources */,
 				88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */,
+				88523C9A2A93B607002AFEA6 /* TransactionModel.swift in Sources */,
 				88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */,
 				BDD1323E28521D7000C69619 /* LiveTextInteraction.swift in Sources */,
 			);
