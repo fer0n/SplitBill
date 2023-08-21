@@ -37,6 +37,14 @@ struct SingleCardView: View {
         }
     }
     
+    func calculateExpression(_ expression: String) -> Double? {
+        let expressionToEvaluate = NSExpression(format: expression)
+        if let result = expressionToEvaluate.expressionValue(with: nil, context: nil) as? Double {
+            return result
+        }
+        return nil
+    }
+    
     func LabelRowItem(_ t: Transaction) -> some View {
         GridRow {
             Text(t.label ?? "")
@@ -60,7 +68,9 @@ struct SingleCardView: View {
             .gridColumnAlignment(t.label != nil ? .trailing : .leading)
             .onSubmit {
                 if (newTransactionValue != "") {
-                    let value = Double(newTransactionValue) ?? t.value
+                    let res = calculateExpression(newTransactionValue)
+                    let value = res ?? t.value
+                    
                     vm.editTransaction(t.id, value: value, card)
                 }
                 newTransactionValue = ""
