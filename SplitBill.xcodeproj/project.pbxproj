@@ -18,6 +18,8 @@
 		883CA8D92A7BCB86000C7381 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CA8D82A7BCB86000C7381 /* Shared.swift */; };
 		88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */; };
 		88523C9A2A93B607002AFEA6 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88523C992A93B607002AFEA6 /* TransactionModel.swift */; };
+		88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 88523C9D2A93F44E002AFEA6 /* ObjC.m */; };
+		88523CA02A93F77B002AFEA6 /* NSExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88523C9F2A93F77B002AFEA6 /* NSExpression.swift */; };
 		8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8867748E291C2ABA002C675C /* ImagePickerView.swift */; };
 		88677493291C3340002C675C /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677492291C3340002C675C /* CardsView.swift */; };
 		88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677494291C3C17002C675C /* ZoomableScrollView.swift */; };
@@ -104,6 +106,9 @@
 		883CA8D82A7BCB86000C7381 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsOverlayLogic.swift; sourceTree = "<group>"; };
 		88523C992A93B607002AFEA6 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
+		88523C9C2A93F44E002AFEA6 /* SplitBill-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SplitBill-Bridging-Header.h"; sourceTree = "<group>"; };
+		88523C9D2A93F44E002AFEA6 /* ObjC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjC.m; sourceTree = "<group>"; };
+		88523C9F2A93F77B002AFEA6 /* NSExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSExpression.swift; sourceTree = "<group>"; };
 		8867748E291C2ABA002C675C /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		88677492291C3340002C675C /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		88677494291C3C17002C675C /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
@@ -179,6 +184,16 @@
 			path = SplitBillShared;
 			sourceTree = "<group>";
 		};
+		88523C9B2A93F3B8002AFEA6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				88523C9D2A93F44E002AFEA6 /* ObjC.m */,
+				88523C9C2A93F44E002AFEA6 /* SplitBill-Bridging-Header.h */,
+				88523C9F2A93F77B002AFEA6 /* NSExpression.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		888B10BB2946E2EF00D1AB3B /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +236,7 @@
 		BDD1322E285217CA00C69619 /* SplitBill */ = {
 			isa = PBXGroup;
 			children = (
+				88523C9B2A93F3B8002AFEA6 /* Extensions */,
 				88173DFD297BCD9000ED89DA /* SplitBill.entitlements */,
 				888B10BB2946E2EF00D1AB3B /* Util */,
 				88990A082930FF36003F7D8F /* Info.plist */,
@@ -346,6 +362,7 @@
 					};
 					BDD1322B285217CA00C69619 = {
 						CreatedOnToolsVersion = 14.0;
+						LastSwiftMigration = 1430;
 					};
 				};
 			};
@@ -432,8 +449,10 @@
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
 				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
+				88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */,
 				88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */,
 				888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */,
+				88523CA02A93F77B002AFEA6 /* NSExpression.swift in Sources */,
 				BDD13232285217CA00C69619 /* ContentView.swift in Sources */,
 				887E09642924311C00A6A116 /* CardModel.swift in Sources */,
 				8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */,
@@ -743,6 +762,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -772,6 +792,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "SplitBill/Extensions/SplitBill-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -783,6 +805,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -812,6 +835,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "SplitBill/Extensions/SplitBill-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

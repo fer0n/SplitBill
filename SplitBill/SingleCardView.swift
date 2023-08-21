@@ -37,12 +37,20 @@ struct SingleCardView: View {
         }
     }
     
-    func calculateExpression(_ expression: String) -> Double? {
-        let expressionToEvaluate = NSExpression(format: expression)
-        if let result = expressionToEvaluate.expressionValue(with: nil, context: nil) as? Double {
-            return result
+    func calculateExpression(_ expression: String) -> Double?  {
+        var result: Double? = nil
+        do {
+            try ObjC.catchException {
+                // calls that might throw an NSException
+                var expression = NSExpression(format: expression)
+                expression = expression.toFloatingPointDivision()
+                result = expression.expressionValue(with: nil, context: nil) as? Double
+            }
+        } catch {
+            print("Calc expression \(expression) can't be resolved: \(error)")
+            result = nil
         }
-        return nil
+        return result
     }
     
     func LabelRowItem(_ t: Transaction) -> some View {
@@ -68,7 +76,7 @@ struct SingleCardView: View {
             .gridColumnAlignment(t.label != nil ? .trailing : .leading)
             .onSubmit {
                 if (newTransactionValue != "") {
-                    let res = calculateExpression(newTransactionValue)
+                    var res = calculateExpression(newTransactionValue)
                     let value = res ?? t.value
                     
                     vm.editTransaction(t.id, value: value, card)
