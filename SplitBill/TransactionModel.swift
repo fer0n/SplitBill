@@ -124,17 +124,17 @@ struct Transaction: Identifiable, Equatable, Codable {
     }
     
     mutating func editShare(cardId: UUID, value: Double?) throws {
-        if (shares.count > 1 && hasOnlyOneNotManuallyAdjustedShare) {
-            throw EditShareError.lastShareCannotBeAdjustedManually
-        }
-        if var share = shares[cardId] {
-            share.value = value
-            share.manuallyAdjusted = true
-            shares[cardId] = share
-            try refreshShares()
-        } else {
+        guard var share = shares[cardId] else {
             throw EditShareError.shareForCardNotFound
         }
+        if (!share.manuallyAdjusted && shares.count > 1 && hasOnlyOneNotManuallyAdjustedShare) {
+            throw EditShareError.lastShareCannotBeAdjustedManually
+        }
+        
+        share.value = value
+        share.manuallyAdjusted = true
+        shares[cardId] = share
+        try refreshShares()
     }
     
     var hasOnlyOneNotManuallyAdjustedShare: Bool {
