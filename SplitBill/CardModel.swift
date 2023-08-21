@@ -14,6 +14,7 @@ enum CardType: Int {
 
 
 enum CardCodingKeys: CodingKey {
+    case id
     case name
     case isChosen
     case emptyText
@@ -25,7 +26,7 @@ enum CardCodingKeys: CodingKey {
 
 
 struct Card: Identifiable, Hashable, Codable {
-    let id = UUID()
+    let id: UUID
     private var rawName: String
     var isActive: Bool
     var isChosen: Bool
@@ -71,6 +72,7 @@ struct Card: Identifiable, Hashable, Codable {
     
     
     init(name: String, isSelected: Bool = false, transactionIds: [UUID] = [], emptyText: String? = nil) {
+        self.id = UUID()
         self.rawName = name
         self.isActive = isSelected
         self.transactionIds = transactionIds
@@ -100,6 +102,12 @@ struct Card: Identifiable, Hashable, Codable {
         cardType = CardType(rawValue: rawCardType) ?? .normal
         isActive = false
         do {
+            id = try container.decode(UUID.self, forKey: .id)
+        } catch {
+            id = UUID()
+            print("no id found")
+        }
+        do {
             transactionIds = try container.decode([UUID].self, forKey: .transactionIds)
         } catch {
             print("couldn't load transactionIds: \(error)")
@@ -119,6 +127,7 @@ struct Card: Identifiable, Hashable, Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CardCodingKeys.self)
+        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(isChosen, forKey: .isChosen)
         let rawCardType = cardType.rawValue
