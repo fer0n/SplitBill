@@ -49,6 +49,7 @@ struct LiveTextInteraction: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> UIImageView {
+        self.vm.generateExportImage = self.generateExportImage
         return imageView
     }
     
@@ -60,7 +61,7 @@ struct LiveTextInteraction: UIViewRepresentable {
         }
     }
     
-    func drawTransactions() -> CALayer? {
+    func drawTransactions(cardIsHighlighted: ((Card) -> Bool)? = nil, hideUnselected: Bool = false) -> CALayer? {
         guard let img = vm.image else { return nil }
         let chosenCards = vm.chosenCards
         var unusedTransactions = vm.transactionList
@@ -84,14 +85,17 @@ struct LiveTextInteraction: UIViewRepresentable {
                 }
                 return nil
             }
-            let subLayer = drawRectsOnImage(rects, img, color: card.color.light, fill: true, stroke: card.isActive)
-            if (card.isActive) {
+            let cardIsHighlighted = cardIsHighlighted?(card) ?? card.isActive
+            let subLayer = drawRectsOnImage(rects, img, color: card.color.light, fill: true, stroke: cardIsHighlighted)
+            if (cardIsHighlighted) {
                 layer.insertSublayer(subLayer, at: UInt32((layer.sublayers?.count ?? 1)))
             } else {
                 layer.insertSublayer(subLayer, at: 0)
             }
         }
-        
+        if (hideUnselected) {
+            return layer
+        }
         let unusedRects: [(rect: CGRect, corners: UIRectCorner?)] = unusedTransactions.compactMap { t in
             if let b = t.boundingBox {
                 return (rect: b, corners: .allCorners)
@@ -171,3 +175,22 @@ extension CGRect {
 }
 
 
+enum ExportImageError: Error {
+    case noImageFound
+    case couldntGetImageData
+}
+
+
+extension UIFont {
+    class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
+        let systemFont = UIFont.systemFont(ofSize: size, weight: weight)
+        let font: UIFont
+        
+        if let descriptor = systemFont.fontDescriptor.withDesign(.rounded) {
+            font = UIFont(descriptor: descriptor, size: size)
+        } else {
+            font = systemFont
+        }
+        return font
+    }
+}

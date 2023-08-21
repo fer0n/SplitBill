@@ -16,6 +16,7 @@
 		883CA8D32A7BCB68000C7381 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
 		883CA8D42A7BCB68000C7381 /* SplitBillShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		883CA8D92A7BCB86000C7381 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CA8D82A7BCB86000C7381 /* Shared.swift */; };
+		88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */; };
 		8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8867748E291C2ABA002C675C /* ImagePickerView.swift */; };
 		88677493291C3340002C675C /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677492291C3340002C675C /* CardsView.swift */; };
 		88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677494291C3C17002C675C /* ZoomableScrollView.swift */; };
@@ -29,6 +30,8 @@
 		8892F61C2A7C2094001D00C0 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
 		88B3738E295305EB007AD933 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B3738D295305EB007AD933 /* SettingsView.swift */; };
 		88B3739129531CAA007AD933 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88B3739329531CAA007AD933 /* Localizable.strings */; };
+		88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D5AC622A90DB2500879893 /* SingleCardView.swift */; };
+		88D5AC672A927BAB00879893 /* LiveTextInteractionExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D5AC662A927BAB00879893 /* LiveTextInteractionExport.swift */; };
 		88EA86092A825334004F2332 /* FloatingTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EA86082A825334004F2332 /* FloatingTransaction.swift */; };
 		88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA4B1429A35D97001375B4 /* Alerter.swift */; };
 		BDD13230285217CA00C69619 /* SplitBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1322F285217CA00C69619 /* SplitBill.swift */; };
@@ -98,6 +101,7 @@
 		883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SplitBillShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitBillShared.h; sourceTree = "<group>"; };
 		883CA8D82A7BCB86000C7381 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsOverlayLogic.swift; sourceTree = "<group>"; };
 		8867748E291C2ABA002C675C /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		88677492291C3340002C675C /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		88677494291C3C17002C675C /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 		88B3738D295305EB007AD933 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		88B3739229531CAA007AD933 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		88B3739729531D25007AD933 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		88D5AC622A90DB2500879893 /* SingleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCardView.swift; sourceTree = "<group>"; };
+		88D5AC662A927BAB00879893 /* LiveTextInteractionExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTextInteractionExport.swift; sourceTree = "<group>"; };
 		88EA86082A825334004F2332 /* FloatingTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTransaction.swift; sourceTree = "<group>"; };
 		88FA4B1429A35D97001375B4 /* Alerter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerter.swift; sourceTree = "<group>"; };
 		BDD1322C285217CA00C69619 /* SplitBill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitBill.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,11 +228,14 @@
 				BDD13231285217CA00C69619 /* ContentView.swift */,
 				88EA86082A825334004F2332 /* FloatingTransaction.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
+				88D5AC622A90DB2500879893 /* SingleCardView.swift */,
 				888495B5291FDD4700AB74D7 /* EditCardsView.swift */,
 				88B3738D295305EB007AD933 /* SettingsView.swift */,
 				88677494291C3C17002C675C /* ZoomableScrollView.swift */,
 				88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */,
+				88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */,
 				BDD1323D28521D7000C69619 /* LiveTextInteraction.swift */,
+				88D5AC662A927BAB00879893 /* LiveTextInteractionExport.swift */,
 				8867748E291C2ABA002C675C /* ImagePickerView.swift */,
 				8875AE9A29433E3C0077FFA8 /* ScannerView.swift */,
 				88B3739329531CAA007AD933 /* Localizable.strings */,
@@ -409,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88D5AC672A927BAB00879893 /* LiveTextInteractionExport.swift in Sources */,
 				88B3738E295305EB007AD933 /* SettingsView.swift in Sources */,
 				88EA86092A825334004F2332 /* FloatingTransaction.swift in Sources */,
 				88677493291C3340002C675C /* CardsView.swift in Sources */,
@@ -418,12 +428,14 @@
 				8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */,
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
+				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
 				88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */,
 				888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */,
 				BDD13232285217CA00C69619 /* ContentView.swift in Sources */,
 				887E09642924311C00A6A116 /* CardModel.swift in Sources */,
 				8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */,
 				BDD13230285217CA00C69619 /* SplitBill.swift in Sources */,
+				88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */,
 				88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */,
 				BDD1323E28521D7000C69619 /* LiveTextInteraction.swift in Sources */,
 			);

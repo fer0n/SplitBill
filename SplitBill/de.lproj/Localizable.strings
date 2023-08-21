@@ -32,7 +32,6 @@
 "removeFromSession" = "Aus Session entfernen";
 "clearAllTransactions" = "Alle Transaktionen löschen";
 "shareResult" = "Wert teilen";
-"shareSummary" = "Zusammenfassung teilen";
 "resetManualShare" = "Aufteilung zurücksetzen";
 "addToActive" = "Ebenfalls aktiv machen";
 "setToInactive" = "Inaktiv setzen";
@@ -56,6 +55,10 @@
 "clearImage" = "Bild löschen";
 "documentScanner" = "Dokument Scanner";
 "photoLibrary" = "Foto Bibliothek";
+"share" = "Share";
+"shareSummary" = "Text Zusammenfassung";
+"shareImage" = "Bild mit Anmerkungen";
+"total" = "Gesamt";
 
 // ShareExtension
 "openInApp" = "App öffnen";
@@ -70,3 +73,6 @@
 "numberTooLargeTitle" = "Die ausgewählte Zahl ist zu groß";
 "numberTooLargeMessage" = "Die Zahl wurde eventuell falsch erkannt. Drücke länger auf die Zahl um sie zu korrigieren.";
 "unknown" = "Ein unbekannter Fehler ist aufgetreten";
+
+// Info.plist
+"NSPhotoLibraryAddUsageDescription" = "Export des Bildes mit Anmerkungen";

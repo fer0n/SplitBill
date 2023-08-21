@@ -16,6 +16,7 @@ class ContentViewModel: ObservableObject {
     @Published private var rawStartupItem: StartupItem
     @Published private var rawFlashTransactionValue: Bool
     @Published var contentChanged = PassthroughSubject<Void, Never>()
+    @Published var isLoadingCounter: Int = 0
     
     private static let cardsSaveKey = "Cards"
     private static let startupItemSaveKey = "startupItem"
@@ -30,10 +31,13 @@ class ContentViewModel: ObservableObject {
     var markerColor: UIColor? = nil
     var lineWidth: CGFloat? = nil
     var imageIsHeic = false
+    
     var observations: [VNRecognizedTextObservation] = []
     var onTransactionTap: ((_ transaction: Transaction) -> Void)?
     var onFlashTransaction: ((_ transaction: Transaction) -> Void)?
     var onImageLongPress: ((_ transaction: Transaction?, _ point: CGPoint?) -> Void)?
+    var generateExportImage: (() async throws -> UIImage?)?
+    
     var lastTapWasHitting = false
     var previouslyActiveCardsIds: Set<UUID> = []
     var cardsIndexLookup: [UUID: Array<Card>.Index] = [:]
@@ -357,6 +361,11 @@ class ContentViewModel: ObservableObject {
         var transactionIds: [UUID] = []
         // add all nececcary transactions to the transactions list
         // & update all transactions in the transactions list
+        
+        // oldTransactionIds are stored and deleted in the end
+        // for each card, the sum is calculated and stored as a transaction in transactions
+        // the sum-transactions are then used as a transaction for the total card to display the people
+        
         chosenNormalCards.forEach { card in
             let sum = sum(of: card)
             if (transactions[card.id] != nil) {
@@ -366,6 +375,8 @@ class ContentViewModel: ObservableObject {
             }
             transactionIds.append(card.id)
         }
+        
+        // create a divider transaction if it doesn't exist already
         if let totalId = ContentViewModel.totalTransactionId, oldTransactionids.contains(totalId) {
             if (transactions[dividerId] == nil) {
                 transactions[dividerId] = Transaction(value: 0, transactionType: .divider)
@@ -696,6 +707,7 @@ class ContentViewModel: ObservableObject {
     }
     
     func changeImage(_ image: UIImage, _ isHeic: Bool? = false) {
+        self.isLoadingCounter += 1
         self.transactions = [:]
         self.image = image
         self.contentChanged.send()
@@ -705,6 +717,7 @@ class ContentViewModel: ObservableObject {
             let averageColorOfImage = image.averageColor
             self.markerColor = averageColorOfImage?.isLight() ?? false ? .black : .white
         }
+        self.isLoadingCounter -= 1
     }
     
     func storeObservationsAsTappableText(_ observations: [VNRecognizedTextObservation]) {
@@ -839,6 +852,7 @@ class ContentViewModel: ObservableObject {
     }
     
     func processImage() {
+        self.isLoadingCounter += 1
         guard let cgImage = image?.cgImage else { return }
         let requestHandler = VNImageRequestHandler(cgImage: cgImage)
         let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
@@ -848,6 +862,9 @@ class ContentViewModel: ObservableObject {
                 try requestHandler.perform([request])
             } catch {
                 print("Unable to perform the requests: \(error).")
+            }
+            DispatchQueue.main.async {
+                self.isLoadingCounter -= 1
             }
         }
     }
@@ -859,7 +876,11 @@ class ContentViewModel: ObservableObject {
     }
     
     func sumString(of card: Card) -> String {
-        let rounded = round(100 * sum(of: card)) / 100
+        return sumString(of: sum(of: card))
+    }
+    
+    func sumString(of number: Double) -> String {
+        let rounded = round(100 * number) / 100
         return String(rounded == 0 ? 0 : rounded)
     }
     
@@ -872,11 +893,23 @@ class ContentViewModel: ObservableObject {
             getTransaction($0)?.boundingBox?.minY ?? 0 < getTransaction($1)?.boundingBox?.minY ?? 0
         }
     }
-        
-    func textSummary(of card: Card) -> String {
-        var res = card.transactionIds.map { getTransaction($0)?.description ?? "" }
-        res.append("\(String(localized: "sum")): \(sum(of: card))")
-        return res.joined(separator: "\n")
+
+    func getChosenCardSummary(of cards: [Card]) -> String {
+        var res = ""
+        let total = getTotalValue(of: cards)
+        for card in cards {
+            res += "\(card.name): \(sumString(of: card))\n"
+        }
+        res.append("\(String(localized: "total")): \(sumString(of: total))")
+        return res
+    }
+    
+    func getTotalValue(of cards: [Card]) -> Double {
+        var total = 0.0
+        for card in cards {
+            total += sum(of: card)
+        }
+        return total
     }
 }
 

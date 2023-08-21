@@ -15,6 +15,8 @@ extension Color {
     static let backgroundColor = Color(UIColor.systemGray6)
     static let foregroundColor = Color(UIColor.label)
     static let labelColor = Color("LabelColor")
+    static let exportCardBackground = Color("exportCardBackground")
+    static let exportCardSeperator = Color("exportCardSeperator")
 }
 
 

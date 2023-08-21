@@ -32,7 +32,6 @@
 "removeFromSession" = "Hapus dari sesi";
 "clearAllTransactions" = "Hapus semua transaksi";
 "shareResult" = "Bagikan nilai";
-"shareSummary" = "Ringkasan pembagian";
 "resetManualShare" = "Atur ulang pembagian";
 "addToActive" = "Jadikan aktif juga";
 "setToInactive" = "Jadikan tidak aktif";
@@ -56,6 +55,10 @@
 "clearImage" = "Hapus gambar";
 "documentScanner" = "Pemindai Dokumen";
 "photoLibrary" = "Pustaka Foto";
+"share" = "Bagikan";
+"shareSummary" = "Ringkasan teks";
+"shareImage" = "Gambar dengan anotasi";
+"total" = "Total";
 
 // ShareExtension
 "openInApp" = "Buka Aplikasi";
@@ -70,3 +73,6 @@
 "numberTooLargeTitle" = "Angka yang dipilih terlalu besar";
 "numberTooLargeMessage" = "Angka mungkin dikenali dengan tidak benar. Tekan lama pada item untuk mengoreksinya.";
 "unknown" = "Terjadi kesalahan yang tidak diketahui";
+
+// Info.plist
+"NSPhotoLibraryAddUsageDescription" = "Ekspor gambar dengan anotasi";

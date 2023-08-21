@@ -44,6 +44,22 @@ struct ButtonsOverlayView: View {
                     .padding(10)
             }
             Divider()
+            Menu {
+                let img = ImageModel(getImage: getImageWithAnnotations)
+                ShareLink(item: img, preview: SharePreview(
+                    "shareImage",
+                    image: img
+                )) {
+                    Label("shareImage", systemImage: "text.below.photo.fill")
+                }
+                ShareLink(item: vm.getChosenCardSummary(of: vm.chosenCards)) {
+                    Label("shareSummary", systemImage: "list.number")
+                }
+            } label: {
+                Text("share")
+                Image(systemName: "square.and.arrow.up.fill")
+                    .padding(10)
+            }
             Button {
                 showSettings = true
             } label: {
@@ -52,8 +68,13 @@ struct ButtonsOverlayView: View {
                     .padding(10)
             }
         } label: {
-            Image(systemName: "doc.viewfinder.fill")
-                .padding(10)
+            if vm.isLoadingCounter != 0 {
+                ProgressView()
+                    .padding(10)
+            } else {
+                Image(systemName: "doc.viewfinder.fill")
+                    .padding(10)
+            }
         }
         .foregroundColor(Color.foregroundColor)
         .background(.thinMaterial)

@@ -32,7 +32,6 @@
 "removeFromSession" = "Remove from session";
 "clearAllTransactions" = "Clear all transactions";
 "shareResult" = "Share value";
-"shareSummary" = "Share summary";
 "resetManualShare" = "Reset share";
 "addToActive" = "Make active as well";
 "setToInactive" = "Make inactive";
@@ -56,6 +55,10 @@
 "clearImage" = "Clear image";
 "documentScanner" = "Document Scanner";
 "photoLibrary" = "Photo Library";
+"share" = "Share";
+"shareSummary" = "Text summary";
+"shareImage" = "Image with annotations";
+"total" = "Total";
 
 // ShareExtension
 "openInApp" = "Open App";
@@ -70,3 +73,6 @@
 "numberTooLargeTitle" = "The selected number is too large";
 "numberTooLargeMessage" = "The number may have been recognized incorrectly. Long press the item to correct it.";
 "unknown" = "Un unknown error occured";
+
+// Info.plist
+"NSPhotoLibraryAddUsageDescription" = "Export the image with annotations";
