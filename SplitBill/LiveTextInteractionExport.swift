@@ -18,7 +18,7 @@ extension LiveTextInteraction {
         let layer = await imageView.layer
         
         // bottom cards
-        let referenceHeight = await vm.getMedianBoundingBox().height
+        let referenceHeight = min(image.size.width, image.size.height) / 35
         let cardsLayer = await getCardsSummaryLayerWithBackground(cards: vm.chosenNormalCards, referenceHeight: referenceHeight)
         let cardsDrawingHeight = cardsLayer.frame.height - 3
         cardsLayer.frame = CGRect(x: 0, y: image.size.height, width: image.size.width, height: cardsLayer.frame.height)
@@ -45,9 +45,8 @@ extension LiveTextInteraction {
 
     private func getCardsSummaryLayerWithBackground(cards: [Card], referenceHeight: CGFloat) -> CALayer {
         // values
-        let cardHeight = referenceHeight * 6
-        let padding = referenceHeight * 2
-        let seperatorHeight = referenceHeight / 9
+        let padding = referenceHeight
+        let seperatorHeight = referenceHeight / 6
         let seperatorColor = UIColor(Color.exportCardSeperator).cgColor
         let backgroundColor = UIColor(Color.exportCardBackground).cgColor
         
@@ -55,7 +54,7 @@ extension LiveTextInteraction {
         
         // cards
         let cardsLayer = getCardsArrangedLayer(cards: cards,
-                                               cardHeight: cardHeight,
+                                               referenceHeight: referenceHeight,
                                                cardPadding: padding / 2,
                                                maxWidth: imageView.frame.width - (padding * 2))
         let cardsX = padding
@@ -83,15 +82,17 @@ extension LiveTextInteraction {
         return layer
     }
     
-    private func getCardsArrangedLayer(cards: [Card], cardHeight: CGFloat, cardPadding: CGFloat, maxWidth: CGFloat) -> CALayer {
+    private func getCardsArrangedLayer(cards: [Card], referenceHeight: CGFloat, cardPadding: CGFloat, maxWidth: CGFloat) -> CALayer {
         let cardsLayer = CALayer()
         var cardsWidth = 0.0
         var currentRow = 0.0
         var cardsInCurrentRow = 0.0
         var currentRowLayer = CALayer()
+        var cardLayer = CALayer()
         
         for card in cards {
-            let cardLayer = getCardAsLayer(card: card, height: cardHeight)
+            cardLayer = getCardAsLayer(card: card, referenceHeight: referenceHeight)
+            let cardHeight = cardLayer.frame.height
             let currentWidth = cardLayer.bounds.size.width
             let totalWidth = cardsWidth + (cardPadding * (cardsInCurrentRow > 0 ? cardsInCurrentRow - 1 : 0))
             
@@ -125,17 +126,19 @@ extension LiveTextInteraction {
         }
         
         // NEXT: height: one row doesn't have padding, mistake here?
+        let cardHeight = cardLayer.frame.height
         cardsLayer.frame = CGRect(x: 0, y: 0, width: maxWidth, height: (currentRow + 1) * cardHeight + (currentRow * cardPadding))
         return cardsLayer
     }
     
-    private func getCardAsLayer(card: Card, height: CGFloat) -> CALayer {
+    private func getCardAsLayer(card: Card, referenceHeight: CGFloat) -> CALayer {
         let layer = CALayer()
         
         // Constants for font sizes and padding
-        let valueFontSize: CGFloat = height / 2.3
-        let nameFontSize: CGFloat = height / 3.75
-        let horizontalPadding: CGFloat = height / 2.5
+        let valueFontSize: CGFloat = referenceHeight * 1.5
+        let nameFontSize: CGFloat = referenceHeight * 1
+        let horizontalPadding: CGFloat = referenceHeight * 1.5
+        let verticalPadding: CGFloat = referenceHeight
         
         // value
         let valueFont = UIFont.rounded(ofSize: valueFontSize, weight: .heavy)
@@ -155,10 +158,11 @@ extension LiveTextInteraction {
                                                     context: nil).width
         
         let cardWidth = max(valueWidth, nameWidth) + 2 * horizontalPadding // Add horizontal padding to the card width
+        let cardHeight = valueFontSize + nameFontSize + verticalPadding
         
         // Draw rounded rectangle on layer
         let fillColor = UIColor(card.color.dark).cgColor
-        let rect = CGRect(x: 0, y: 0, width: cardWidth, height: height)
+        let rect = CGRect(x: 0, y: 0, width: cardWidth, height: cardHeight)
         let sublayer = CAShapeLayer()
         sublayer.contentsScale = UIScreen.main.scale
         let cornerRadius: CGFloat = 1000.0
@@ -175,7 +179,7 @@ extension LiveTextInteraction {
         let valueLayer = CATextLayer()
         valueLayer.string = valueAttString
         valueLayer.alignmentMode = .center
-        valueLayer.frame = CGRect(x: 0, y: height / 2 - valueFontSize, width: cardWidth, height: valueFontSize * 2)
+        valueLayer.frame = CGRect(x: 0, y: cardHeight / 2 - valueFontSize, width: cardWidth, height: valueFontSize * 2)
         valueLayer.display()
         layer.addSublayer(valueLayer)
         
@@ -183,12 +187,12 @@ extension LiveTextInteraction {
         let nameLayer = CATextLayer()
         nameLayer.string = nameAttString
         nameLayer.alignmentMode = .center
-        nameLayer.frame = CGRect(x: 0, y: height / 2, width: cardWidth, height: nameFontSize * 2)
+        nameLayer.frame = CGRect(x: 0, y: cardHeight / 2, width: cardWidth, height: nameFontSize * 2)
         nameLayer.display()
         layer.addSublayer(nameLayer)
         
         // update layer size
-        layer.frame = CGRect(x: 0, y: 0, width: cardWidth, height: height)
+        layer.frame = CGRect(x: 0, y: 0, width: cardWidth, height: cardHeight)
         
         return layer
     }
