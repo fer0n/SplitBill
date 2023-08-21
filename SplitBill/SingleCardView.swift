@@ -127,16 +127,16 @@ struct SingleCardView: View {
             if (!(showTransactions && isSelected)) {
                 Spacer()
                     .frame(height: 20)
-            } else if !(card.transactionIds.count > 0) {
-                Text(card.emptyText)
+            } else if (card.transactionIds.count > 0) {
+                TransactionsList
+            } else {
+                Text("empty")
                     .padding(.vertical, 10)
                     .padding(.horizontal, 15)
                     .multilineTextAlignment(.center)
                     .font(.system(size: 13, weight: .medium, design: .rounded))
                     .italic()
                     .opacity(0.9)
-            } else {
-                TransactionsList
             }
         }
         .foregroundColor(.white)

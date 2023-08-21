@@ -58,9 +58,7 @@ struct ContentView: View {
             return nil
         }
         if (vm.image == nil) {
-            // NEXT: here, avoid calling this if transactions are present?
             let hasTransactions = vm.transactions.count > 0
-            print("hasTransactions", hasTransactions, vm.transactions)
             vm.changeImage(img, isHeic, analyseTransactions: !hasTransactions)
         } else {
             replacingImage = imageFromExtension

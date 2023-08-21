@@ -30,7 +30,7 @@ struct Card: Identifiable, Hashable, Codable {
     var isActive: Bool
     var isChosen: Bool
     var transactionIds: [UUID] = []
-    var emptyText: String = String(localized: "empty")
+    var emptyText: String = "empty"
     var cardType: CardType = .normal
     
     var colorKey: ColorKeys = .neutralGray

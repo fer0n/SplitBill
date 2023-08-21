@@ -115,7 +115,6 @@ extension LiveTextInteraction {
             cardsInCurrentRow += 1
             cardsWidth += currentWidth
             
-            // NEXT: could the last card be added twice here?
             if cards.last == card {
                 let totalWidth = cardsWidth + (cardPadding * (cardsInCurrentRow > 0 ? cardsInCurrentRow - 1 : 0))
                 let y = currentRow * (cardHeight + cardPadding)
@@ -125,7 +124,6 @@ extension LiveTextInteraction {
             }
         }
         
-        // NEXT: height: one row doesn't have padding, mistake here?
         let cardHeight = cardLayer.frame.height
         cardsLayer.frame = CGRect(x: 0, y: 0, width: maxWidth, height: (currentRow + 1) * cardHeight + (currentRow * cardPadding))
         return cardsLayer

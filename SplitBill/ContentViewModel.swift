@@ -456,8 +456,12 @@ class ContentViewModel: ObservableObject {
     }
     
     func removeTransaction(_ transactionId: UUID, of cardId: UUID) {
-        guard let index = getCardsIndex(of: cardId),
-              let transaction = transactions[transactionId] else { return }
+        guard let index = getCardsIndex(of: cardId) else { return }
+        guard let transaction = transactions[transactionId] else {
+            // transaction might be stuck, remove all of them manually
+            cards[index].clearTransactions()
+            return
+        }
         removeShare(transactionId, cardId)
         if (transactionId == ContentViewModel.totalTransactionId) {
             ContentViewModel.totalTransactionId = nil
