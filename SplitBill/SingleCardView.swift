@@ -41,10 +41,10 @@ struct SingleCardView: View {
         var result: Double? = nil
         do {
             try ObjC.catchException {
-                // calls that might throw an NSException
-                var expression = NSExpression(format: expression)
-                expression = expression.toFloatingPointDivision()
-                result = expression.expressionValue(with: nil, context: nil) as? Double
+                var cleaned = expression.replacingOccurrences(of: ",", with: ".")
+                var exp = NSExpression(format: cleaned)
+                exp = exp.toFloatingPointDivision()
+                result = exp.expressionValue(with: nil, context: nil) as? Double
             }
         } catch {
             print("Calc expression \(expression) can't be resolved: \(error)")
@@ -77,9 +77,9 @@ struct SingleCardView: View {
             .onSubmit {
                 if (newTransactionValue != "") {
                     let res = calculateExpression(newTransactionValue)
-                    let value = res ?? t.value
-                    
-                    vm.editTransaction(t.id, value: value, card)
+                    if let value = res {
+                        vm.editTransaction(t.id, value: value, card)
+                    }
                 }
                 newTransactionValue = ""
                 transactionToEdit = nil
