@@ -76,7 +76,7 @@ struct SingleCardView: View {
             .gridColumnAlignment(t.label != nil ? .trailing : .leading)
             .onSubmit {
                 if (newTransactionValue != "") {
-                    var res = calculateExpression(newTransactionValue)
+                    let res = calculateExpression(newTransactionValue)
                     let value = res ?? t.value
                     
                     vm.editTransaction(t.id, value: value, card)
