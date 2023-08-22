@@ -215,7 +215,7 @@ struct ContentView: View {
             vm.undoManager = newManager
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification), perform: { _ in
-            vm.handleAppWillTerminate()
+            vm.handleSaveState()
          })
         .onAppear {
             vm.undoManager = undoManager
@@ -228,7 +228,11 @@ struct ContentView: View {
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                let _ = handleStoredImage()
+                if !vm.savedImageIsPreserved() {
+                    let _ = handleStoredImage()
+                }
+            } else if newPhase == .background {
+                vm.handleSaveState()
             }
         }
         .alert("replaceImage", isPresented: $showReplaceImageAlert) {

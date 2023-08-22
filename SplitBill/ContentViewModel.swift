@@ -190,7 +190,7 @@ class ContentViewModel: ObservableObject {
         cardsIndexLookup = lookup
     }
     
-    func handleAppWillTerminate() {
+    func handleSaveState() {
         saveCardData()
         saveImageData()
         saveTransactionData()
@@ -255,6 +255,11 @@ class ContentViewModel: ObservableObject {
         return (img, isHeic, isPreservation)
     }
     
+    func savedImageIsPreserved() -> Bool {
+        let userDefaults = UserDefaults(suiteName: "group.splitbill")
+        return userDefaults?.bool(forKey: "imageIsPreserved") == true
+    }
+    
     func loadImage() -> (image: UIImage?, isHeic: Bool?, isPreservation: Bool?) {
         let userDefaults = UserDefaults(suiteName: "group.splitbill")
         guard let data = userDefaults?.data(forKey: "imageData") else {
@@ -262,7 +267,7 @@ class ContentViewModel: ObservableObject {
         }
         let decoded = try! PropertyListDecoder().decode(Data.self, from: data)
         let isHeic = userDefaults?.bool(forKey: "isHeic")
-        let isPreservation = userDefaults?.bool(forKey: "imageIsPreserved")
+        let isPreservation = savedImageIsPreserved()
         let image = UIImage(data: decoded)
         return (image, isHeic, isPreservation)
     }
