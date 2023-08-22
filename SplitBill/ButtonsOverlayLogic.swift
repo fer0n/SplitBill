@@ -27,7 +27,6 @@ extension ButtonsOverlayView {
             self.vm.isLoadingCounter -= 1
             return image
         } catch {
-            self.vm.isLoadingCounter -= 1
             print("Error while trying to export image: \(error)")
         }
         self.vm.isLoadingCounter -= 1

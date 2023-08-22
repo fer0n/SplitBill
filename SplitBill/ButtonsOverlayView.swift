@@ -18,16 +18,14 @@ struct ButtonsOverlayView: View {
     
     var MenuWithOptions: some View {
         Menu {
-            if (vm.image != nil) {
-                Button(role: .destructive) {
-                    showDeleteImageAlert = true
-                } label: {
-                    Text("clearImage")
-                    Image(systemName: "trash.fill")
-                        .padding(10)
-                }
-                Divider()
-            }
+            Button(role: .destructive) {
+                showDeleteImageAlert = true
+            } label: {
+                Text("clearImage")
+                Image(systemName: "trash.fill")
+                    .padding(10)
+            }.disabled(vm.image == nil)
+            Divider()
             
             Button {
                 showScanner = true
@@ -44,6 +42,7 @@ struct ButtonsOverlayView: View {
                     .padding(10)
             }
             Divider()
+            
             Menu {
                 let img = ImageModel(getImage: getImageWithAnnotations)
                 ShareLink(item: img, preview: SharePreview(
@@ -59,7 +58,8 @@ struct ButtonsOverlayView: View {
                 Text("share")
                 Image(systemName: "square.and.arrow.up.fill")
                     .padding(10)
-            }
+            }.disabled(vm.image == nil)
+        
             Button {
                 showSettings = true
             } label: {
