@@ -12,6 +12,7 @@ struct SingleCardView: View {
     @ObservedObject var vm: ContentViewModel
     @State var transactionToEdit: Transaction? = nil
     @State var newTransactionValue: String = ""
+    @State var attempts: Int = 0
     @Binding public var showTransactions: Bool
     @Binding public var showEditCardSheet: Bool
     var card: Card
@@ -37,60 +38,54 @@ struct SingleCardView: View {
         }
     }
     
-    func calculateExpression(_ expression: String) -> Double?  {
-        var result: Double? = nil
-        do {
-            try ObjC.catchException {
-                var cleaned = expression.replacingOccurrences(of: ",", with: ".")
-                var exp = NSExpression(format: cleaned)
-                exp = exp.toFloatingPointDivision()
-                result = exp.expressionValue(with: nil, context: nil) as? Double
-            }
-        } catch {
-            print("Calc expression \(expression) can't be resolved: \(error)")
-            result = nil
-        }
-        return result
-    }
-    
     func LabelRowItem(_ t: Transaction) -> some View {
         GridRow {
             Text(t.label ?? "")
                 .font(.system(size: 12, weight: .semibold, design: .rounded))
                 .opacity(0.6)
                 .gridColumnAlignment(.leading)
-            TextField(String(t.getStringValue(for: card)), text: (t == transactionToEdit) ? $newTransactionValue : .constant(t.getStringValue(for: card)), onEditingChanged: { edit in
-                if (edit) {
-                    transactionToEdit = t
-                } else {
+            
+            
+            CalcTextField(t.getStringValue(for: card),
+                          text: (t == transactionToEdit) ? $newTransactionValue : .constant(t.getStringValue(for: card)),
+                          onSubmit: { result in
+                                guard let res = result else {
+                                    self.attempts += 1
+                                    return
+                                }
+                                if res != 0 {
+                                    vm.editTransaction(t.id, value: res, card)
+                                }
+                                newTransactionValue = ""
+                                transactionToEdit = nil
+                          }, onEditingChanged: { edit in
+                              if (edit) {
+                                  transactionToEdit = t
+                              } else {
+                                  transactionToEdit = nil
+                                  newTransactionValue = ""
+                              }
+                          },
+                          accentColor: UIColor(card.color.light),
+                          bgColor: UIColor(card.color.dark),
+                          textColor: UIColor(card.color.contrast),
+                          isPadded: true)
+                .gridColumnAlignment(t.label != nil ? .trailing : .leading)
+                .lineLimit(1)
+                .fixedSize()
+                .onDisappear {
                     transactionToEdit = nil
                     newTransactionValue = ""
                 }
-            })
-            .keyboardType(.numbersAndPunctuation)
-            .submitLabel(.done)
-            .disableAutocorrection(true)
-            .fixedSize()
-            .disabled(t.locked)
-            .font(.system(size: 18, weight: .medium, design: .rounded))
-            .gridColumnAlignment(t.label != nil ? .trailing : .leading)
-            .onSubmit {
-                if (newTransactionValue != "") {
-                    let res = calculateExpression(newTransactionValue)
-                    if let value = res {
-                        vm.editTransaction(t.id, value: value, card)
-                    }
-                }
-                newTransactionValue = ""
-                transactionToEdit = nil
-            }
-            .onDisappear {
-                transactionToEdit = nil
-                newTransactionValue = ""
-            }
+                .disabled(t.locked)
+                .background(
+                    RoundedRectangle(cornerRadius: 7)
+                        .foregroundColor(Color.black.opacity(0.1))
+                )
+                .padding(.top, 3)
+                .modifier(Shake(animatableData: CGFloat(self.attempts), isActive: t == transactionToEdit))
+                
         }
-        .lineLimit(1)
-        .truncationMode(.tail)
         .contentShape(Rectangle())
         .contextMenu {
             Button {

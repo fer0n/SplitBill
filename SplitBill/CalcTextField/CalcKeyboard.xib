@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Rounded-Bold.otf">
+            <string>SFProRounded-Bold</string>
+        </array>
+        <array key="SF-Pro-Rounded-Semibold.otf">
+            <string>SFProRounded-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CalcKeyboard" customModule="SplitBill" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="aKp-MW-OT0">
+                    <rect key="frame" x="5" y="35" width="404" height="701"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fpI-hy-Rlz">
+                            <rect key="frame" x="0.0" y="0.0" width="404" height="136.33333333333334"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RDK-Lw-pkV">
+                                    <rect key="frame" x="0.0" y="0.0" width="97.333333333333329" height="136.33333333333334"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="(">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="q59-cu-BZl"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yfq-1o-ZZH" userLabel=")">
+                                    <rect key="frame" x="102.33333333333334" y="0.0" width="97.333333333333343" height="136.33333333333334"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title=")">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="bbi-0B-MgT"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnt-60-TYm" userLabel="del">
+                                    <rect key="frame" x="204.66666666666666" y="0.0" width="96.999999999999972" height="136.33333333333334"/>
+                                    <color key="backgroundColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <imageReference key="image" image="delete.left.fill" catalog="system" symbolScale="medium" renderingMode="template"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="heavy"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="TouchDown:" destination="-1" eventType="touchDown" id="q9O-1k-Wq8"/>
+                                        <action selector="TouchUp:" destination="-1" eventType="touchUpInside" id="PSN-y4-jo6"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngl-Nh-GUx" userLabel="divide">
+                                    <rect key="frame" x="306.66666666666669" y="0.0" width="97.333333333333314" height="136.33333333333334"/>
+                                    <color key="backgroundColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <color key="tintColor" name="white"/>
+                                    <state key="normal" title="÷">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="5N8-DC-T80"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="ngl-Nh-GUx" secondAttribute="bottom" id="4xa-TD-1i0"/>
+                                <constraint firstAttribute="bottom" secondItem="Nnt-60-TYm" secondAttribute="bottom" id="Iam-tT-Soe"/>
+                                <constraint firstAttribute="bottom" secondItem="Yfq-1o-ZZH" secondAttribute="bottom" id="MUE-e6-phD"/>
+                                <constraint firstItem="ngl-Nh-GUx" firstAttribute="top" secondItem="fpI-hy-Rlz" secondAttribute="top" id="Unf-lF-LaN"/>
+                                <constraint firstItem="RDK-Lw-pkV" firstAttribute="top" secondItem="fpI-hy-Rlz" secondAttribute="top" id="mfn-ug-iaG"/>
+                                <constraint firstAttribute="bottom" secondItem="RDK-Lw-pkV" secondAttribute="bottom" id="paH-wP-MQ2"/>
+                                <constraint firstItem="Nnt-60-TYm" firstAttribute="top" secondItem="fpI-hy-Rlz" secondAttribute="top" id="vZM-FM-cNJ"/>
+                                <constraint firstItem="Yfq-1o-ZZH" firstAttribute="top" secondItem="fpI-hy-Rlz" secondAttribute="top" id="xUn-O3-QmD"/>
+                            </constraints>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vi4-cW-H4Z">
+                            <rect key="frame" x="0.0" y="141.33333333333334" width="404" height="136.00000000000003"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w65-Eo-feW">
+                                    <rect key="frame" x="0.0" y="0.0" width="97.333333333333329" height="136"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="7">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="B1S-8F-Hb9"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ka-tk-6H5">
+                                    <rect key="frame" x="102.33333333333334" y="0.0" width="97.333333333333343" height="136"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="8">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="OFE-Bs-PPq"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m4V-Wh-YaX">
+                                    <rect key="frame" x="204.66666666666666" y="0.0" width="96.999999999999972" height="136"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="9">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="FDE-r4-Gp2"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMI-iu-X7P" userLabel="divide">
+                                    <rect key="frame" x="306.66666666666669" y="0.0" width="97.333333333333314" height="136"/>
+                                    <color key="backgroundColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <color key="tintColor" name="white"/>
+                                    <state key="normal" title="×">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="tw9-Ac-VXl"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="2ka-tk-6H5" firstAttribute="top" secondItem="vi4-cW-H4Z" secondAttribute="top" id="1JI-2c-zEf"/>
+                                <constraint firstItem="w65-Eo-feW" firstAttribute="top" secondItem="vi4-cW-H4Z" secondAttribute="top" id="1qW-8e-hXI"/>
+                                <constraint firstAttribute="bottom" secondItem="m4V-Wh-YaX" secondAttribute="bottom" id="B7h-F7-llH"/>
+                                <constraint firstItem="m4V-Wh-YaX" firstAttribute="top" secondItem="vi4-cW-H4Z" secondAttribute="top" id="KDq-hk-eHA"/>
+                                <constraint firstAttribute="bottom" secondItem="eMI-iu-X7P" secondAttribute="bottom" id="RUW-In-qd1"/>
+                                <constraint firstAttribute="bottom" secondItem="2ka-tk-6H5" secondAttribute="bottom" id="WU1-R9-qqF"/>
+                                <constraint firstItem="eMI-iu-X7P" firstAttribute="top" secondItem="vi4-cW-H4Z" secondAttribute="top" id="X1x-mr-Ggs"/>
+                                <constraint firstAttribute="bottom" secondItem="w65-Eo-feW" secondAttribute="bottom" id="Yvs-sx-46W"/>
+                            </constraints>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tkJ-Al-7Xl">
+                            <rect key="frame" x="0.0" y="282.33333333333331" width="404" height="136.33333333333331"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pe7-O6-FpR">
+                                    <rect key="frame" x="0.0" y="0.0" width="97.333333333333329" height="136.33333333333334"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="4">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="FWm-l9-nDb"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y3I-WP-Prx">
+                                    <rect key="frame" x="102.33333333333334" y="0.0" width="97.333333333333343" height="136.33333333333334"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="5">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="hrb-JR-L23"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuu-nP-lTy">
+                                    <rect key="frame" x="204.66666666666666" y="0.0" width="96.999999999999972" height="136.33333333333334"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="6">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="mRf-ch-2nG"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQQ-Bm-Hzl">
+                                    <rect key="frame" x="306.66666666666669" y="0.0" width="97.333333333333314" height="136.33333333333334"/>
+                                    <color key="backgroundColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <color key="tintColor" name="white"/>
+                                    <state key="normal" title="-">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="HdS-8R-RYh"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <viewLayoutGuide key="safeArea" id="fQX-1G-2tn"/>
+                            <constraints>
+                                <constraint firstItem="Y3I-WP-Prx" firstAttribute="top" secondItem="tkJ-Al-7Xl" secondAttribute="top" id="AHs-eD-oij"/>
+                                <constraint firstAttribute="bottom" secondItem="pe7-O6-FpR" secondAttribute="bottom" id="Coa-Wu-PgC"/>
+                                <constraint firstAttribute="bottom" secondItem="xuu-nP-lTy" secondAttribute="bottom" id="LeH-WB-MiL"/>
+                                <constraint firstItem="pe7-O6-FpR" firstAttribute="top" secondItem="tkJ-Al-7Xl" secondAttribute="top" id="QA7-Sg-qoY"/>
+                                <constraint firstAttribute="bottom" secondItem="Y3I-WP-Prx" secondAttribute="bottom" id="e0p-2D-5O1"/>
+                                <constraint firstAttribute="bottom" secondItem="kQQ-Bm-Hzl" secondAttribute="bottom" id="jfW-If-30G"/>
+                                <constraint firstItem="xuu-nP-lTy" firstAttribute="top" secondItem="tkJ-Al-7Xl" secondAttribute="top" id="jyT-gu-Ght"/>
+                                <constraint firstItem="kQQ-Bm-Hzl" firstAttribute="top" secondItem="tkJ-Al-7Xl" secondAttribute="top" id="zAG-Lk-hDh"/>
+                            </constraints>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ssg-D3-2Tg">
+                            <rect key="frame" x="0.0" y="423.66666666666669" width="404" height="136.00000000000006"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CeU-BJ-zEX">
+                                    <rect key="frame" x="0.0" y="0.0" width="97.333333333333329" height="136"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="1">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="5dA-er-T05"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7x-E7-L6T">
+                                    <rect key="frame" x="102.33333333333334" y="0.0" width="97.333333333333343" height="136"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="2">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="mEM-by-aNB"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zl-B0-Dnt">
+                                    <rect key="frame" x="204.66666666666666" y="0.0" width="96.999999999999972" height="136"/>
+                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <state key="normal" title="3">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="gaq-PM-JbY"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIc-sj-N3m">
+                                    <rect key="frame" x="306.66666666666669" y="0.0" width="97.333333333333314" height="136"/>
+                                    <color key="backgroundColor" name="AccentColor"/>
+                                    <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                    <color key="tintColor" name="white"/>
+                                    <state key="normal" title="+">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                    </state>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="a1m-SN-au9"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <viewLayoutGuide key="safeArea" id="vV1-kN-hOb"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="CeU-BJ-zEX" secondAttribute="bottom" id="Hsz-xs-X9K"/>
+                                <constraint firstAttribute="bottom" secondItem="B7x-E7-L6T" secondAttribute="bottom" id="QBx-tx-ZEm"/>
+                                <constraint firstItem="B7x-E7-L6T" firstAttribute="top" secondItem="Ssg-D3-2Tg" secondAttribute="top" id="T1P-w8-cYe"/>
+                                <constraint firstAttribute="bottom" secondItem="iIc-sj-N3m" secondAttribute="bottom" id="kK1-cD-L2B"/>
+                                <constraint firstItem="iIc-sj-N3m" firstAttribute="top" secondItem="Ssg-D3-2Tg" secondAttribute="top" id="kZv-51-m53"/>
+                                <constraint firstItem="CeU-BJ-zEX" firstAttribute="top" secondItem="Ssg-D3-2Tg" secondAttribute="top" id="lFH-t8-Mbb"/>
+                                <constraint firstItem="7Zl-B0-Dnt" firstAttribute="top" secondItem="Ssg-D3-2Tg" secondAttribute="top" id="leZ-eJ-sRi"/>
+                                <constraint firstAttribute="bottom" secondItem="7Zl-B0-Dnt" secondAttribute="bottom" id="uMz-A8-sIV"/>
+                            </constraints>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bfV-Oc-5Be">
+                            <rect key="frame" x="0.0" y="564.66666666666663" width="404" height="136.33333333333337"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="xG7-Om-qRA">
+                                    <rect key="frame" x="0.0" y="0.0" width="199.66666666666666" height="136.33333333333334"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R6p-pW-aMY">
+                                            <rect key="frame" x="0.0" y="0.0" width="97.333333333333329" height="136.33333333333334"/>
+                                            <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                            <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                            <state key="normal" title="0">
+                                                <color key="titleColor" name="AccentColor"/>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="4tD-Xh-GhI"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcY-FK-Jdy">
+                                            <rect key="frame" x="102.33333333333334" y="0.0" width="97.333333333333343" height="136.33333333333334"/>
+                                            <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                            <fontDescription key="fontDescription" name="SFProRounded-Semibold" family="SF Pro Rounded" pointSize="30"/>
+                                            <state key="normal" title=".">
+                                                <color key="titleColor" name="AccentColor"/>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="DhM-G1-NoX"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <viewLayoutGuide key="safeArea" id="CEj-ZK-nqp"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="R6p-pW-aMY" secondAttribute="bottom" id="3wK-U6-rnt"/>
+                                        <constraint firstItem="IcY-FK-Jdy" firstAttribute="top" secondItem="xG7-Om-qRA" secondAttribute="top" id="WyX-8O-hoB"/>
+                                        <constraint firstAttribute="bottom" secondItem="IcY-FK-Jdy" secondAttribute="bottom" id="wUx-Gl-JX5"/>
+                                        <constraint firstItem="R6p-pW-aMY" firstAttribute="top" secondItem="xG7-Om-qRA" secondAttribute="top" id="zxr-uq-diU"/>
+                                    </constraints>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="FWr-Xk-dlC">
+                                    <rect key="frame" x="204.66666666666663" y="0.0" width="199.33333333333337" height="136.33333333333334"/>
+                                    <subviews>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xc9-gB-CIW" userLabel="done">
+                                            <rect key="frame" x="0.0" y="0.0" width="199.33333333333334" height="136.33333333333334"/>
+                                            <color key="backgroundColor" name="AccentColor"/>
+                                            <fontDescription key="fontDescription" name="SFProRounded-Bold" family="SF Pro Rounded" pointSize="30"/>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <imageReference key="image" image="checkmark" catalog="system" symbolScale="medium" renderingMode="template"/>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="heavy"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="uvi-pV-iwL"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <viewLayoutGuide key="safeArea" id="yMM-UV-Wk7"/>
+                                    <constraints>
+                                        <constraint firstItem="xc9-gB-CIW" firstAttribute="top" secondItem="FWr-Xk-dlC" secondAttribute="top" id="8MI-fF-7u8"/>
+                                        <constraint firstAttribute="bottom" secondItem="xc9-gB-CIW" secondAttribute="bottom" id="cgv-Mn-beB"/>
+                                    </constraints>
+                                </stackView>
+                            </subviews>
+                            <viewLayoutGuide key="safeArea" id="fCw-VJ-9TW"/>
+                            <constraints>
+                                <constraint firstItem="fCw-VJ-9TW" firstAttribute="bottom" secondItem="FWr-Xk-dlC" secondAttribute="bottom" id="06X-LW-15K"/>
+                                <constraint firstItem="fCw-VJ-9TW" firstAttribute="bottom" secondItem="xG7-Om-qRA" secondAttribute="bottom" id="J7H-HX-2C1"/>
+                                <constraint firstItem="FWr-Xk-dlC" firstAttribute="top" secondItem="fCw-VJ-9TW" secondAttribute="top" id="VOh-Tn-6E0"/>
+                                <constraint firstItem="FWr-Xk-dlC" firstAttribute="trailing" secondItem="fCw-VJ-9TW" secondAttribute="trailing" id="Ver-br-GcG"/>
+                                <constraint firstItem="xG7-Om-qRA" firstAttribute="top" secondItem="fCw-VJ-9TW" secondAttribute="top" id="W8p-Ih-eOY"/>
+                                <constraint firstItem="xG7-Om-qRA" firstAttribute="leading" secondItem="fCw-VJ-9TW" secondAttribute="leading" id="tTy-U1-FPe"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="bkD-Ql-HAe"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Ssg-D3-2Tg" secondAttribute="trailing" id="5K6-MT-XnO"/>
+                        <constraint firstAttribute="trailing" secondItem="vi4-cW-H4Z" secondAttribute="trailing" id="FZo-bn-suM"/>
+                        <constraint firstAttribute="trailing" secondItem="fpI-hy-Rlz" secondAttribute="trailing" id="Ycd-Lg-noR"/>
+                        <constraint firstAttribute="trailing" secondItem="tkJ-Al-7Xl" secondAttribute="trailing" id="xpI-5i-Gm1"/>
+                        <constraint firstAttribute="trailing" secondItem="bfV-Oc-5Be" secondAttribute="trailing" id="zKv-QP-4Ll"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemGray6Color"/>
+            <constraints>
+                <constraint firstItem="aKp-MW-OT0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="6FI-pg-im8"/>
+                <constraint firstItem="aKp-MW-OT0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="cC1-a8-yji"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="aKp-MW-OT0" secondAttribute="bottom" id="nFy-ya-Zrl"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="aKp-MW-OT0" secondAttribute="trailing" constant="5" id="ygu-fB-SO4"/>
+            </constraints>
+            <point key="canvasLocation" x="88" y="64"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="delete.left.fill" catalog="system" width="128" height="102"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="white">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

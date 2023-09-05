@@ -25,6 +25,15 @@
 		88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677494291C3C17002C675C /* ZoomableScrollView.swift */; };
 		8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8875AE9A29433E3C0077FFA8 /* ScannerView.swift */; };
 		887E09642924311C00A6A116 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E09632924311C00A6A116 /* CardModel.swift */; };
+		8883975A2AA45C13004D0722 /* CalcTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397562AA45C13004D0722 /* CalcTextField.swift */; };
+		8883975B2AA45C13004D0722 /* CalcKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 888397572AA45C13004D0722 /* CalcKeyboard.xib */; };
+		8883975C2AA45C13004D0722 /* CalcKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397582AA45C13004D0722 /* CalcKeyboard.swift */; };
+		8883975D2AA45C13004D0722 /* VC_CalcKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397592AA45C13004D0722 /* VC_CalcKeyboard.swift */; };
+		8883975F2AA45D01004D0722 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8883975E2AA45D01004D0722 /* Double.swift */; };
+		888397612AA46254004D0722 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397602AA46254004D0722 /* UIView.swift */; };
+		888397632AA4755B004D0722 /* GeometryEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397622AA4755B004D0722 /* GeometryEffect.swift */; };
+		8883976A2AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 888397682AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf */; };
+		8883976B2AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 888397692AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf */; };
 		888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888495B3291E6E4400AB74D7 /* ContentViewModel.swift */; };
 		888495B6291FDD4700AB74D7 /* EditCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888495B5291FDD4700AB74D7 /* EditCardsView.swift */; };
 		88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */; };
@@ -114,6 +123,15 @@
 		88677494291C3C17002C675C /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		8875AE9A29433E3C0077FFA8 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		887E09632924311C00A6A116 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		888397562AA45C13004D0722 /* CalcTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcTextField.swift; sourceTree = "<group>"; };
+		888397572AA45C13004D0722 /* CalcKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalcKeyboard.xib; sourceTree = "<group>"; };
+		888397582AA45C13004D0722 /* CalcKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcKeyboard.swift; sourceTree = "<group>"; };
+		888397592AA45C13004D0722 /* VC_CalcKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VC_CalcKeyboard.swift; sourceTree = "<group>"; };
+		8883975E2AA45D01004D0722 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		888397602AA46254004D0722 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		888397622AA4755B004D0722 /* GeometryEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEffect.swift; sourceTree = "<group>"; };
+		888397682AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Semibold.otf"; path = "../../../../../../../Library/Fonts/SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
+		888397692AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Bold.otf"; path = "../../../../../../../Library/Fonts/SF-Pro-Rounded-Bold.otf"; sourceTree = "<group>"; };
 		888495B3291E6E4400AB74D7 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		888495B5291FDD4700AB74D7 /* EditCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardsView.swift; sourceTree = "<group>"; };
 		88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsOverlayView.swift; sourceTree = "<group>"; };
@@ -190,8 +208,31 @@
 				88523C9D2A93F44E002AFEA6 /* ObjC.m */,
 				88523C9C2A93F44E002AFEA6 /* SplitBill-Bridging-Header.h */,
 				88523C9F2A93F77B002AFEA6 /* NSExpression.swift */,
+				8883975E2AA45D01004D0722 /* Double.swift */,
+				888397602AA46254004D0722 /* UIView.swift */,
+				888397622AA4755B004D0722 /* GeometryEffect.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		888397552AA45AB3004D0722 /* CalcTextField */ = {
+			isa = PBXGroup;
+			children = (
+				888397582AA45C13004D0722 /* CalcKeyboard.swift */,
+				888397572AA45C13004D0722 /* CalcKeyboard.xib */,
+				888397562AA45C13004D0722 /* CalcTextField.swift */,
+				888397592AA45C13004D0722 /* VC_CalcKeyboard.swift */,
+			);
+			path = CalcTextField;
+			sourceTree = "<group>";
+		};
+		888397672AA4B132004D0722 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				888397692AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf */,
+				888397682AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		888B10BB2946E2EF00D1AB3B /* Util */ = {
@@ -236,6 +277,8 @@
 		BDD1322E285217CA00C69619 /* SplitBill */ = {
 			isa = PBXGroup;
 			children = (
+				888397672AA4B132004D0722 /* Font */,
+				888397552AA45AB3004D0722 /* CalcTextField */,
 				88523C9B2A93F3B8002AFEA6 /* Extensions */,
 				88173DFD297BCD9000ED89DA /* SplitBill.entitlements */,
 				888B10BB2946E2EF00D1AB3B /* Util */,
@@ -410,8 +453,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDD13237285217CA00C69619 /* Preview Assets.xcassets in Resources */,
+				8883975B2AA45C13004D0722 /* CalcKeyboard.xib in Resources */,
 				88B3739129531CAA007AD933 /* Localizable.strings in Resources */,
+				8883976B2AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf in Resources */,
 				BDD13234285217CA00C69619 /* Assets.xcassets in Resources */,
+				8883976A2AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +491,7 @@
 				888495B6291FDD4700AB74D7 /* EditCardsView.swift in Sources */,
 				8800D7C02932B1DA00FA6ADE /* util.swift in Sources */,
 				888B10BA2946E2E400D1AB3B /* Colors.swift in Sources */,
+				8883975F2AA45D01004D0722 /* Double.swift in Sources */,
 				8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */,
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
@@ -456,10 +503,15 @@
 				BDD13232285217CA00C69619 /* ContentView.swift in Sources */,
 				887E09642924311C00A6A116 /* CardModel.swift in Sources */,
 				8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */,
+				8883975D2AA45C13004D0722 /* VC_CalcKeyboard.swift in Sources */,
+				8883975A2AA45C13004D0722 /* CalcTextField.swift in Sources */,
 				BDD13230285217CA00C69619 /* SplitBill.swift in Sources */,
 				88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */,
+				888397632AA4755B004D0722 /* GeometryEffect.swift in Sources */,
 				88523C9A2A93B607002AFEA6 /* TransactionModel.swift in Sources */,
+				888397612AA46254004D0722 /* UIView.swift in Sources */,
 				88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */,
+				8883975C2AA45C13004D0722 /* CalcKeyboard.swift in Sources */,
 				BDD1323E28521D7000C69619 /* LiveTextInteraction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,7 +566,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -526,7 +578,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -543,7 +595,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -555,7 +607,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -768,7 +820,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -786,7 +838,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -811,7 +863,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -829,7 +881,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

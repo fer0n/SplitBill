@@ -14,11 +14,13 @@ struct FloatingTransactionView: View {
         center: false,
         width: nil,
         value: "",
-        color: .blue,
-        contrastColor: .white)
+        color: .gray,
+        contrastColor: .white,
+        darkColor: .black)
     @State var floatingTransaction: Transaction? = nil
     @FocusState private var floatingTransactionIsFocused: Bool
     @State var floatingTransactionDisappearTimer: Timer? = nil
+    @State var attempts: Int = 0
     
     
     func flashTransaction(_ t: Transaction) {
@@ -42,6 +44,7 @@ struct FloatingTransactionView: View {
             }
         }
         floatingTransactionInfo.center = false
+        floatingTransactionInfo.editable = false
     }
     
     
@@ -77,13 +80,16 @@ struct FloatingTransactionView: View {
             if let firstactiveCard = firstactiveCard, cards.contains(firstactiveCard) {
                 floatingTransactionInfo.color = firstactiveCard.color.light
                 floatingTransactionInfo.contrastColor = firstactiveCard.color.contrast
+                floatingTransactionInfo.darkColor = firstactiveCard.color.dark
             } else {
                 floatingTransactionInfo.color = card.color.light
                 floatingTransactionInfo.contrastColor = card.color.contrast
+                floatingTransactionInfo.darkColor = card.color.dark
             }
         } else {
             floatingTransactionInfo.color = firstactiveCard?.color.light ?? Color(vm.markerColor ?? .blue)
             floatingTransactionInfo.contrastColor = firstactiveCard?.color.contrast ?? .white
+            floatingTransactionInfo.darkColor = firstactiveCard?.color.dark ?? Color(vm.markerColor ?? .blue)
         }
     }
     
@@ -101,10 +107,8 @@ struct FloatingTransactionView: View {
                     vm.linkTransactionToActiveCards(t)
                 }
             }
-            floatingTransaction = nil
+            debouncedHideFloatingTransaction()
         }
-        floatingTransactionInfo.center = false
-        floatingTransactionInfo.editable = false
     }
     
     
@@ -119,22 +123,37 @@ struct FloatingTransactionView: View {
     var FloatingTransactionTextField: some View {
         ZStack {
             if (floatingTransactionInfo.editable) {
-                TextField("", text: $floatingTransactionInfo.value, onEditingChanged: { edit in
+                CalcTextField(
+                    "",
+                    text: $floatingTransactionInfo.value,
+                    onSubmit: { result in
+                        guard let res = result else {
+                            self.attempts += 1
+                            return
+                        }
+                        if (res != 0) {
+                            floatingTransactionInfo.value = String(res)
+                        }
+                        handleFreeformTransaction()
+                    },
+                    onEditingChanged: { edit in
                         if (!edit) {
                             handleFreeformTransaction()
                         } else {
                             floatingTransactionDisappearTimer?.invalidate()
                         }
-                    })
-                    .keyboardType(.numbersAndPunctuation)
-                    .submitLabel(.done)
-                    .disableAutocorrection(true)
-                    .onSubmit {
-                        handleFreeformTransaction()
-                    }
-                    .onSizeChange(handleSizeChange)
-                    .fixedSize()
-                    .focused($floatingTransactionIsFocused)
+                    },
+                    accentColor: UIColor(floatingTransactionInfo.color),
+                    bgColor: UIColor(floatingTransactionInfo.darkColor),
+                    textColor: UIColor(floatingTransactionInfo.contrastColor),
+                    font: UIFont.systemFont(ofSize: floatingTransaction?.boundingBox?.height ?? 30)
+                )
+                .keyboardType(.numbersAndPunctuation)
+                .submitLabel(.done)
+                .disableAutocorrection(true)
+                .onSizeChange(handleSizeChange)
+                .fixedSize()
+                .focused($floatingTransactionIsFocused)
             } else {
                 Text(floatingTransactionInfo.value)
                     .onSizeChange(handleSizeChange)
@@ -145,6 +164,7 @@ struct FloatingTransactionView: View {
             }
         }
         .floatingTransactionModifier(floatingTransaction, floatingTransactionInfo)
+        .modifier(Shake(animatableData: CGFloat(self.attempts)))
     }
     
     var body: some View {
@@ -163,12 +183,13 @@ struct FloatingTransactionView: View {
 }
 
 struct FloatingTransactionInfo {
-    init(center: Bool, width: CGFloat?, value: String, color: Color, contrastColor: Color) {
+    init(center: Bool, width: CGFloat?, value: String, color: Color, contrastColor: Color, darkColor: Color) {
         self.center = center
         self.width = width
         self.value = value
         self.color = color
         self.contrastColor = contrastColor
+        self.darkColor = darkColor
     }
     var center: Bool
     var width: CGFloat?
@@ -176,6 +197,7 @@ struct FloatingTransactionInfo {
     var value: String
     var color: Color
     var contrastColor: Color
+    var darkColor: Color
     var editable = false
 }
 
