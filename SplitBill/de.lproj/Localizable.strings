@@ -42,7 +42,7 @@
 "specialCard" = "Besondere Karte";
 
 // SettingsView
-"openOnStartUp" = "Beim start öffnen";
+"openOnStartUp" = "Beim Start öffnen";
 "nothing" = "Nichts";
 "scanner" = "Scanner";
 "imagePicker" = "Bild Auswahl";
@@ -50,6 +50,11 @@
 "contact" = "Kontakt";
 "rateApp" = "Bitte bewerte SplitBill";
 "github" = "SplitBill auf Github";
+"previewDuration" = "Anzeige Dauer";
+"short" = "Kurz";
+"medium" = "Mittel";
+"long" = "Lang";
+"tapAway" = "Durch Tippen";
 
 // ButtonsOverlayView
 "clearImage" = "Bild löschen";
@@ -63,15 +68,15 @@
 // ShareExtension
 "openInApp" = "App öffnen";
 "imageSaved" = "Bild zu SplitBill hinzugefügt";
-"openInAppExplanation" = "Beim nächsten öffnen der App wird das Bild automatisch geladen";
+"openInAppExplanation" = "Beim nächsten Öffnen der App wird das Bild automatisch geladen";
 "error" = "Ein Fehler ist aufgetreten";
 "errorMessage" = "Bitte versuche es erneut oder importiere das Bild von der App aus";
 
 // Alerts
 "cannotEditShare" = "Anteil kann nicht bearbeitet werden";
-"lastShareCannotBeAdjustedManually" = "Alle Anteile müssen zusammen den gesamten Wert ergeben und alle anderen Anteile wurden bereits manuell angepasst. Du kannst den gesamten Wert anpassen oder andere Anteile ändern/zurückseten um diesen Anteil zu ändern.";
+"lastShareCannotBeAdjustedManually" = "Alle Anteile müssen zusammen den gesamten Wert ergeben und alle anderen Anteile wurden bereits manuell angepasst. Du kannst den gesamten Wert anpassen oder andere Anteile ändern/zurücksetzen, um diesen Anteil zu ändern.";
 "numberTooLargeTitle" = "Die ausgewählte Zahl ist zu groß";
-"numberTooLargeMessage" = "Die Zahl wurde eventuell falsch erkannt. Drücke länger auf die Zahl um sie zu korrigieren.";
+"numberTooLargeMessage" = "Die Zahl wurde eventuell falsch erkannt. Drücke länger auf die Zahl, um sie zu korrigieren.";
 "unknown" = "Ein unbekannter Fehler ist aufgetreten";
 
 // Info.plist

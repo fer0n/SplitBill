@@ -9,24 +9,38 @@ import SwiftUI
 
 
 
+
+
 struct SettingsView: View {
     @ObservedObject var vm: ContentViewModel
     @Binding var showSelf: Bool
+    @AppStorage("startupItem") var startupItem: StartupItem = .scanner
     
     var body: some View {
         NavigationView {
             List {
-                Picker("openOnStartUp", selection: $vm.startupItem) {
-                    ForEach(StartupItem.allCases, id: \.self) {
-                        Text($0.description)
+                Section {
+                    Picker("openOnStartUp", selection: $startupItem) {
+                        ForEach(StartupItem.allCases, id: \.self) {
+                            Text($0.description)
+                        }
                     }
+                    .pickerStyle(.menu)
                 }
-                .pickerStyle(.menu)
-                Toggle(isOn: $vm.flashTransactionValue) {
-                    Text("flashTransactionValue")
-                }
-                .tint(.markerColor)
                 
+                Section {
+                    Toggle(isOn: $vm.flashTransactionValue) {
+                        Text("flashTransactionValue")
+                    }
+                    .tint(.markerColor)
+                    Picker("previewDuration", selection: $vm.previewDuration) {
+                        ForEach(PreviewDuration.allCases, id: \.self) {
+                            Text($0.description)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .disabled(!vm.flashTransactionValue)
+                }
                 
                 Section {
                     LinkItemView(destination: URL(string: "https://apps.apple.com/app/id6444704240?action=write-review")!, label: "rateApp") {
@@ -51,12 +65,39 @@ struct SettingsView: View {
 
 
 
+enum PreviewDuration: Int, CaseIterable {
+    case short
+    case medium
+    case long
+    case tapAway
+    
+    var description: String {
+        switch self {
+        case .short: return String(localized: "short")
+        case .medium: return String(localized: "medium")
+        case .long: return String(localized: "long")
+        case .tapAway: return String(localized: "tapAway")
+        }
+    }
+    
+    var timeInterval: TimeInterval? {
+        switch self {
+        case .short: return 0.5
+        case .medium: return 2.5
+        case .long: return 5
+        case .tapAway: return nil
+        }
+    }
+}
+
+
+
 enum StartupItem: Int, CaseIterable {
     case nothing
     case scanner
     case imagePicker
     
-    var description : String {
+    var description: String {
         switch self {
         case .nothing: return String(localized: "nothing")
         case .scanner: return String(localized: "scanner")

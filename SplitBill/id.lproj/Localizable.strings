@@ -50,6 +50,11 @@
 "contact" = "Hubungi kami";
 "rateApp" = "Berikan Rating untuk SplitBill";
 "github" = "SplitBill di Github";
+"previewDuration" = "Durasi Pratinjau";
+"short" = "Singkat";
+"medium" = "Sedang";
+"long" = "Panjang";
+"tapAway" = "Dengan Mengetuk";
 
 // ButtonsOverlayView
 "clearImage" = "Hapus gambar";

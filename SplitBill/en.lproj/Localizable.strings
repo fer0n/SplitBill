@@ -12,11 +12,11 @@
 "cancel" = "Cancel";
 
 // ContentView
-"selectImage" = "Select image";
-"openScanner" = "Open scanner";
-"replaceImage" = "New image available, replace the current one?";
-"replaceNo" = "Keep current image";
-"replaceYes" = "Use new image";
+"selectImage" = "Select Image";
+"openScanner" = "Open Scanner";
+"replaceImage" = "New Image Available, Replace the Current One?";
+"replaceNo" = "Keep Current Image";
+"replaceYes" = "Use New Image";
 
 // CardModel
 "empty" = "Empty";
@@ -27,44 +27,49 @@
 "shared" = "Shared";
 
 // CardsView
-"deleteTransaction" = "Delete transaction";
-"editCard" = "Edit card";
-"removeFromSession" = "Remove from session";
-"clearAllTransactions" = "Clear all transactions";
-"shareResult" = "Share value";
-"resetManualShare" = "Reset share";
-"addToActive" = "Make active as well";
-"setToInactive" = "Make inactive";
-"clearAllTransactionsInEveryCard" = "Clear all transactions for all cards";
+"deleteTransaction" = "Delete Transaction";
+"editCard" = "Edit Card";
+"removeFromSession" = "Remove from Session";
+"clearAllTransactions" = "Clear All Transactions";
+"shareResult" = "Share Value";
+"resetManualShare" = "Reset Share";
+"addToActive" = "Make Active as Well";
+"setToInactive" = "Make Inactive";
+"clearAllTransactionsInEveryCard" = "Clear All Transactions for All Cards";
 
 // EditCardsView
 "newCard" = "New Card";
 "specialCard" = "Special Card";
 
 // SettingsView
-"openOnStartUp" = "Open on startup";
+"openOnStartUp" = "Open on Startup";
 "nothing" = "Nothing";
 "scanner" = "Scanner";
 "imagePicker" = "Image Picker";
-"flashTransactionValue" = "Preview recognized number";
-"contact" = "Contact us";
+"flashTransactionValue" = "Preview Recognized Number";
+"contact" = "Contact Us";
 "rateApp" = "Please Rate SplitBill";
 "github" = "SplitBill on Github";
+"previewDuration" = "Preview Duration";
+"short" = "Short";
+"medium" = "Medium";
+"long" = "Long";
+"tapAway" = "Tap Away";
 
 // ButtonsOverlayView
-"clearImage" = "Clear image";
+"clearImage" = "Clear Image";
 "documentScanner" = "Document Scanner";
 "photoLibrary" = "Photo Library";
 "share" = "Share";
-"shareSummary" = "Text summary";
-"shareImage" = "Image with annotations";
+"shareSummary" = "Text Summary";
+"shareImage" = "Image with Annotations";
 "total" = "Total";
 
 // ShareExtension
 "openInApp" = "Open App";
-"imageSaved" = "Image added to SplitBill";
+"imageSaved" = "Image Added to SplitBill";
 "openInAppExplanation" = "Next time you open the app the image will be loaded automatically";
-"error" = "An error occured";
+"error" = "An Error Occurred";
 "errorMessage" = "Please try again or import the image from within the app";
 
 // Alerts
@@ -72,7 +77,7 @@
 "lastShareCannotBeAdjustedManually" = "All shares have to add up to the value and all other shares have already been adjusted manually. You can edit the total value or change/reset other shares to adjust this one.";
 "numberTooLargeTitle" = "The selected number is too large";
 "numberTooLargeMessage" = "The number may have been recognized incorrectly. Long press the item to correct it.";
-"unknown" = "Un unknown error occured";
+"unknown" = "An unknown error occurred";
 
 // Info.plist
 "NSPhotoLibraryAddUsageDescription" = "Export the image with annotations";

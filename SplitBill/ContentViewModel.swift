@@ -11,17 +11,16 @@ import SplitBillShared
 class ContentViewModel: ObservableObject {    
     @Published var cards: [Card]
     @Published private(set) var activeCardsIds: Set<UUID> = []
-    @Published var transactions: [UUID: Transaction]
+    @Published var transactions: [UUID: Transaction] = [:]
     @Published var image: UIImage?
-    @Published private var rawStartupItem: StartupItem
-    @Published private var rawFlashTransactionValue: Bool
     @Published var contentChanged = PassthroughSubject<Void, Never>()
     @Published var isLoadingCounter: Int = 0
     
+    @AppStorage("previewDuration") var previewDuration: PreviewDuration = .medium
+    @AppStorage("flashTransactionValue") var flashTransactionValue: Bool = true
+    @AppStorage("transactions") var encodedTransactions: Data?
+        
     private static let cardsSaveKey = "Cards"
-    private static let startupItemSaveKey = "startupItem"
-    private static let flashTransactionValueSaveKey = "flashTransactionValue"
-    private static let transactionsSaveKey = "transactions"
     
     static var totalTransactionId: UUID? = nil
     private let dividerId = UUID(uuidString: "BD89DE13-54FF-4C1D-8B45-C090858689FE")!
@@ -38,6 +37,7 @@ class ContentViewModel: ObservableObject {
     var onFlashTransaction: ((_ transaction: Transaction) -> Void)?
     var onImageLongPress: ((_ transaction: Transaction?, _ point: CGPoint?) -> Void)?
     var generateExportImage: (() async throws -> UIImage?)?
+    var onEmptyTap: (() -> Void)?
     
     var lastTapWasHitting = false
     var previouslyActiveCardsIds: Set<UUID> = []
@@ -47,26 +47,6 @@ class ContentViewModel: ObservableObject {
     
     var hasActiveCards: Bool {
         activeCardsIds.count > 0
-    }
-    
-    var startupItem: StartupItem {
-        get {
-            rawStartupItem
-        }
-        set {
-            rawStartupItem = newValue
-            saveStartupItem()
-        }
-    }
-    
-    var flashTransactionValue: Bool {
-        get {
-            rawFlashTransactionValue
-        }
-        set {
-            rawFlashTransactionValue = newValue
-            saveFlashTransactionValue()
-        }
     }
     
     var specialCards: [Card] {
@@ -140,9 +120,6 @@ class ContentViewModel: ObservableObject {
     init() {
         print("init contentViewModel")
         cards = ContentViewModel.getCardData()
-        transactions = ContentViewModel.getTransactionData()
-        rawStartupItem = ContentViewModel.loadStartupItem() ?? .scanner
-        rawFlashTransactionValue = ContentViewModel.loadFlashTransactionValue() ?? true
         if let index = cards.firstIndex(where: { $0.cardType == .total }) {
             totalCardId = cards[index].id
         } else {
@@ -153,34 +130,11 @@ class ContentViewModel: ObservableObject {
         }
         updateCardsIndexLookup()
         setFirstChosenCardActive()
+        self.getTransactionData()
     }
     
     
     // MARK: Functions
-    
-    static func loadStartupItem() -> StartupItem? {
-        if let data = UserDefaults.standard.object(forKey: ContentViewModel.startupItemSaveKey) as? Int {
-            return StartupItem(rawValue: data)
-        }
-        return nil
-    }
-    
-    func saveStartupItem() {
-        let rawValue = rawStartupItem.rawValue
-        UserDefaults.standard.set(rawValue, forKey: ContentViewModel.startupItemSaveKey)
-    }
-    
-    static func loadFlashTransactionValue() -> Bool? {
-        if let data = UserDefaults.standard.object(forKey: ContentViewModel.flashTransactionValueSaveKey) as? Bool {
-            return data
-        }
-        return nil
-    }
-    
-    func saveFlashTransactionValue() {
-        let rawValue = rawFlashTransactionValue
-        UserDefaults.standard.set(rawValue, forKey: ContentViewModel.flashTransactionValueSaveKey)
-    }
     
     func updateCardsIndexLookup() {
         var lookup: [UUID:Array<Card>.Index] = [:]
@@ -197,9 +151,9 @@ class ContentViewModel: ObservableObject {
     }
     
     func saveTransactionData() {
-        if let encoded = try? JSONEncoder().encode(self.transactions) {
-            UserDefaults.standard.set(encoded, forKey: ContentViewModel.transactionsSaveKey)
-            print("saving transactions: \(encoded)")
+        if let encoded = try? JSONEncoder().encode(transactions) {
+            encodedTransactions = encoded
+            print("Saving transactions: \(encoded)")
         }
     }
     
@@ -281,13 +235,12 @@ class ContentViewModel: ObservableObject {
         image = nil
     }
     
-    static func getTransactionData() -> [UUID: Transaction] {
-        if let data = UserDefaults.standard.data(forKey: ContentViewModel.transactionsSaveKey) {
+    func getTransactionData() {
+        if let data = encodedTransactions {
             if let decoded = try? JSONDecoder().decode([UUID: Transaction].self, from: data) {
-                return decoded
+                transactions = decoded
             }
         }
-        return [:]
     }
     
     static func getCardData() -> [Card] {
@@ -867,6 +820,7 @@ class ContentViewModel: ObservableObject {
         guard let t = getTransaction(at: point),
               let onTap = onTransactionTap else {
             lastTapWasHitting = false
+            self.onEmptyTap?()
             return
         }
         lastTapWasHitting = true

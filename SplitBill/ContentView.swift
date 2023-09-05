@@ -24,6 +24,8 @@ struct ContentView: View {
     
     @State private var presentationDetent: PresentationDetent? = nil
     @State private var settingsDetent: PresentationDetent = .medium
+    
+    @AppStorage("startupItem") var startupItem: StartupItem = .scanner
 
     let zoomBufferPadding: CGFloat = 500
         
@@ -35,7 +37,7 @@ struct ContentView: View {
             return
         }
         
-        switch(vm.startupItem) {
+        switch(startupItem) {
             case .nothing:
                 break
             case .scanner:

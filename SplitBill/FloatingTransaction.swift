@@ -22,7 +22,6 @@ struct FloatingTransactionView: View {
     @State var floatingTransactionDisappearTimer: Timer? = nil
     @State var attempts: Int = 0
     
-    
     func flashTransaction(_ t: Transaction) {
         if (vm.getFirstChosencardOfTransaction(t) != nil) {
             return
@@ -38,9 +37,13 @@ struct FloatingTransactionView: View {
     
     func debouncedHideFloatingTransaction() {
         floatingTransactionDisappearTimer?.invalidate()
-        floatingTransactionDisappearTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { _ in
-            withAnimation {
+        withAnimation {
+            if (floatingTransactionInfo.value == "") {
                 floatingTransaction = nil
+            } else if let duration = vm.previewDuration.timeInterval {
+                floatingTransactionDisappearTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { _ in
+                    floatingTransaction = nil
+                }
             }
         }
         floatingTransactionInfo.center = false
@@ -73,6 +76,15 @@ struct FloatingTransactionView: View {
     }
     
     
+    func handleEmptyTap() {
+        if vm.previewDuration.timeInterval == nil {
+            withAnimation {
+                floatingTransaction = nil
+            }
+        }
+    }
+    
+    
     func setFloatingTransactionColor(_ transaction: Transaction?) {
         let firstactiveCard = vm.getFirstActiveCard()
         if let t = transaction, let card = vm.getFirstChosencardOfTransaction(t) {
@@ -87,9 +99,9 @@ struct FloatingTransactionView: View {
                 floatingTransactionInfo.darkColor = card.color.dark
             }
         } else {
-            floatingTransactionInfo.color = firstactiveCard?.color.light ?? Color(vm.markerColor ?? .blue)
+            floatingTransactionInfo.color = firstactiveCard?.color.light ?? Color(vm.markerColor ?? .gray)
             floatingTransactionInfo.contrastColor = firstactiveCard?.color.contrast ?? .white
-            floatingTransactionInfo.darkColor = firstactiveCard?.color.dark ?? Color(vm.markerColor ?? .blue)
+            floatingTransactionInfo.darkColor = firstactiveCard?.color.dark ?? Color(vm.markerColor ?? .black)
         }
     }
     
@@ -134,7 +146,6 @@ struct FloatingTransactionView: View {
                         if (res != 0) {
                             floatingTransactionInfo.value = String(res)
                         }
-                        handleFreeformTransaction()
                     },
                     onEditingChanged: { edit in
                         if (!edit) {
@@ -178,6 +189,7 @@ struct FloatingTransactionView: View {
         .onAppear {
             vm.onImageLongPress = self.handleTransactionLongPress
             vm.onFlashTransaction = self.flashTransaction
+            vm.onEmptyTap = self.handleEmptyTap
         }
     }
 }
