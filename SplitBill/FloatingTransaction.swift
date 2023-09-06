@@ -14,22 +14,52 @@ struct FloatingTransactionView: View {
         center: false,
         width: nil,
         value: "",
-        color: .gray,
-        contrastColor: .white,
-        darkColor: .black)
+        color: .neutralGray)
     @State var floatingTransaction: Transaction? = nil
     @FocusState private var floatingTransactionIsFocused: Bool
     @State var floatingTransactionDisappearTimer: Timer? = nil
     @State var attempts: Int = 0
     
-    func flashTransaction(_ t: Transaction) {
-        if (vm.getFirstChosencardOfTransaction(t) != nil) {
+    
+    func getCardColorsAndTransaction(from tId: UUID) -> (cardColors: [Color]?, transaction: Transaction?) {
+        guard let t = vm.transactions[tId] else {
+            return (nil, nil)
+        }
+        let cardIds = t.shares.keys
+        let cardIndeces = cardIds.map { vm.getCardsIndex(of: $0) }.sorted { (i1, i2) -> Bool in
+            guard let i1, let i2 else { return false }
+            return i1 < i2
+        }
+        let cardColors = cardIndeces.map {
+            if let i = $0 {
+                return vm.cards[i].color.light
+            }
+            return Color.black
+        }
+
+        return (cardColors, t)
+    }
+    
+    
+    func flashTransaction(_ tId: UUID, _ remove: Bool) {
+        if (remove && floatingTransaction == nil) {
             return
         }
+        
+        let (cardColors, t) = getCardColorsAndTransaction(from: tId)
+        guard let cardColors = cardColors, let t = t, cardColors.count > 0 else {
+            floatingTransaction = nil
+            print("no transaction or card found to display")
+            return
+        }
+        
         withAnimation {
             setFloatingTransactionColor(t)
+            floatingTransaction = nil
             floatingTransaction = t
             floatingTransactionInfo.value = t.stringValue
+            floatingTransactionInfo.cardColors = cardColors
+            floatingTransactionInfo.uiFont = UIFont.rounded(ofSize: floatingTransaction?.boundingBox?.height ?? 30, weight: .semibold)
         }
         debouncedHideFloatingTransaction()
     }
@@ -60,6 +90,7 @@ struct FloatingTransactionView: View {
             floatingTransactionInfo.value = String(t.value)
             floatingTransactionInfo.center = false
             floatingTransaction = transaction
+            floatingTransactionInfo.uiFont = UIFont.rounded(ofSize: t.boundingBox?.height ?? 30, weight: .semibold)
         } else {
             // new transaction
             guard let point = point else { return }
@@ -77,7 +108,7 @@ struct FloatingTransactionView: View {
     
     
     func handleEmptyTap() {
-        if vm.previewDuration.timeInterval == nil {
+        if (vm.previewDuration == .tapAway) {
             withAnimation {
                 floatingTransaction = nil
             }
@@ -90,25 +121,19 @@ struct FloatingTransactionView: View {
         if let t = transaction, let card = vm.getFirstChosencardOfTransaction(t) {
             let cards = vm.getChosencardsOfTransaction(t)
             if let firstactiveCard = firstactiveCard, cards.contains(firstactiveCard) {
-                floatingTransactionInfo.color = firstactiveCard.color.light
-                floatingTransactionInfo.contrastColor = firstactiveCard.color.contrast
-                floatingTransactionInfo.darkColor = firstactiveCard.color.dark
+                floatingTransactionInfo.color = firstactiveCard.color
             } else {
-                floatingTransactionInfo.color = card.color.light
-                floatingTransactionInfo.contrastColor = card.color.contrast
-                floatingTransactionInfo.darkColor = card.color.dark
+                floatingTransactionInfo.color = card.color
             }
         } else {
-            floatingTransactionInfo.color = firstactiveCard?.color.light ?? Color(vm.markerColor ?? .gray)
-            floatingTransactionInfo.contrastColor = firstactiveCard?.color.contrast ?? .white
-            floatingTransactionInfo.darkColor = firstactiveCard?.color.dark ?? Color(vm.markerColor ?? .black)
+            floatingTransactionInfo.color = firstactiveCard?.color ?? CardColor.get(.neutralGray)
         }
     }
     
     
-    func handleFreeformTransaction() {
+    func handleFreeformTransaction(updatedTransaction: Transaction? = nil) {
         withAnimation {
-            if let value = Double.parse(from: floatingTransactionInfo.value), var transaction = floatingTransaction {
+            if let value = Double.parse(from: floatingTransactionInfo.value), var transaction = updatedTransaction ?? floatingTransaction {
                 transaction.value = value
                 let hitCard = vm.getFirstChosencardOfTransaction(transaction)
                 if (hitCard != nil || vm.hasTransaction(transaction)) {
@@ -118,6 +143,9 @@ struct FloatingTransactionView: View {
                     let t = vm.createNewTransaction(value: value, boundingBox: box)
                     vm.linkTransactionToActiveCards(t)
                 }
+                try? transaction.refreshShares()
+                self.floatingTransaction = nil // value doesn't update otherwise
+                self.floatingTransaction = transaction
             }
             debouncedHideFloatingTransaction()
         }
@@ -125,6 +153,7 @@ struct FloatingTransactionView: View {
     
     
     func handleSizeChange(_ size: CGSize) {
+        if (floatingTransaction == nil) { return }
         withAnimation {
             floatingTransactionInfo.width = size.width
             floatingTransactionInfo.padding = size.height * 0.2
@@ -154,20 +183,18 @@ struct FloatingTransactionView: View {
                             floatingTransactionDisappearTimer?.invalidate()
                         }
                     },
-                    accentColor: UIColor(floatingTransactionInfo.color),
-                    bgColor: UIColor(floatingTransactionInfo.darkColor),
-                    textColor: UIColor(floatingTransactionInfo.contrastColor),
-                    font: UIFont.systemFont(ofSize: floatingTransaction?.boundingBox?.height ?? 30)
+                    accentColor: floatingTransactionInfo.color.uiColorFont,
+                    bgColor: UIColor(floatingTransactionInfo.color.dark),
+                    textColor: UIColor(floatingTransactionInfo.color.contrast),
+                    font: floatingTransactionInfo.uiFont
                 )
                 .keyboardType(.numbersAndPunctuation)
                 .submitLabel(.done)
                 .disableAutocorrection(true)
-                .onSizeChange(handleSizeChange)
                 .fixedSize()
                 .focused($floatingTransactionIsFocused)
             } else {
                 Text(floatingTransactionInfo.value)
-                    .onSizeChange(handleSizeChange)
                     .onTapGesture {
                         floatingTransactionInfo.editable = true
                         floatingTransactionIsFocused = true
@@ -181,9 +208,17 @@ struct FloatingTransactionView: View {
     var body: some View {
         ZStack {
             if (floatingTransaction != nil) {
-                FloatingTransactionTextField
-                    .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                    .zIndex(1)
+                HStack {
+                    if (floatingTransaction?.shares.count ?? 0 > 1) {
+                        EditableShares(vm, $floatingTransactionInfo, $floatingTransaction, handleTransactionChange: self.handleFreeformTransaction)
+                    }
+                    FloatingTransactionTextField
+                }
+                .onSizeChange(handleSizeChange)
+                .accentColor(.white)
+                .foregroundColor(floatingTransactionInfo.color.contrast)
+                .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30), weight: .semibold, design: .rounded))
+                .floatingTransactionPosition(floatingTransaction, floatingTransactionInfo)
             }
         }
         .onAppear {
@@ -191,45 +226,74 @@ struct FloatingTransactionView: View {
             vm.onFlashTransaction = self.flashTransaction
             vm.onEmptyTap = self.handleEmptyTap
         }
+        .onChange(of: vm.image) { _ in
+            floatingTransaction = nil
+        }
     }
 }
 
 struct FloatingTransactionInfo {
-    init(center: Bool, width: CGFloat?, value: String, color: Color, contrastColor: Color, darkColor: Color) {
+    init(center: Bool, width: CGFloat?, value: String, color: ColorKeys, cardColors: [Color] = []) {
         self.center = center
         self.width = width
         self.value = value
-        self.color = color
-        self.contrastColor = contrastColor
-        self.darkColor = darkColor
+        self.cardColors = cardColors
+        self.colorKey = color
     }
+    
     var center: Bool
     var width: CGFloat?
     var padding: CGFloat = 0
     var value: String
-    var color: Color
-    var contrastColor: Color
-    var darkColor: Color
+    var colorKey: ColorKeys
     var editable = false
+    var cardColors: [Color]
+    var uiFont: UIFont = UIFont.rounded(ofSize: 20, weight: .semibold)
+    
+    var color: CardColor {
+        get {
+            CardColor.get(colorKey)
+        }
+        set {
+            self.colorKey = newValue.id
+        }
+    }
 }
+
 
 
 extension View {
     func floatingTransactionModifier(_ floatingTransaction: Transaction?, _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
         self
-            .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30)))
-            .animation(nil, value: UUID())
-            .accentColor(.white)
-            .foregroundColor(floatingTransactionInfo.contrastColor)
             .padding(.horizontal, floatingTransactionInfo.padding)
-            .background(floatingTransactionInfo.color)
-            .clipShape(RoundedRectangle(cornerRadius: floatingTransaction?.boundingBox?.cornerRadius ?? floatingTransaction?.boundingBox?.minX ?? 0))
+            .floatingTransactionBackground(floatingTransaction, floatingTransactionInfo)
+    }
+    
+    func floatingTransactionPosition(_ floatingTransaction: Transaction?, _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
+        self
             .position(x: floatingTransactionInfo.center
                           ? floatingTransaction?.boundingBox?.midX ?? 0
                           : (floatingTransaction?.boundingBox?.minX ?? 0)
                                 - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
-                                - floatingTransactionInfo.padding * 3,
+                                - floatingTransactionInfo.padding * 2,
                       y: floatingTransaction?.boundingBox?.midY ?? 0)
+    }
+    
+    func floatingTransactionBackground(_ floatingTransaction: Transaction?, _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
+        self
+            .background(
+                GeometryReader { geometry in
+                    ZStack {
+                        ForEach(floatingTransactionInfo.cardColors, id: \.self) { color in
+                            Rectangle()
+                                .fill(color)
+                                .frame(width: geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count), height: geometry.size.height)
+                                .offset(x: CGFloat(floatingTransactionInfo.cardColors.firstIndex(of: color)!) * (geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count)), y: 0)
+                        }
+                    }
+                }
+            )
+            .clipShape(RoundedRectangle(cornerRadius: floatingTransaction?.boundingBox?.cornerRadius ?? floatingTransaction?.boundingBox?.minX ?? 0))
     }
     
     func onSizeChange(_ onSizeChange: @escaping (_ size: CGSize) -> Void) -> some View {
@@ -254,3 +318,5 @@ struct ViewSizeKey: PreferenceKey {
         value = nextValue()
     }
 }
+
+

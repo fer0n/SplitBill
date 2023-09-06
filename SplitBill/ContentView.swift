@@ -77,11 +77,12 @@ struct ContentView: View {
             if (!vm.hasActiveCards) { return }
             if (vm.transactionLinkedInAllActiveCards(transaction)) {
                 vm.removeTransaction(transaction.id, from: vm.activeCardsIds)
+                vm.flashTransaction(transaction.id, remove: true)
             } else {
-                if (vm.flashTransactionValue) {
-                    vm.flashTransaction(transaction)
-                }   
                 vm.linkTransactionToActiveCards(transaction)
+                if (vm.flashTransactionValue) {
+                    vm.flashTransaction(transaction.id)
+                }
             }
         }
     }
@@ -91,9 +92,13 @@ struct ContentView: View {
         return vm.lastTapWasHitting
     }
     
+    func onGestureHasBegun() -> Void {
+        vm.emptyTapTimer?.invalidate()
+    }
+    
 
     var LiveTextImage: some View {
-        ZoomableScrollView(contentPadding: zoomBufferPadding, ignoreTapsAt: self.ignoreTapsAt, contentChanged: vm.contentChanged) {
+        ZoomableScrollView(contentPadding: zoomBufferPadding, ignoreTapsAt: self.ignoreTapsAt, onGestureHasBegun: self.onGestureHasBegun, contentChanged: vm.contentChanged) {
             ZStack {
                 LiveTextInteraction(vm: vm)
                 FloatingTransactionView(vm: vm)

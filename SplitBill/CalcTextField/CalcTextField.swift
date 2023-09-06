@@ -21,7 +21,6 @@ struct CalcTextField: UIViewRepresentable {
     var textColor: UIColor
     var font: UIFont
     var alignment: NSTextAlignment
-    let isPadded: Bool? = false
     
     init(_ placeholder: String,
          text: Binding<String>,
@@ -31,8 +30,7 @@ struct CalcTextField: UIViewRepresentable {
          bgColor: UIColor,
          textColor: UIColor,
          font: UIFont = .rounded(ofSize: 18, weight: .medium),
-         alignment: NSTextAlignment = .left,
-         isPadded: Bool = false) {
+         alignment: NSTextAlignment = .left) {
         self.placeholder = placeholder
         self._text = text
         self.onSubmit = onSubmit
@@ -42,11 +40,11 @@ struct CalcTextField: UIViewRepresentable {
         self.textColor = textColor
         self.font = font
         self.alignment = alignment
-        self.textField = isPadded ? PaddedUITextField() : UITextField()
+        self.textField = UITextField()
     }
         
     func makeUIView(context: UIViewRepresentableContext<CalcTextField>) -> UITextField {
-        let keyboardView = CalcKeyboard(frame: CGRect(x: 0, y: 0, width: 0, height: 350))
+        let keyboardView = CalcKeyboard(frame: CGRect(x: 0, y: 0, width: 0, height: 320))
         let delegate = VC_CalcKeyboard()
         delegate.textField = self.textField
         delegate.onSubmit = self.onSubmit
@@ -102,22 +100,3 @@ struct CalcTextField: UIViewRepresentable {
         }
     }
 }
-
-
-
-@IBDesignable
-class PaddedUITextField: UITextField {
-    @IBInspectable var insetX: CGFloat = 5
-    @IBInspectable var insetY: CGFloat = 0
-
-    // placeholder position
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: insetX, dy: insetY)
-    }
-
-    // text position
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: insetX, dy: insetY)
-    }
-}
-

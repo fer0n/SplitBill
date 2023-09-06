@@ -66,10 +66,11 @@ struct SingleCardView: View {
                                   newTransactionValue = ""
                               }
                           },
-                          accentColor: UIColor(card.color.light),
+                          accentColor: card.color.uiColorFont,
                           bgColor: UIColor(card.color.dark),
-                          textColor: UIColor(card.color.contrast),
-                          isPadded: true)
+                          textColor: UIColor(card.color.contrast)
+            )
+            .padding(.horizontal, 5)
                 .gridColumnAlignment(t.label != nil ? .trailing : .leading)
                 .lineLimit(1)
                 .fixedSize()

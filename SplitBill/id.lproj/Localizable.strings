@@ -15,7 +15,7 @@
 "selectImage" = "Pilih gambar";
 "openScanner" = "Buka pemindai";
 "replaceImage" = "Gambar baru tersedia, ganti yang sekarang?";
-"replaceNo" = "Pertahankan gambar saat ini";
+"replaceNo" = "Tetap gunakan gambar ini";
 "replaceYes" = "Gunakan gambar baru";
 
 // CardModel
@@ -73,8 +73,8 @@
 "errorMessage" = "Silakan coba lagi atau impor gambar dari dalam aplikasi";
 
 // Alerts
-"cannotEditShare" = "Pembagian tidak dapat diedit";
-"lastShareCannotBeAdjustedManually" = "Semua pembagian harus mencapai nilai total, dan semua pembagian lainnya telah diatur ulang secara manual. Anda dapat mengedit nilai total atau mengubah/mengatur ulang pembagian lainnya untuk menyesuaikan ini.";
+"cannotEditShare" = "Bagian tidak dapat diedit";
+"lastShareCannotBeAdjustedManually" = "Semua bagian harus mencapai nilai total, dan semua bagian lainnya telah diatur ulang secara manual. Anda dapat mengedit nilai total atau mengubah/mengatur ulang bagian lainnya untuk menyesuaikan ini.";
 "numberTooLargeTitle" = "Angka yang dipilih terlalu besar";
 "numberTooLargeMessage" = "Angka mungkin dikenali dengan tidak benar. Tekan lama pada item untuk mengoreksinya.";
 "unknown" = "Terjadi kesalahan yang tidak diketahui";

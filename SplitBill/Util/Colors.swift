@@ -38,45 +38,53 @@ struct CardColor {
     let light: Color
     let font: Color
     var contrast: Color = .white
+    let uiColorFont: UIColor
     
     static func get(_ id: ColorKeys) -> CardColor {
         switch(id) {
             case .neutralDark:
                 let colorFont = Color("cardDarkFont")
+                let uiColorFont = UIColor(named: "cardDarkFont")
                 let color = Color("cardDark")
-            return CardColor(id: .neutralDark, dark: color, light: Color.black, font: colorFont)
+            return CardColor(id: .neutralDark, dark: color, light: Color.black, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
             case .neutralGray:
-            return CardColor(id: .neutralGray, dark: Color.gray, light: Color.white, font: Color.foregroundColor, contrast: .black)
+            return CardColor(id: .neutralGray, dark: Color.gray, light: Color.gray, font: Color.white, contrast: .white, uiColorFont: UIColor(named: "ForegroundColor") ?? UIColor(Color.white))
             case .cardBlue:
                 let color = Color("cardBlue")
                 let colorFont = Color("cardBlueFont")
+                let uiColorFont = UIColor(named: "cardBlueFont")
                 let colorLight = Color("cardBlueLight")
-                return CardColor(id: .cardBlue, dark: color, light: colorLight, font: colorFont)
+                return CardColor(id: .cardBlue, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
             case .cardYellow:
                 let color = Color("cardYellow")
                 let colorLight = Color("cardYellowLight")
+                let uiColorFont = UIColor(named: "cardYellowFont")
                 let colorFont = Color("cardYellowFont")
-                return CardColor(id: .cardYellow, dark: color, light: colorLight, font: colorFont)
+                return CardColor(id: .cardYellow, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
             case .cardRed:
                 let color = Color("cardRed")
                 let colorFont = Color("cardRedFont")
+                let uiColorFont = UIColor(named: "cardRedFont")
                 let colorLight = Color("cardRedLight")
-                return CardColor(id: .cardRed, dark: color, light: colorLight, font: colorFont)
+                return CardColor(id: .cardRed, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
             case .cardLightBlue:
                 let color = Color("cardLightBlue")
                 let colorFont = Color("cardLightBlueFont")
+                let uiColorFont = UIColor(named: "cardLightBlueFont")
                 let colorLight = Color("cardLightBlueLight")
-                return CardColor(id: .cardLightBlue, dark: color, light: colorLight, font: colorFont)
+                return CardColor(id: .cardLightBlue, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
             case .cardEmerald:
                 let color = Color("cardEmerald")
                 let colorLight = Color("cardEmeraldLight")
+                let uiColorFont = UIColor(named: "cardEmeraldFont")
                 let colorFont = Color("cardEmeraldFont")
-                return CardColor(id: .cardEmerald, dark: color, light: colorLight, font: colorFont)
+                return CardColor(id: .cardEmerald, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
             case .cardThistle:
                 let color = Color("cardThistle")
                 let colorFont = Color("cardThistleFont")
+                let uiColorFont = UIColor(named: "cardThistleFont")
                 let colorLight = Color("cardThistleLight")
-                return CardColor(id: .cardThistle, dark: color, light: colorLight, font: colorFont)
+                return CardColor(id: .cardThistle, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
         }
     }
 }

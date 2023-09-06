@@ -17,19 +17,16 @@ enum ZoomGestureStatus {
 }
 
 class OneHandedZoomGestureRecognizer: UIGestureRecognizer {
+    public static var doubleTapGestureThreshold: CFTimeInterval = 0.3
+    
     var ignoreTapsAt: ((_ point: CGPoint) -> Bool)?
     
     private var lastTouchTime:CFTimeInterval = CACurrentMediaTime()
     private(set) var status = ZoomGestureStatus.unknown
-    private(set) var doubleTapGestureThreshold: CFTimeInterval = 0.3
     private(set) var locationTapThreshold: Float = 15
     private var lastTapLocation: CGPoint? = nil
     
     var yOffset: CGFloat = 0
-    
-    func setThreshold(threshold:CFTimeInterval) {
-        self.doubleTapGestureThreshold = threshold
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
         let currentTime = CACurrentMediaTime()
@@ -38,7 +35,7 @@ class OneHandedZoomGestureRecognizer: UIGestureRecognizer {
         
         let timeDiff: CFTimeInterval = currentTime - lastTouchTime
         
-        if status == .TouchUp, timeDiff < doubleTapGestureThreshold,
+        if status == .TouchUp, timeDiff < OneHandedZoomGestureRecognizer.doubleTapGestureThreshold,
             let location = location,
             let lastTapLocation = lastTapLocation {
             let distDiff = hypotf(Float((location.x - lastTapLocation.x)), Float((location.y - lastTapLocation.y)));

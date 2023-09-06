@@ -16,7 +16,7 @@ class ContentViewModel: ObservableObject {
     @Published var contentChanged = PassthroughSubject<Void, Never>()
     @Published var isLoadingCounter: Int = 0
     
-    @AppStorage("previewDuration") var previewDuration: PreviewDuration = .medium
+    @AppStorage("previewDuration") var previewDuration: PreviewDuration = .tapAway
     @AppStorage("flashTransactionValue") var flashTransactionValue: Bool = true
     @AppStorage("transactions") var encodedTransactions: Data?
         
@@ -29,15 +29,17 @@ class ContentViewModel: ObservableObject {
     weak var alerter: Alerter?
     weak var undoManager: UndoManager?
     var markerColor: UIColor? = nil
+    var imageIsLight: Bool = true
     var lineWidth: CGFloat? = nil
     var imageIsHeic = false
     
     var observations: [VNRecognizedTextObservation] = []
     var onTransactionTap: ((_ transaction: Transaction) -> Void)?
-    var onFlashTransaction: ((_ transaction: Transaction) -> Void)?
+    var onFlashTransaction: ((_ transactionId: UUID, _ remove: Bool) -> Void)?
     var onImageLongPress: ((_ transaction: Transaction?, _ point: CGPoint?) -> Void)?
     var generateExportImage: (() async throws -> UIImage?)?
     var onEmptyTap: (() -> Void)?
+    var emptyTapTimer: Timer? = nil
     
     var lastTapWasHitting = false
     var previouslyActiveCardsIds: Set<UUID> = []
@@ -656,6 +658,13 @@ class ContentViewModel: ObservableObject {
         return cardsIndexLookup[cardId]
     }
     
+    func getCardCopy(of cardId: UUID) -> Card? {
+        if let index = getCardsIndex(of: cardId) {
+            return cards[index]
+        }
+        return nil
+    }
+    
     func setCardColor(_ card: Card, color: ColorKeys) {
         if let index = getCardsIndex(of: card.id) {
             cards[index].colorKey = color
@@ -706,7 +715,8 @@ class ContentViewModel: ObservableObject {
         
         DispatchQueue.main.async {
             let averageColorOfImage = image.averageColor
-            self.markerColor = averageColorOfImage?.isLight() ?? false ? .black : .white
+            self.imageIsLight = averageColorOfImage?.isLight() ?? true
+            self.markerColor = self.imageIsLight ? .black : .white
         }
         self.isLoadingCounter -= 1
     }
@@ -812,15 +822,18 @@ class ContentViewModel: ObservableObject {
         return CGRect(x: 0, y: 0, width: medianWidth, height: medianHeight)
     }
     
-    func flashTransaction(_ transaction: Transaction) {
-        self.onFlashTransaction?(transaction)
+    func flashTransaction(_ transactionId: UUID, remove: Bool = false) {
+        self.onFlashTransaction?(transactionId, remove)
     }
     
     func handleTap(at point: CGPoint) {
         guard let t = getTransaction(at: point),
               let onTap = onTransactionTap else {
             lastTapWasHitting = false
-            self.onEmptyTap?()
+            emptyTapTimer = Timer.scheduledTimer(withTimeInterval: OneHandedZoomGestureRecognizer.doubleTapGestureThreshold, repeats: false) { _ in
+                // Wait to see if the empty tap is just the inital zoom gesture tap
+                self.onEmptyTap?()
+            }
             return
         }
         lastTapWasHitting = true

@@ -26,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="aKp-MW-OT0">
-                    <rect key="frame" x="5" y="35" width="404" height="701"/>
+                    <rect key="frame" x="5" y="30" width="404" height="701"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" distribution="fillEqually" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fpI-hy-Rlz">
                             <rect key="frame" x="0.0" y="0.0" width="404" height="136.33333333333334"/>
@@ -472,9 +472,9 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemGray6Color"/>
             <constraints>
-                <constraint firstItem="aKp-MW-OT0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="6FI-pg-im8"/>
+                <constraint firstItem="aKp-MW-OT0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="6FI-pg-im8"/>
                 <constraint firstItem="aKp-MW-OT0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="cC1-a8-yji"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="aKp-MW-OT0" secondAttribute="bottom" id="nFy-ya-Zrl"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="aKp-MW-OT0" secondAttribute="bottom" constant="5" id="nFy-ya-Zrl"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="aKp-MW-OT0" secondAttribute="trailing" constant="5" id="ygu-fB-SO4"/>
             </constraints>
             <point key="canvasLocation" x="88" y="64"/>

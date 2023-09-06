@@ -11,7 +11,7 @@ import SwiftUI
 
 
 // MARK: Share
-struct Share: Codable {
+struct Share: Codable, Hashable {
     var value: Double? = nil
     var manuallyAdjusted: Bool = false
     var cardId: UUID

@@ -24,6 +24,7 @@
 		88677493291C3340002C675C /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677492291C3340002C675C /* CardsView.swift */; };
 		88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88677494291C3C17002C675C /* ZoomableScrollView.swift */; };
 		8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8875AE9A29433E3C0077FFA8 /* ScannerView.swift */; };
+		88776E6C2AA85032009E683E /* EditableShares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88776E6B2AA85032009E683E /* EditableShares.swift */; };
 		887E09642924311C00A6A116 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887E09632924311C00A6A116 /* CardModel.swift */; };
 		8883975A2AA45C13004D0722 /* CalcTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397562AA45C13004D0722 /* CalcTextField.swift */; };
 		8883975B2AA45C13004D0722 /* CalcKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 888397572AA45C13004D0722 /* CalcKeyboard.xib */; };
@@ -122,6 +123,7 @@
 		88677492291C3340002C675C /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		88677494291C3C17002C675C /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		8875AE9A29433E3C0077FFA8 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		88776E6B2AA85032009E683E /* EditableShares.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableShares.swift; sourceTree = "<group>"; };
 		887E09632924311C00A6A116 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		888397562AA45C13004D0722 /* CalcTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcTextField.swift; sourceTree = "<group>"; };
 		888397572AA45C13004D0722 /* CalcKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalcKeyboard.xib; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				888495B3291E6E4400AB74D7 /* ContentViewModel.swift */,
 				BDD13231285217CA00C69619 /* ContentView.swift */,
 				88EA86082A825334004F2332 /* FloatingTransaction.swift */,
+				88776E6B2AA85032009E683E /* EditableShares.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
 				88D5AC622A90DB2500879893 /* SingleCardView.swift */,
 				888495B5291FDD4700AB74D7 /* EditCardsView.swift */,
@@ -497,6 +500,7 @@
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
 				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
 				88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */,
+				88776E6C2AA85032009E683E /* EditableShares.swift in Sources */,
 				88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */,
 				888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */,
 				88523CA02A93F77B002AFEA6 /* NSExpression.swift in Sources */,
@@ -566,7 +570,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 66;
+				CURRENT_PROJECT_VERSION = 70;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -578,7 +582,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -595,7 +599,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 66;
+				CURRENT_PROJECT_VERSION = 70;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -607,7 +611,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -820,7 +824,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 66;
+				CURRENT_PROJECT_VERSION = 70;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -838,7 +842,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -863,7 +867,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 66;
+				CURRENT_PROJECT_VERSION = 70;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -881,7 +885,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

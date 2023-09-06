@@ -27,17 +27,19 @@ struct ZoomableScrollView<Content: View>: View {
     let content: Content
     let contentPadding: CGFloat
     let ignoreTapsAt: (CGPoint) -> Bool
+    let onGestureHasBegun: () -> Void
     weak var contentChanged: PassthroughSubject<Void, Never>?
     
-    init(contentPadding: CGFloat, ignoreTapsAt: @escaping (CGPoint) -> Bool, contentChanged: PassthroughSubject<Void, Never>, @ViewBuilder content: () -> Content) {
+    init(contentPadding: CGFloat, ignoreTapsAt: @escaping (CGPoint) -> Bool, onGestureHasBegun: @escaping () -> Void, contentChanged: PassthroughSubject<Void, Never>, @ViewBuilder content: () -> Content) {
         self.content = content()
         self.ignoreTapsAt = ignoreTapsAt
         self.contentPadding = contentPadding
         self.contentChanged = contentChanged
+        self.onGestureHasBegun = onGestureHasBegun
     }
         
     var body: some View {
-        ZoomableScrollViewImpl(content: content, contentPadding: contentPadding, ignoreTapsAt: self.ignoreTapsAt, contentChanged: contentChanged?.eraseToAnyPublisher())
+        ZoomableScrollViewImpl(content: content, contentPadding: contentPadding, ignoreTapsAt: self.ignoreTapsAt, onGestureHasBegun: self.onGestureHasBegun, contentChanged: contentChanged?.eraseToAnyPublisher())
     }
 }
 
@@ -47,11 +49,12 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
   let content: Content
   let contentPadding: CGFloat
   let ignoreTapsAt: (CGPoint) -> Bool
+  let onGestureHasBegun: () -> Void
   let contentChanged: AnyPublisher<Void, Never>?
 
     
   func makeUIViewController(context: Context) -> ViewController {
-      return ViewController(coordinator: context.coordinator, contentPadding: contentPadding, ignoreTapsAt: self.ignoreTapsAt, contentChanged: contentChanged)
+      return ViewController(coordinator: context.coordinator, contentPadding: contentPadding, ignoreTapsAt: self.ignoreTapsAt, onGestureHasBegun: self.onGestureHasBegun, contentChanged: contentChanged)
   }
 
   func makeCoordinator() -> Coordinator {
@@ -69,6 +72,7 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
     let coordinator: Coordinator
     private var oldZoomScale: CGFloat?
     let scrollView = CenteringScrollView()
+    let onGestureHasBegun: () -> Void
 
     var requestZoomAndScrollReset: Bool = false
     var contentChangedCancellable: Cancellable?
@@ -82,9 +86,10 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
     }
 
     required init?(coder: NSCoder) { fatalError() }
-      init(coordinator: Coordinator, contentPadding: CGFloat, ignoreTapsAt: @escaping (CGPoint) -> Bool, contentChanged: AnyPublisher<Void, Never>?) {
+      init(coordinator: Coordinator, contentPadding: CGFloat, ignoreTapsAt: @escaping (CGPoint) -> Bool, onGestureHasBegun: @escaping () -> Void, contentChanged: AnyPublisher<Void, Never>?) {
       self.coordinator = coordinator
       self.contentPadding = contentPadding
+      self.onGestureHasBegun = onGestureHasBegun
       super.init(nibName: nil, bundle: nil)
       self.view = scrollView
         
@@ -120,6 +125,7 @@ fileprivate struct ZoomableScrollViewImpl<Content: View>: UIViewControllerRepres
       
       @objc func handleZoomGesture(_ sender: OneHandedZoomGestureRecognizer) {
           if (sender.state == .began) {
+              self.onGestureHasBegun()
               oldZoomScale = scrollView.zoomScale
           } else if (sender.state == .changed) {
               guard let oldZoomScale = oldZoomScale else { return }
