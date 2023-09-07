@@ -60,16 +60,15 @@ struct CalcTextField: UIViewRepresentable {
         textField.addTarget(context.coordinator,
                             action: #selector(context.coordinator.textChanged),
                             for: .editingChanged)
-
         return textField
     }
 
     func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<CalcTextField>) {
+        uiView.font = self.font
+        uiView.textColor = self.textColor
         if uiView.text != text {
             uiView.text = text
         }
-
-        uiView.textColor = self.textColor
     }
 
     func makeCoordinator() -> CalcTextField.Coordinator {

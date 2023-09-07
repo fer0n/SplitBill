@@ -56,13 +56,11 @@ struct FloatingTransactionView: View {
             }
         }
         floatingTransactionInfo.center = false
-        floatingTransactionInfo.editable = false
     }
 
     func handleTransactionLongPress(_ transaction: Transaction?, _ point: CGPoint?) {
         withAnimation {
             setFloatingTransactionColor(transaction)
-            floatingTransactionInfo.editable = true
             floatingTransactionIsFocused = true
             if let transaction = transaction {
                 // edit existing transaction
@@ -163,43 +161,32 @@ struct FloatingTransactionView: View {
 
     var floatingTransactionTextField: some View {
         ZStack {
-            if floatingTransactionInfo.editable {
-                CalcTextField(
-                    "",
-                    text: $floatingTransactionInfo.value,
-                    onSubmit: { result in
-                        guard let res = result else {
-                            self.attempts += 1
-                            return
-                        }
-                        if res != 0 {
-                            floatingTransactionInfo.value = String(res)
-                        }
-                    },
-                    onEditingChanged: { edit in
-                        if !edit {
-                            handleFreeformTransaction()
-                        } else {
-                            floatingTransactionDisappearTimer?.invalidate()
-                        }
-                    },
-                    accentColor: floatingTransactionInfo.color.uiColorFont,
-                    bgColor: UIColor(floatingTransactionInfo.color.dark),
-                    textColor: UIColor(floatingTransactionInfo.color.contrast),
-                    font: floatingTransactionInfo.uiFont
-                )
-                .keyboardType(.numbersAndPunctuation)
-                .submitLabel(.done)
-                .disableAutocorrection(true)
-                .fixedSize()
-                .focused($floatingTransactionIsFocused)
-            } else {
-                Text(floatingTransactionInfo.value)
-                    .onTapGesture {
-                        floatingTransactionInfo.editable = true
-                        floatingTransactionIsFocused = true
+            CalcTextField(
+                "",
+                text: $floatingTransactionInfo.value,
+                onSubmit: { result in
+                    guard let res = result else {
+                        self.attempts += 1
+                        return
                     }
-            }
+                    if res != 0 {
+                        floatingTransactionInfo.value = String(res)
+                    }
+                },
+                onEditingChanged: { edit in
+                    if !edit {
+                        handleFreeformTransaction()
+                    } else {
+                        floatingTransactionDisappearTimer?.invalidate()
+                    }
+                },
+                accentColor: floatingTransactionInfo.color.uiColorFont,
+                bgColor: UIColor(floatingTransactionInfo.color.dark),
+                textColor: UIColor(floatingTransactionInfo.color.contrast),
+                font: floatingTransactionInfo.uiFont
+            )
+            .fixedSize()
+            .focused($floatingTransactionIsFocused)
         }
         .floatingTransactionModifier(floatingTransaction, floatingTransactionInfo)
         .modifier(Shake(animatableData: CGFloat(self.attempts)))
@@ -211,12 +198,14 @@ struct FloatingTransactionView: View {
 
         ZStack {
             if floatingTransaction != nil {
-                HStack {
+                HStack(alignment: .center, spacing: 0) {
                     if floatingTransaction?.shares.count ?? 0 > 1 {
                         EditableShares(cvm,
                                        $floatingTransactionInfo,
                                        $floatingTransaction,
                                        handleTransactionChange: self.handleFreeformTransaction)
+                        Spacer()
+                            .frame(width: padding)
                     }
                     floatingTransactionTextField
                 }

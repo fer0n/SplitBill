@@ -113,7 +113,7 @@ struct ShareTextField: View {
     var body: some View {
         let padding = floatingTransactionInfo.padding
 
-        HStack {
+        HStack(alignment: .center, spacing: 0) {
             if share.manuallyAdjusted {
                 Image(systemName: "arrow.uturn.backward")
                     .onTapGesture {
@@ -122,7 +122,7 @@ struct ShareTextField: View {
                     .padding(.leading, padding / 2)
                 Divider()
                     .overlay(card.color.contrast)
-                    .padding(.vertical, padding / 2)
+                    .padding(padding / 2)
             } else {
                 Spacer()
                     .frame(width: padding)
