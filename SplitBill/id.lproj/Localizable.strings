@@ -54,7 +54,7 @@
 "short" = "Singkat";
 "medium" = "Sedang";
 "long" = "Panjang";
-"tapAway" = "Dengan Mengetuk";
+"tapAway" = "Sampai Anda ketuk di luar";
 
 // ButtonsOverlayView
 "clearImage" = "Hapus gambar";

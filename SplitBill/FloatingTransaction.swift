@@ -204,11 +204,13 @@ struct FloatingTransactionView: View {
                                        $floatingTransactionInfo,
                                        $floatingTransaction,
                                        handleTransactionChange: self.handleFreeformTransaction)
+                        .id("edit-shares")
                         Spacer()
                             .frame(width: padding)
                     }
                     floatingTransactionTextField
                 }
+                .id("editableShares")
                 .padding(padding)
                 .background(
                     Color.black.opacity(0)

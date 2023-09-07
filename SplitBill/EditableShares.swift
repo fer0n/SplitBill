@@ -78,22 +78,24 @@ struct EditableShares: View {
                                    floatingTransactionInfo: $floatingTransactionInfo,
                                    shareValue: String(share.value ?? 0),
                                    editShare: self.editShare)
+                    .id(share.cardId)
                 }
                 if share.cardId != shares.last?.cardId {
                     Image(systemName: "plus")
                         .padding(padding)
                         .environment(\.colorScheme, colorScheme)
+                        .id("\(share.cardId)-plus")
                 }
             }
             if shares.count > 0 {
                 Image(systemName: "equal")
                     .padding(.leading, padding)
                     .environment(\.colorScheme, colorScheme)
+                    .id("equal")
             }
         }
         .font(.system(size: ((floatingTransaction?.boundingBox?.height ?? 30) / 1.5),
                       weight: .semibold, design: .rounded))
-        .animation(nil, value: UUID())
         .foregroundColor(.foregroundColor)
     }
 }
