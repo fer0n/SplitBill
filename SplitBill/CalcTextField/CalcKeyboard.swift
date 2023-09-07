@@ -24,7 +24,7 @@ class CalcKeyboard: UIView {
     var initialDeleteTimer: Timer?
     var continuousDeleteTimer: Timer?
 
-    // MARK:- keyboard initialization
+    // MARK: - keyboard initialization
     required init?(coder aDecoder: NSCoder) {
         self.accentColor = UIColor.systemBlue
         self.bgColor = UIColor.systemBlue
@@ -38,20 +38,21 @@ class CalcKeyboard: UIView {
         super.init(frame: frame)
         initializeSubviews()
     }
-    
+
     func setAccentColor(color: UIColor,
                         bgColor: UIColor) {
         self.accentColor = color
         self.bgColor = bgColor
     }
-    
+
     func initializeSubviews() {
         let xibFileName = "CalcKeyboard" // xib extention not included
-        let view = Bundle.main.loadNibNamed(xibFileName, owner: self, options: nil)![0] as! UIView
-        self.addSubview(view)
-        view.frame = self.bounds
+        if let view = Bundle.main.loadNibNamed(xibFileName, owner: self, options: nil)![0] as? UIView {
+            self.addSubview(view)
+            view.frame = self.bounds
+        }
     }
-    
+
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         if newWindow == nil {
@@ -64,24 +65,26 @@ class CalcKeyboard: UIView {
 
     @objc func startContinuousDelete() {
         self.delegate?.keyWasTapped(action: .delete, character: "")
-        
+
         // Start the continuous delete timer for faster deletion
-        continuousDeleteTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(performDeleteAction), userInfo: nil, repeats: true)
+        continuousDeleteTimer = Timer.scheduledTimer(timeInterval: 0.1,
+                                                     target: self,
+                                                     selector: #selector(performDeleteAction),
+                                                     userInfo: nil,
+                                                     repeats: true)
     }
 
-    
     @objc func performDeleteAction() {
         self.delegate?.keyWasTapped(action: .delete, character: "")
     }
 
-    
     func updateColor() {
         let allSubViews = self.allSubviews
         for view in allSubViews {
             if let button = view as? UIButton {
                 switch button.tag {
                 case KeyboardAction.insertNumber.rawValue,
-                     KeyboardAction.point.rawValue:
+                    KeyboardAction.point.rawValue:
                     button.setTitleColor(self.accentColor, for: .normal)
                 default:
                     button.backgroundColor = self.bgColor
@@ -90,29 +93,34 @@ class CalcKeyboard: UIView {
         }
     }
 
-    @IBAction func TouchDown(_ sender: UIButton) {
+    @IBAction func touchDown(_ sender: UIButton) {
         switch sender.tag {
         case KeyboardAction.delete.rawValue:
             performDeleteAction()
-            initialDeleteTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(startContinuousDelete), userInfo: nil, repeats: false)
+            initialDeleteTimer = Timer.scheduledTimer(timeInterval: 0.5,
+                                                      target: self,
+                                                      selector: #selector(startContinuousDelete),
+                                                      userInfo: nil,
+                                                      repeats: false)
         default:
             return
         }
     }
-    
-    @IBAction func TouchUp(_ sender: UIButton) {
+
+    @IBAction func touchUp(_ sender: UIButton) {
         initialDeleteTimer?.invalidate()
         continuousDeleteTimer?.invalidate()
         initialDeleteTimer = nil
         continuousDeleteTimer = nil
     }
-    
-    // MARK:- Button actions from .xib file
-    @IBAction func CalcKeyboard(sender: UIButton) {
+
+    // MARK: - Button actions from .xib file
+    @IBAction func calcKeyboard(sender: UIButton) {
         // When a button is tapped, send that information to the
         // delegate (ie, the view controller)
         let text = sender.titleLabel?.text
-        self.delegate?.keyWasTapped(action: KeyboardAction(rawValue: sender.tag) ?? KeyboardAction.insertNumber, character: text ?? "")
+        self.delegate?.keyWasTapped(action: KeyboardAction(rawValue: sender.tag) ?? KeyboardAction.insertNumber,
+                                    character: text ?? "")
     }
 }
 

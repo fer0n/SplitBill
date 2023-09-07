@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 extension Color {
     static let mainColor = Color("MainColor")
     static let markerColor = Color("MarkerColor")
@@ -18,7 +17,6 @@ extension Color {
     static let exportCardBackground = Color("exportCardBackground")
     static let exportCardSeperator = Color("exportCardSeperator")
 }
-
 
 enum ColorKeys: Int, CaseIterable {
     case neutralDark
@@ -31,6 +29,11 @@ enum ColorKeys: Int, CaseIterable {
     case cardThistle
 }
 
+struct ColorInfo {
+    let dark: String
+    let light: String
+    let font: String
+}
 
 struct CardColor {
     var id: ColorKeys
@@ -39,52 +42,29 @@ struct CardColor {
     let font: Color
     var contrast: Color = .white
     let uiColorFont: UIColor
-    
+
+    static let colorInfo: [ColorKeys: ColorInfo] = [
+        .neutralDark: ColorInfo(dark: "cardDark", light: "cardDarkLight", font: "cardDarkFont"),
+        .neutralGray: ColorInfo(dark: "cardGray", light: "cardGrayLight", font: "cardGrayFont"),
+        .cardBlue: ColorInfo(dark: "cardBlue", light: "cardBlueLight", font: "cardBlueFont"),
+        .cardYellow: ColorInfo(dark: "cardYellow", light: "cardYellowLight", font: "cardYellowFont"),
+        .cardRed: ColorInfo(dark: "cardRed", light: "cardRedLight", font: "cardRedFont"),
+        .cardLightBlue: ColorInfo(dark: "cardLightBlue", light: "cardLightBlueLight", font: "cardLightBlueFont"),
+        .cardEmerald: ColorInfo(dark: "cardEmerald", light: "cardEmeraldLight", font: "cardEmeraldFont"),
+        .cardThistle: ColorInfo(dark: "cardThistle", light: "cardThistleLight", font: "cardThistleFont")
+    ]
+
     static func get(_ id: ColorKeys) -> CardColor {
-        switch(id) {
-            case .neutralDark:
-                let colorFont = Color("cardDarkFont")
-                let uiColorFont = UIColor(named: "cardDarkFont")
-                let color = Color("cardDark")
-            return CardColor(id: .neutralDark, dark: color, light: Color.black, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
-            case .neutralGray:
-            return CardColor(id: .neutralGray, dark: Color.gray, light: Color.gray, font: Color.white, contrast: .white, uiColorFont: UIColor(named: "ForegroundColor") ?? UIColor(Color.white))
-            case .cardBlue:
-                let color = Color("cardBlue")
-                let colorFont = Color("cardBlueFont")
-                let uiColorFont = UIColor(named: "cardBlueFont")
-                let colorLight = Color("cardBlueLight")
-                return CardColor(id: .cardBlue, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
-            case .cardYellow:
-                let color = Color("cardYellow")
-                let colorLight = Color("cardYellowLight")
-                let uiColorFont = UIColor(named: "cardYellowFont")
-                let colorFont = Color("cardYellowFont")
-                return CardColor(id: .cardYellow, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
-            case .cardRed:
-                let color = Color("cardRed")
-                let colorFont = Color("cardRedFont")
-                let uiColorFont = UIColor(named: "cardRedFont")
-                let colorLight = Color("cardRedLight")
-                return CardColor(id: .cardRed, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
-            case .cardLightBlue:
-                let color = Color("cardLightBlue")
-                let colorFont = Color("cardLightBlueFont")
-                let uiColorFont = UIColor(named: "cardLightBlueFont")
-                let colorLight = Color("cardLightBlueLight")
-                return CardColor(id: .cardLightBlue, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
-            case .cardEmerald:
-                let color = Color("cardEmerald")
-                let colorLight = Color("cardEmeraldLight")
-                let uiColorFont = UIColor(named: "cardEmeraldFont")
-                let colorFont = Color("cardEmeraldFont")
-                return CardColor(id: .cardEmerald, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
-            case .cardThistle:
-                let color = Color("cardThistle")
-                let colorFont = Color("cardThistleFont")
-                let uiColorFont = UIColor(named: "cardThistleFont")
-                let colorLight = Color("cardThistleLight")
-                return CardColor(id: .cardThistle, dark: color, light: colorLight, font: colorFont, uiColorFont: uiColorFont ?? UIColor(colorFont))
+        if let colorInfo = colorInfo[id] {
+            let darkColor = Color(colorInfo.dark)
+            let lightColor = Color(colorInfo.light)
+            let fontColor = Color(colorInfo.font)
+            let uiColorFont = UIColor(named: colorInfo.font) ?? UIColor(fontColor)
+
+            return CardColor(id: id, dark: darkColor, light: lightColor, font: fontColor, uiColorFont: uiColorFont)
+        } else {
+            print("Error: couldn't find color \(id)")
+            return CardColor(id: id, dark: .black, light: .white, font: .white, uiColorFont: .white)
         }
     }
 }

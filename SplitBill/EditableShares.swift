@@ -13,26 +13,29 @@ enum ShareEditType {
 }
 
 struct EditableShares: View {
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var cvm: ContentViewModel
     @Binding var floatingTransactionInfo: FloatingTransactionInfo
     @Binding var floatingTransaction: Transaction?
-    
+
     let handleTransactionChange: (_ updatedTransaction: Transaction) -> Void
-    
-    init(_ vm: ContentViewModel, _ floatingTransactionInfo: Binding<FloatingTransactionInfo>, _ floatingTransaction: Binding<Transaction?>, handleTransactionChange: @escaping (Transaction) -> Void) {
-        self.vm = vm
+
+    init(_ cvm: ContentViewModel,
+         _ floatingTransactionInfo: Binding<FloatingTransactionInfo>,
+         _ floatingTransaction: Binding<Transaction?>,
+         handleTransactionChange: @escaping (Transaction) -> Void) {
+        self.cvm = cvm
         self._floatingTransactionInfo = floatingTransactionInfo
         self._floatingTransaction = floatingTransaction
         self.handleTransactionChange = handleTransactionChange
     }
-    
+
     func editShare(type: ShareEditType, cardId: UUID, value: Double? = nil, onError: @escaping () -> Void) {
         guard var transaction = floatingTransaction else {
             print("no floatingTransaction found to edit share in")
             return
         }
-        vm.handleError({
-            switch(type) {
+        cvm.handleError({
+            switch type {
             case .edit:
                 try transaction.editShare(cardId: cardId, value: value)
             case .reset:
@@ -44,7 +47,7 @@ struct EditableShares: View {
             handleTransactionChange(transaction)
         })
     }
-    
+
     func resetShare(cardId: UUID) {
         guard var transaction = floatingTransaction else {
             print("no floatingTransaction found to edit share in")
@@ -53,22 +56,28 @@ struct EditableShares: View {
         try? transaction.resetShare(cardId: cardId)
         handleTransactionChange(transaction)
     }
-    
-    
+
     var body: some View {
         let cornerRadius = floatingTransaction?.boundingBox?.cornerRadius ?? 0
         let padding = floatingTransactionInfo.padding / 2
-        let shares = floatingTransaction?.shares.map { $0.1 }.sorted { (s1, s2) -> Bool in
-            guard let i1 = vm.getCardsIndex(of: s1.cardId), let i2 = vm.getCardsIndex(of: s2.cardId) else { return false }
-            return i1 < i2
+        let shares = floatingTransaction?.shares.map { $0.1 }.sorted { (share1, share2) -> Bool in
+            guard let index1 = cvm.getCardsIndex(of: share1.cardId),
+                  let index2 = cvm.getCardsIndex(of: share2.cardId) else {
+                return false
+            }
+            return index1 < index2
         } ?? []
-        let colorScheme = vm.imageIsLight ? ColorScheme.light : .dark
-        
+        let colorScheme = cvm.imageIsLight ? ColorScheme.light : .dark
+
         HStack(alignment: .center, spacing: 0) {
             ForEach(shares, id: \.self) { share in
-                let card = vm.getCardCopy(of: share.cardId)
-                if (card != nil) {
-                    ShareTextField(share: share, card: card!, cornerRadius: cornerRadius, floatingTransactionInfo: $floatingTransactionInfo, shareValue: String(share.value ?? 0), editShare: self.editShare)
+                let card = cvm.getCardCopy(of: share.cardId)
+                if card != nil {
+                    ShareTextField(share: share, card: card!,
+                                   cornerRadius: cornerRadius,
+                                   floatingTransactionInfo: $floatingTransactionInfo,
+                                   shareValue: String(share.value ?? 0),
+                                   editShare: self.editShare)
                 }
                 if share.cardId != shares.last?.cardId {
                     Image(systemName: "plus")
@@ -76,13 +85,14 @@ struct EditableShares: View {
                         .environment(\.colorScheme, colorScheme)
                 }
             }
-            if (shares.count > 0) {
+            if shares.count > 0 {
                 Image(systemName: "equal")
                     .padding(.leading, padding)
                     .environment(\.colorScheme, colorScheme)
             }
         }
-        .font(.system(size: ((floatingTransaction?.boundingBox?.height ?? 30) / 1.5), weight: .semibold, design: .rounded))
+        .font(.system(size: ((floatingTransaction?.boundingBox?.height ?? 30) / 1.5),
+                      weight: .semibold, design: .rounded))
         .padding(padding)
         .animation(nil, value: UUID())
         .background(
@@ -96,23 +106,22 @@ struct EditableShares: View {
 }
 
 struct ShareTextField: View {
-    
+
     let share: Share
     let card: Card
     let cornerRadius: CGFloat
-    
+
     @Binding var floatingTransactionInfo: FloatingTransactionInfo
     @State var shareValue: String
     @State var attempts: Int = 0
-    
+
     let editShare: (_ type: ShareEditType, _ cardId: UUID, _ value: Double?, _ onError: @escaping () -> Void) -> Void
-    
-    
+
     var body: some View {
         let padding = floatingTransactionInfo.padding
-        
+
         HStack {
-            if (share.manuallyAdjusted) {
+            if share.manuallyAdjusted {
                 Image(systemName: "arrow.uturn.backward")
                     .onTapGesture {
                         editShare(.reset, card.id, nil, {})
@@ -125,7 +134,7 @@ struct ShareTextField: View {
                 Spacer()
                     .frame(width: padding)
             }
-            
+
             CalcTextField(
                 "",
                 text: $shareValue,
@@ -135,10 +144,10 @@ struct ShareTextField: View {
                         self.attempts += 1
                         return
                     }
-                    if (res != share.value) {
+                    if res != share.value {
                         editShare(.edit, card.id, res, {
-                            if let v = share.value {
-                                shareValue = String(v)
+                            if let value = share.value {
+                                shareValue = String(value)
                             }
                         })
                     }
@@ -161,7 +170,7 @@ struct ShareTextField: View {
     }
 }
 
-//struct EditableShares_Previews: PreviewProvider {
+// struct EditableShares_Previews: PreviewProvider {
 //    static var previews: some View {
 //        EditableShares(ContentViewModel(), .constant(
 //            FloatingTransactionInfo(
@@ -186,4 +195,4 @@ struct ShareTextField: View {
 //            )
 //        ), handleTransactionChange: { _ in })
 //    }
-//}
+// }

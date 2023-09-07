@@ -1,60 +1,58 @@
-
-
 import Foundation
 import SwiftUI
 import Vision
 import Combine
 import SplitBillShared
 
-
-
-class ContentViewModel: ObservableObject {    
+// NEXT: split this file into different parts (e.g. transaction related, card related, ...)
+// swiftlint:disable type_body_length
+// swiftlint:disable file_length
+class ContentViewModel: ObservableObject {
     @Published var cards: [Card]
     @Published private(set) var activeCardsIds: Set<UUID> = []
     @Published var transactions: [UUID: Transaction] = [:]
     @Published var image: UIImage?
     @Published var contentChanged = PassthroughSubject<Void, Never>()
     @Published var isLoadingCounter: Int = 0
-    
+
     @AppStorage("previewDuration") var previewDuration: PreviewDuration = .tapAway
     @AppStorage("flashTransactionValue") var flashTransactionValue: Bool = true
     @AppStorage("transactions") var encodedTransactions: Data?
-        
+
     private static let cardsSaveKey = "Cards"
-    
-    static var totalTransactionId: UUID? = nil
+
+    static var totalTransactionId: UUID?
     private let dividerId = UUID(uuidString: "BD89DE13-54FF-4C1D-8B45-C090858689FE")!
-    private var totalCardId: UUID? = nil
-    
+    private var totalCardId: UUID?
+
     weak var alerter: Alerter?
     weak var undoManager: UndoManager?
-    var markerColor: UIColor? = nil
+    var markerColor: UIColor?
     var imageIsLight: Bool = true
-    var lineWidth: CGFloat? = nil
+    var lineWidth: CGFloat?
     var imageIsHeic = false
-    
+
     var observations: [VNRecognizedTextObservation] = []
     var onTransactionTap: ((_ transaction: Transaction) -> Void)?
     var onFlashTransaction: ((_ transactionId: UUID, _ remove: Bool) -> Void)?
     var onImageLongPress: ((_ transaction: Transaction?, _ point: CGPoint?) -> Void)?
     var generateExportImage: (() async throws -> UIImage?)?
     var onEmptyTap: (() -> Void)?
-    var emptyTapTimer: Timer? = nil
-    
+    var emptyTapTimer: Timer?
+
     var lastTapWasHitting = false
     var previouslyActiveCardsIds: Set<UUID> = []
     var cardsIndexLookup: [UUID: Array<Card>.Index] = [:]
-    var saveCardsTimer: Timer? = nil
+    var saveCardsTimer: Timer?
 
-    
     var hasActiveCards: Bool {
         activeCardsIds.count > 0
     }
-    
+
     var specialCards: [Card] {
         cards.filter { $0.cardType != .normal }
     }
-    
+
     var totalCard: Card? {
         get {
             if let id = totalCardId, let index = getCardsIndex(of: id) {
@@ -71,7 +69,7 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     var normalCards: [Card] {
         get {
             cards.filter { $0.cardType == .normal }
@@ -82,26 +80,26 @@ class ContentViewModel: ObservableObject {
                     cards[index] = card
                 }
             }
-            
+
         }
     }
-    
+
     var hasNormalCards: Bool {
         cards.first(where: { $0.cardType == .normal }) != nil
     }
-        
+
     var sortedCards: [Card] {
         normalCards.sorted { $0.isActive && !$1.isActive }
     }
-    
+
     var chosenNormalCards: [Card] {
         cards.filter { $0.isChosen && $0.cardType == .normal }
     }
-    
+
     var chosenCards: [Card] {
         cards.filter { $0.isChosen }
     }
-    
+
     var transactionList: [Transaction] {
         var res: [Transaction] = []
         for (_, value) in transactions {
@@ -109,16 +107,15 @@ class ContentViewModel: ObservableObject {
         }
         return res
     }
-    
+
     var boundingBoxes: [CGRect] {
-        transactionList.compactMap { tt in
-            tt.boundingBox
+        transactionList.compactMap { transaction in
+            transaction.boundingBox
         }
     }
-    
-    
+
     // MARK: Init
-    
+
     init() {
         print("init contentViewModel")
         cards = ContentViewModel.getCardData()
@@ -134,41 +131,40 @@ class ContentViewModel: ObservableObject {
         setFirstChosenCardActive()
         self.getTransactionData()
     }
-    
-    
+
     // MARK: Functions
-    
+
     func updateCardsIndexLookup() {
-        var lookup: [UUID:Array<Card>.Index] = [:]
-        for i in cards.indices {
-            lookup[cards[i].id] = i
+        var lookup: [UUID: Array<Card>.Index] = [:]
+        for index in cards.indices {
+            lookup[cards[index].id] = index
         }
         cardsIndexLookup = lookup
     }
-    
+
     func handleSaveState() {
         saveCardData()
         saveImageData()
         saveTransactionData()
     }
-    
+
     func saveTransactionData() {
         if let encoded = try? JSONEncoder().encode(transactions) {
             encodedTransactions = encoded
             print("Saving transactions: \(encoded)")
         }
     }
-    
+
     func saveImageData() {
         if let img = self.image {
             do {
-                let _ = try saveImageDataToSplitBill(img, isHeic: self.imageIsHeic, isPreservation: true)
+                _ = try saveImageDataToSplitBill(img, isHeic: self.imageIsHeic, isPreservation: true)
             } catch {
                 print("error saving image: \(error)")
             }
         }
     }
-    
+
     func addNewCard(_ name: String) {
         var newCard = Card(name: name)
         newCard.isChosen = true
@@ -177,66 +173,66 @@ class ContentViewModel: ObservableObject {
         saveCardDataDebounced()
         ensureActiveCardExists()
     }
-    
+
     func getRarestColor() -> ColorKeys {
         var colorDict: [ColorKeys: Int] = [:]
-        for c in ColorKeys.allCases {
-            colorDict[c] = 0
+        for key in ColorKeys.allCases {
+            colorDict[key] = 0
         }
         for card in cards {
             colorDict[card.colorKey] = (colorDict[card.colorKey] ?? 0) + 1
         }
         var rarest = ColorKeys.neutralDark
         var min = colorDict[ColorKeys.neutralDark] ?? cards.count
-        for (colorKey, amount) in colorDict {
-            if (amount < min) {
-                rarest = colorKey
-                min = amount
-            }
+
+        for (colorKey, amount) in colorDict where amount < min {
+            rarest = colorKey
+            min = amount
         }
         return rarest
     }
-    
+
     func appendNewCard(_ newCard: Card) {
         cards.append(newCard)
         saveCardDataDebounced()
     }
-        
-    func  consumeStoredImage() -> (image: UIImage?, isHeic: Bool?, isPreservation: Bool?) {
-        let (loadedImage, isHeic, isPreservation) = loadImage()
-        guard let img = loadedImage else {
-            return (nil, nil, nil)
+
+    func  consumeStoredImage() -> StoredImageInfo {
+        let info = loadImage()
+        if info.image == nil {
+            return StoredImageInfo(nil, nil, nil)
         }
         resetStoredImage()
-        return (img, isHeic, isPreservation)
+        return info
     }
-    
+
     func savedImageIsPreserved() -> Bool {
         let userDefaults = UserDefaults(suiteName: "group.splitbill")
         return userDefaults?.bool(forKey: "imageIsPreserved") == true
     }
-    
-    func loadImage() -> (image: UIImage?, isHeic: Bool?, isPreservation: Bool?) {
+
+    func loadImage() -> StoredImageInfo {
         let userDefaults = UserDefaults(suiteName: "group.splitbill")
-        guard let data = userDefaults?.data(forKey: "imageData") else {
-            return (nil, nil, nil)
+        guard let data = userDefaults?.data(forKey: "imageData"),
+              let decoded = try? PropertyListDecoder().decode(Data.self, from: data)
+        else {
+            return StoredImageInfo(nil, nil, nil)
         }
-        let decoded = try! PropertyListDecoder().decode(Data.self, from: data)
         let isHeic = userDefaults?.bool(forKey: "isHeic")
         let isPreservation = savedImageIsPreserved()
         let image = UIImage(data: decoded)
-        return (image, isHeic, isPreservation)
+        return StoredImageInfo(image, isHeic, isPreservation)
     }
-    
+
     func resetStoredImage() {
         let userDefaults = UserDefaults(suiteName: "group.splitbill")
         userDefaults?.removeObject(forKey: "imageData")
     }
-    
+
     func clearImage() {
         image = nil
     }
-    
+
     func getTransactionData() {
         if let data = encodedTransactions {
             if let decoded = try? JSONDecoder().decode([UUID: Transaction].self, from: data) {
@@ -244,7 +240,7 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     static func getCardData() -> [Card] {
         if let data = UserDefaults.standard.data(forKey: ContentViewModel.cardsSaveKey) {
             if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
@@ -253,7 +249,7 @@ class ContentViewModel: ObservableObject {
         }
         return []
     }
-    
+
     func saveCardDataDebounced() {
         self.updateCardsIndexLookup()
         saveCardsTimer?.invalidate()
@@ -263,49 +259,51 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     func saveCardData() {
         if let encoded = try? JSONEncoder().encode(self.cards) {
             UserDefaults.standard.set(encoded, forKey: ContentViewModel.cardsSaveKey)
         }
     }
-    
+
     func createNewTransaction(_ transaction: Transaction) {
         changeTransaction(transaction.id, transaction)
     }
-    
+
     func createNewTransaction(value: Double, boundingBox: CGRect) -> Transaction {
-        let t = Transaction(value: value, boundingBox: boundingBox, transactionType: .freeForm)
-        createNewTransaction(t)
-        return t
+        let transaction = Transaction(value: value, boundingBox: boundingBox, transactionType: .freeForm)
+        createNewTransaction(transaction)
+        return transaction
     }
-        
+
     func linkTransactionToActiveCards(_ transaction: Transaction) {
         for cardId in activeCardsIds {
             linkTransaction(cardId, transactionId: transaction.id)
         }
     }
-    
+
     func linkTransaction(_ card: Card, value: Double, boundingBox: CGRect) {
-        let t = Transaction(value: value, boundingBox: boundingBox, transactionType: card.cardType == .total ? .total : nil)
-        linkTransaction(card.id, transactionId: t.id)
+        let transaction = Transaction(value: value,
+                                      boundingBox: boundingBox,
+                                      transactionType: card.cardType == .total ? .total : nil)
+        linkTransaction(card.id, transactionId: transaction.id)
     }
-    
+
     func totalTransactionIsInvolved(_ card: Card, _ transactionId: UUID) -> Bool {
         return (card.cardType == .total && transactions[transactionId]?.shares.count ?? 0 >= 1)
         || (card.cardType != .total && transactionId == ContentViewModel.totalTransactionId)
     }
-    
+
     func linkTransaction(_ cardId: UUID, transactionId: UUID) {
         guard let index = getCardsIndex(of: cardId),
-                transactions[transactionId] != nil,
-                !cards[index].transactionIds.contains(transactionId),
-                !totalTransactionIsInvolved(cards[index], transactionId) else {
+              transactions[transactionId] != nil,
+              !cards[index].transactionIds.contains(transactionId),
+              !totalTransactionIsInvolved(cards[index], transactionId) else {
             return
         }
         undoManager?.beginUndoGrouping()
-        if (cardId == totalCard?.id) {
-            if (transactions[transactionId]?.type != .cardSummary) {
+        if cardId == totalCard?.id {
+            if transactions[transactionId]?.type != .cardSummary {
                 ContentViewModel.totalTransactionId = transactionId
             }
         }
@@ -313,18 +311,20 @@ class ContentViewModel: ObservableObject {
             try self.transactions[transactionId]!.addShare(cardId: cardId)
         }, onSuccess: {
             self.cards[index].addTransactionId(transactionId)
-            let t = self.transactions[transactionId]!
-            self.addNewTransactionUndoActionRegister(for: self.cards[index], transaction: t)
+            let transaction = self.transactions[transactionId]!
+            self.addNewTransactionUndoActionRegister(for: self.cards[index], transaction: transaction)
             self.updateTotalValue()
         })
         undoManager?.endUndoGrouping()
     }
-    
-    func handleError(_ throwingFunction:  @escaping() throws -> Void, onError: (() -> Void)? = nil, onSuccess: (() -> Void)? = nil) {
+
+    func handleError(_ throwingFunction: @escaping() throws -> Void,
+                     onError: (() -> Void)? = nil,
+                     onSuccess: (() -> Void)? = nil) {
         do {
             try throwingFunction()
-            if let ex = onSuccess {
-                ex()
+            if let execute = onSuccess {
+                execute()
             }
             return
         } catch EditShareError.lastShareCannotBeAdjustedManually {
@@ -334,60 +334,64 @@ class ContentViewModel: ObservableObject {
         } catch {
             alerter?.alert = Alert(title: Text("unknown"))
         }
-        
-        if let ex = onError {
-            ex()
+
+        if let execute = onError {
+            execute()
         }
     }
-    
+
     func updateTotalValue() {
         guard let id = totalCardId, let index = getCardsIndex(of: id), cards[index].isChosen else { return }
         let oldTransactionids = cards[index].transactionIds
         var transactionIds: [UUID] = []
         // add all nececcary transactions to the transactions list
         // & update all transactions in the transactions list
-        
+
         // oldTransactionIds are stored and deleted in the end
         // for each card, the sum is calculated and stored as a transaction in transactions
         // the sum-transactions are then used as a transaction for the total card to display the people
-        
+
         chosenNormalCards.forEach { card in
             let sum = sum(of: card)
-            if (transactions[card.id] != nil) {
+            if transactions[card.id] != nil {
                 transactions[card.id]!.rawValue = sum
             } else {
-                transactions[card.id] = Transaction(value: sum, label: card.name, transactionType: .cardSummary, locked: true, id: card.id)
+                transactions[card.id] = Transaction(value: sum,
+                                                    label: card.name,
+                                                    transactionType: .cardSummary,
+                                                    locked: true,
+                                                    id: card.id)
             }
             transactionIds.append(card.id)
         }
-        
+
         // create a divider transaction if it doesn't exist already
         if let totalId = ContentViewModel.totalTransactionId, oldTransactionids.contains(totalId) {
-            if (transactions[dividerId] == nil) {
+            if transactions[dividerId] == nil {
                 transactions[dividerId] = Transaction(value: 0, transactionType: .divider)
             }
             transactionIds.append(dividerId)
             transactionIds.append(totalId)
         }
         let toBeRemoved = cards[index].transactionIds.filter { !transactionIds.contains($0) }
-        for t in toBeRemoved {
-            removeShare(t, cards[index].id)
+        for tId in toBeRemoved {
+            removeShare(tId, cards[index].id)
         }
         cards[index].transactionIds = transactionIds
     }
-    
+
     func linkAllTransactions(_ transactionIds: [UUID], _ card: Card) {
         for tId in transactionIds {
             linkTransaction(card.id, transactionId: tId)
         }
     }
-    
+
     func removeAllTransactions(_ transactionIds: [UUID], _ card: Card) {
         for tId in transactionIds {
             removeTransaction(tId, of: card.id)
         }
     }
-    
+
     func removeShare(_ transactionId: UUID, _ cardId: UUID) {
         if transactions[transactionId] != nil {
             handleError({
@@ -395,18 +399,18 @@ class ContentViewModel: ObservableObject {
             })
         }
     }
-    
+
     func transactionLinkedInAllActiveCards(_ transaction: Transaction) -> Bool {
         for cardId in activeCardsIds {
             if let index = getCardsIndex(of: cardId) {
-                if (!cards[index].transactionIds.contains(transaction.id)) {
+                if !cards[index].transactionIds.contains(transaction.id) {
                     return false
                 }
             }
         }
         return true
     }
-    
+
     func removeTransaction(_ transactionId: UUID, from cardsIds: Set<UUID>) {
         undoManager?.beginUndoGrouping()
         for cardId in cardsIds {
@@ -414,7 +418,7 @@ class ContentViewModel: ObservableObject {
         }
         undoManager?.endUndoGrouping()
     }
-    
+
     func removeTransaction(_ transactionId: UUID, of cardId: UUID) {
         guard let index = getCardsIndex(of: cardId) else { return }
         guard let transaction = transactions[transactionId] else {
@@ -423,14 +427,14 @@ class ContentViewModel: ObservableObject {
             return
         }
         removeShare(transactionId, cardId)
-        if (transactionId == ContentViewModel.totalTransactionId) {
+        if transactionId == ContentViewModel.totalTransactionId {
             ContentViewModel.totalTransactionId = nil
         }
         cards[index].removeTransaction(transaction)
         removeNewTransactionUndoActionRegister(for: cards[index], transaction: transaction)
         updateTotalValue()
     }
-    
+
     func resetShare(_ transaction: Transaction, of card: Card) {
         if transactions[transaction.id] != nil {
             handleError({
@@ -438,13 +442,13 @@ class ContentViewModel: ObservableObject {
             })
         }
     }
-    
+
     func removeAllTransactionsInAllCards() {
-        for c in cards {
-            removeAllTransactions(of: c)
+        for card in cards {
+            removeAllTransactions(of: card)
         }
     }
-    
+
     func removeAllTransactions(of card: Card) {
         undoManager?.beginUndoGrouping()
         for tId in card.transactionIds {
@@ -453,47 +457,47 @@ class ContentViewModel: ObservableObject {
         undoManager?.endUndoGrouping()
         updateTotalValue()
     }
-    
+
     func deleteTransaction(_ transaction: Transaction) {
         changeTransaction(transaction.id, nil)
     }
-    
+
     func changeTransaction(_ transactionId: UUID, _ transaction: Transaction?) {
         let oldTransaction = transactions[transactionId]
         transactions[transactionId] = transaction
         changeTransactionUndoActionRegister(transactionId, oldTransaction)
     }
-    
+
     func changeTransactionUndoActionRegister(_ oldTransactionId: UUID, _ oldTransaction: Transaction?) {
-        self.undoManager?.registerUndo(withTarget: self, handler: { (selfTarget) in
+        self.undoManager?.registerUndo(withTarget: self, handler: { (_) in
             self.changeTransaction(oldTransactionId, oldTransaction)
         })
     }
-    
+
     func addNewTransactionUndoActionRegister(for card: Card, transaction: Transaction) {
-        self.undoManager?.registerUndo(withTarget: self, handler: { (selfTarget) in
+        self.undoManager?.registerUndo(withTarget: self, handler: { (_) in
             self.removeTransaction(transaction.id, of: card.id)
         })
     }
-    
+
     func removeNewTransactionUndoActionRegister(for card: Card, transaction: Transaction) {
-        self.undoManager?.registerUndo(withTarget: self, handler: { (selfTarget) in
+        self.undoManager?.registerUndo(withTarget: self, handler: { (_) in
             self.linkTransaction(card.id, transactionId: transaction.id)
         })
     }
-    
+
     func setCardUndoActionRegister(for card: Card, isChosen: Bool) {
-        self.undoManager?.registerUndo(withTarget: self, handler: { (selfTarget) in
+        self.undoManager?.registerUndo(withTarget: self, handler: { (_) in
             self.setCardChosen(card.id, isChosen)
         })
     }
-    
+
     func setTransactionEditActionRegister(_ oldTransaction: Transaction) {
-        self.undoManager?.registerUndo(withTarget: self, handler: { (selfTarget) in
+        self.undoManager?.registerUndo(withTarget: self, handler: { (_) in
             self.editTransaction(oldTransaction)
         })
     }
-    
+
     func editTransaction(_ id: UUID, value: Double, _ card: Card? = nil) {
         guard var transaction = transactions[id] else {
             print("transaction couldn't be edited")
@@ -510,7 +514,7 @@ class ContentViewModel: ObservableObject {
             correctTransaction(transaction)
         }
     }
-    
+
     func editTransaction(_ newTransaction: Transaction) {
         let oldTransaction: Transaction? = transactions[newTransaction.id]
         guard let oldTransaction = oldTransaction else {
@@ -529,46 +533,42 @@ class ContentViewModel: ObservableObject {
         undoManager?.removeAllActions()
         updateTotalValue()
     }
-    
+
     func getChosencardsOfTransaction(_ transaction: Transaction) -> [Card] {
         var result: [Card] = []
         for card in chosenCards {
-            for t in card.transactionIds {
-                if (t == transaction.id) {
-                    result.append(card)
-                }
+            for tId in card.transactionIds where tId == transaction.id {
+                result.append(card)
             }
         }
         return result
     }
-    
+
     func getFirstChosencardOfTransaction(_ transaction: Transaction) -> Card? {
         for card in chosenCards {
-            for t in card.transactionIds {
-                if (t == transaction.id) {
-                    return card
-                }
+            for tId in card.transactionIds where tId == transaction.id {
+                return card
             }
         }
         return nil
     }
-    
+
     func setActiveCard(_ cardId: UUID, value: Bool = true, multiple: Bool = false) {
-        if (activeCardsIds.count == 1 && value == false) {
+        if activeCardsIds.count == 1 && value == false {
             return
         }
-        if (!multiple) {
+        if !multiple {
             setAllCardsInactive()
         }
         guard let index = getCardsIndex(of: cardId) else { return }
         cards[index].isActive = value
-        if (value == true) {
+        if value == true {
             activeCardsIds.insert(cardId)
         } else {
             activeCardsIds.remove(cardId)
         }
     }
-    
+
     func getFirstActiveCard() -> Card? {
         guard let activeCardId = activeCardsIds.first else {
             return nil
@@ -578,23 +578,21 @@ class ContentViewModel: ObservableObject {
         }
         return cards[activeCardIndex]
     }
-    
+
     func restoreActiveState(_ cardsIds: Set<UUID>) {
         setAllCardsInactive()
-        for cardId in cardsIds {
-            if (cardId != totalCard?.id) {
-                setActiveCard(cardId, value: true, multiple: true)
-            }
+        for cardId in cardsIds where cardId != totalCard?.id {
+            setActiveCard(cardId, value: true, multiple: true)
         }
     }
-    
+
     func setAllCardsInactive() {
-        for i in cards.indices {
-            cards[i].isActive = false
+        for index in cards.indices {
+            cards[index].isActive = false
         }
         activeCardsIds = []
     }
-    
+
     func isLastChosenCard(_ card: Card) -> Bool {
         if let index = chosenCards.firstIndex(of: card),
            index == chosenCards.count - 1 {
@@ -602,79 +600,79 @@ class ContentViewModel: ObservableObject {
         }
         return false
     }
-    
+
     func setFirstChosenCardActive() {
         if let firstCard = chosenCards[safe: 0] {
             setActiveCard(firstCard.id)
         }
     }
-    
+
     func isActiveCard(_ card: Card) -> Bool {
         return activeCardsIds.contains(card.id)
-     }
-    
+    }
+
     func moveNormalCard(from source: IndexSet, to destination: Int) {
         var translatedSet: IndexSet = []
-        for i in source {
-            let card = normalCards[i]
-            if let index = getCardsIndex(of: card.id) {
-                translatedSet.insert(index)
+        for index in source {
+            let card = normalCards[index]
+            if let cardIndex = getCardsIndex(of: card.id) {
+                translatedSet.insert(cardIndex)
             }
         }
         cards.move(fromOffsets: translatedSet, toOffset: destination)
         saveCardDataDebounced()
     }
-    
+
     func toggleChosen(_ cardId: UUID) {
         guard let index = getCardsIndex(of: cardId) else { return }
         setCardChosen(cardId, !cards[index].isChosen)
     }
-    
+
     func setCardChosen(_ cardId: UUID, _ chosenValue: Bool) {
         guard let index = getCardsIndex(of: cardId) else { return }
         undoManager?.beginUndoGrouping()
         cards[index].isChosen = chosenValue
-        if (chosenValue == false) {
+        if chosenValue == false {
             removeAllTransactions(of: cards[index])
         }
-        if (chosenValue == false && cards[index].isActive) {
+        if chosenValue == false && cards[index].isActive {
             setFirstChosenCardActive()
         }
-        if (chosenValue == true) {
+        if chosenValue == true {
             ensureActiveCardExists()
         }
         setCardUndoActionRegister(for: cards[index], isChosen: !chosenValue)
         undoManager?.endUndoGrouping()
         saveCardDataDebounced()
     }
-    
+
     func ensureActiveCardExists() {
-        if (activeCardsIds.count == 0) {
+        if activeCardsIds.count == 0 {
             setFirstChosenCardActive()
         }
     }
-    
+
     func getCardsIndex(of cardId: UUID) -> Array<Card>.Index? {
         return cardsIndexLookup[cardId]
     }
-    
+
     func getCardCopy(of cardId: UUID) -> Card? {
         if let index = getCardsIndex(of: cardId) {
             return cards[index]
         }
         return nil
     }
-    
+
     func setCardColor(_ card: Card, color: ColorKeys) {
         if let index = getCardsIndex(of: card.id) {
             cards[index].colorKey = color
         }
         saveCardDataDebounced()
     }
-    
+
     func deleteCards(at indeces: IndexSet) {
-        for i in indeces {
-            removeAllTransactions(of: cards[i])
+        for index in indeces {
+            removeAllTransactions(of: cards[index])
         }
         cards.remove(atOffsets: indeces)
         saveCardDataDebounced()
@@ -682,17 +680,17 @@ class ContentViewModel: ObservableObject {
         setFirstChosenCardActive()
         return
     }
-    
+
     // Transactions
-    
+
     func getTransaction(_ id: UUID) -> Transaction? {
         let transaction = transactions[id]
-        if let t = transaction, id == ContentViewModel.totalTransactionId {
-            return Transaction(from: t, transactionType: .total)
+        if let transaction = transaction, id == ContentViewModel.totalTransactionId {
+            return Transaction(from: transaction, transactionType: .total)
         }
         return transaction
     }
-    
+
     func correctTransaction(_ transaction: Transaction) {
         changeTransaction(transaction.id, transaction)
         handleError({
@@ -701,18 +699,18 @@ class ContentViewModel: ObservableObject {
             self.updateTotalValue()
         })
     }
-    
+
     func changeImage(_ image: UIImage, _ isHeic: Bool? = false, analyseTransactions: Bool = true) {
         self.isLoadingCounter += 1
         self.image = image
         self.contentChanged.send()
         self.imageIsHeic = isHeic ?? false
-        
-        if (analyseTransactions) {
+
+        if analyseTransactions {
             self.transactions = [:]
             self.processImage()
         }
-        
+
         DispatchQueue.main.async {
             let averageColorOfImage = image.averageColor
             self.imageIsLight = averageColorOfImage?.isLight() ?? true
@@ -720,29 +718,29 @@ class ContentViewModel: ObservableObject {
         }
         self.isLoadingCounter -= 1
     }
-    
+
     func storeObservationsAsTappableText(_ observations: [VNRecognizedTextObservation]) {
         guard let image = self.image else { return }
-        
+
         observations.forEach { observation in
             guard let candidate = observation.topCandidates(1).first else { return }
-            
+
             let numberIndices = findNumberIndices(candidate.string)
             for (numberIndexRange, decimalPoint) in numberIndices {
                 let numberStr = String(candidate.string[numberIndexRange])
                 guard let number = cleanNumberString(input: numberStr, decimalPoint: decimalPoint) else {
                     continue
                 }
-                
+
                 let newT = getTransactionFromCandidate(number, candidate, numberIndexRange, image)
                 transactions[newT.id] = newT
             }
         }
     }
-    
+
     func getLineWidthFromTransactionBoundingBoxes() -> CGFloat? {
         let heights = transactionList.compactMap { $0.boundingBox?.height }
-        if (heights.count == 0) {
+        if heights.count == 0 {
             return nil
         }
         let medianHeight = heights.sorted()[heights.count / 2]
@@ -750,103 +748,108 @@ class ContentViewModel: ObservableObject {
         result = round(100 * result) / 100
         return max(result, 0.5)
     }
-    
-    func getTransactionFromCandidate(_ number: Double, _ candidate: VNRecognizedText, _ stringRange: Range<String.Index>, _ image: UIImage) -> Transaction {
+
+    func getTransactionFromCandidate(_ number: Double,
+                                     _ candidate: VNRecognizedText,
+                                     _ stringRange: Range<String.Index>,
+                                     _ image: UIImage) -> Transaction {
         // Find the bounding-box observation for the string range.
         let boxObservation = try? candidate.boundingBox(for: stringRange)
 
         // Get the normalized CGRect value.
         var boundingBox = boxObservation?.boundingBox ?? .zero
-        if (imageIsHeic) {
+        if imageIsHeic {
             boundingBox = heicBoundingBoxWorkaround(boundingBox)
         }
-        
+
         // Convert the rectangle from normalized coordinates to image coordinates.
         var rect = VNImageRectForNormalizedRect(boundingBox,
-                                            Int(image.size.width),
-                                            Int(image.size.height))
-        
+                                                Int(image.size.width),
+                                                Int(image.size.height))
+
         rect.origin = CGPoint(x: rect.origin.x, y: image.size.height - rect.origin.y - rect.height)
-        
+
         return Transaction(value: number, boundingBox: rect)
     }
-    
+
     // this can be removed if heic images no longer result in the wrong coordinates
     func heicBoundingBoxWorkaround(_ boundingBoxInHeic: CGRect) -> CGRect {
-        let r = boundingBoxInHeic,
-            width = r.height,
-            height = r.width
-        return CGRect(x: r.minY, y: 1 - r.minX - height, width: width, height: height)
+        let rect = boundingBoxInHeic,
+            width = rect.height,
+            height = rect.width
+        return CGRect(x: rect.minY, y: 1 - rect.minX - height, width: width, height: height)
     }
-    
+
     func getNumberFromString(_ string: String) -> Double? {
         let value = Double.parse(from: string)
         return value
     }
-    
+
     func hasTapTarget(at point: CGPoint) -> Bool {
-        let tt = getTransaction(at: point)
-        return tt != nil
+        return getTransaction(at: point) != nil
     }
-    
+
     func getTransaction(at point: CGPoint) -> Transaction? {
-        for (_, t) in self.transactions {
-            if let rect = t.boundingBox,
+        for (_, transaction) in self.transactions {
+            if let rect = transaction.boundingBox,
                rect.contains(point) {
-                return t
+                return transaction
             }
         }
         return nil
     }
-    
+
     func hasTransaction(_ transaction: Transaction) -> Bool {
-        for (_, t) in self.transactions {
-            if (t == transaction) {
-                return true
-            }
+        for (_, ownTransaction) in self.transactions where ownTransaction == transaction {
+            return true
         }
         return false
     }
-    
+
     func getProposedMarkerRect(basedOn rect: CGRect?) -> CGRect {
         let boundingRect = getMedianBoundingBox()
-        let x = (rect?.minX ?? 0) - (boundingRect.width / 2),
-            y = (rect?.minY ?? 0) - (boundingRect.height / 2)
-        return CGRect(x: x, y: y, width: boundingRect.width, height: boundingRect.height)
+        let minX = (rect?.minX ?? 0) - (boundingRect.width / 2),
+            minY = (rect?.minY ?? 0) - (boundingRect.height / 2)
+        return CGRect(x: minX, y: minY, width: boundingRect.width, height: boundingRect.height)
     }
-    
+
     func getMedianBoundingBox() -> CGRect {
         let list = transactionList.filter { $0.boundingBox?.width ?? 0 > 0 && $0.boundingBox?.height ?? 0 > 0 }
-        let medianWidth = list.sorted { $0.boundingBox!.width < $1.boundingBox!.width }[list.count / 2].boundingBox!.width
-        let medianHeight = list.sorted { $0.boundingBox!.height < $1.boundingBox!.height }[list.count / 2].boundingBox!.height
+        let medianWidth = list.sorted {
+            $0.boundingBox!.width < $1.boundingBox!.width
+        }[list.count / 2].boundingBox!.width
+        let medianHeight = list.sorted {
+            $0.boundingBox!.height < $1.boundingBox!.height
+        }[list.count / 2].boundingBox!.height
         return CGRect(x: 0, y: 0, width: medianWidth, height: medianHeight)
     }
-    
+
     func flashTransaction(_ transactionId: UUID, remove: Bool = false) {
         self.onFlashTransaction?(transactionId, remove)
     }
-    
+
     func handleTap(at point: CGPoint) {
-        guard let t = getTransaction(at: point),
+        guard let transaction = getTransaction(at: point),
               let onTap = onTransactionTap else {
             lastTapWasHitting = false
-            emptyTapTimer = Timer.scheduledTimer(withTimeInterval: OneHandedZoomGestureRecognizer.doubleTapGestureThreshold, repeats: false) { _ in
+            emptyTapTimer = Timer.scheduledTimer(
+                withTimeInterval: OneHandedZoomGestureRecognizer.doubleTapGestureThreshold,
+                repeats: false) { _ in
                 // Wait to see if the empty tap is just the inital zoom gesture tap
                 self.onEmptyTap?()
             }
             return
         }
         lastTapWasHitting = true
-        onTap(t)
+        onTap(transaction)
     }
-    
+
     func handleLongPress(at point: CGPoint) {
         guard let onLongPress = onImageLongPress else { return }
-        let t = getTransaction(at: point)
-        onLongPress(t, point)
+        let transaction = getTransaction(at: point)
+        onLongPress(transaction, point)
     }
-    
-    
+
     func recognizeTextHandler(request: VNRequest, error: Error?) {
         guard let observations =
                 request.results as? [VNRecognizedTextObservation] else { return }
@@ -855,14 +858,14 @@ class ContentViewModel: ObservableObject {
             self.lineWidth = self.getLineWidthFromTransactionBoundingBoxes()
         }
     }
-    
+
     func processImage() {
         print("processImage")
         self.isLoadingCounter += 1
         guard let cgImage = image?.cgImage else { return }
         let requestHandler = VNImageRequestHandler(cgImage: cgImage)
         let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
-        
+
         DispatchQueue.global().async {
             do {
                 try requestHandler.perform([request])
@@ -874,24 +877,24 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     func sum(of card: Card) -> Double {
         let transactions = card.transactionIds.compactMap { getTransaction($0) }
         let sum = transactions.compactMap { $0.getValue(for: card) }.reduce(0, +)
         return round(100 * sum) / 100
     }
-    
+
     func sumString(of card: Card) -> String {
         return sumString(of: sum(of: card))
     }
-    
+
     func sumString(of number: Double) -> String {
         let rounded = round(100 * number) / 100
         return String(rounded == 0 ? 0 : rounded)
     }
-    
+
     func sortedTransactions(of card: Card) -> [UUID] {
-        if (card.cardType == .total) {
+        if card.cardType == .total {
             // CardType.total should have the total value on top and every user value below
             return card.transactionIds
         }
@@ -909,7 +912,7 @@ class ContentViewModel: ObservableObject {
         res.append("\(String(localized: "total")): \(sumString(of: total))")
         return res
     }
-    
+
     func getTotalValue(of cards: [Card]) -> Double {
         var total = 0.0
         for card in cards {
@@ -919,13 +922,16 @@ class ContentViewModel: ObservableObject {
     }
 }
 
+struct StoredImageInfo {
+    let image: UIImage?
+    let isHeic: Bool?
+    let isPreservation: Bool?
 
-
-extension Collection {
-    /// Returns the element at the specified index if it is within bounds, otherwise nil.
-    subscript (safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
+    init(_ image: UIImage?, _ isHeic: Bool?, _ isPreservation: Bool?) {
+        self.image = image
+        self.isHeic = isHeic
+        self.isPreservation = isPreservation
     }
 }
 
-
+// swiftlint:enable type_body_length

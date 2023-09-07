@@ -2,7 +2,7 @@
 //  GeometryEffect.swift
 //  ScorePad
 //
-//  Created by rnichi on 06.07.21.
+//  Created by fer0n on 06.07.21.
 //
 
 import Foundation
@@ -15,10 +15,10 @@ struct Shake: GeometryEffect {
     var isActive = true
 
     func effectValue(size: CGSize) -> ProjectionTransform {
-        if (isActive) {
+        if isActive {
             return ProjectionTransform(CGAffineTransform(translationX:
                                                             amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
-                                                            y: 0))
+                                                         y: 0))
         } else {
             return ProjectionTransform()
         }

@@ -7,142 +7,46 @@
 
 import SwiftUI
 
+// NEXT: split the transaction card into its own view
+// maybe the contextmenu as well
 
 struct SingleCardView: View {
-    @ObservedObject var vm: ContentViewModel
-    @State var transactionToEdit: Transaction? = nil
-    @State var newTransactionValue: String = ""
-    @State var attempts: Int = 0
+    @ObservedObject var cvm: ContentViewModel
     @Binding public var showTransactions: Bool
     @Binding public var showEditCardSheet: Bool
     var card: Card
     var toggleTransaction: () -> Void
     let isSelected: Bool
     let handleAutoScroll: () -> Void
-    
-    
-    init(vm: ContentViewModel, showTransactions: Binding<Bool>, showEditCardSheet: Binding<Bool>, card: Card, toggleTransaction: @escaping () -> Void, handleAutoScroll: @escaping () -> Void) {
-        self.vm = vm
+
+    init(cvm: ContentViewModel,
+         showTransactions: Binding<Bool>,
+         showEditCardSheet: Binding<Bool>,
+         card: Card,
+         toggleTransaction: @escaping () -> Void,
+         handleAutoScroll: @escaping () -> Void) {
+        self.cvm = cvm
         self._showTransactions = showTransactions
         self.card = card
         self.toggleTransaction = toggleTransaction
-        self.isSelected = card.isActive || vm.isActiveCard(card)
+        self.isSelected = card.isActive || cvm.isActiveCard(card)
         self.handleAutoScroll = handleAutoScroll
         self._showEditCardSheet = showEditCardSheet
     }
-    
-    
+
     func hideTransactions() {
-        if (showTransactions) {
+        if showTransactions {
             toggleTransaction()
         }
     }
-    
-    func LabelRowItem(_ t: Transaction) -> some View {
-        GridRow {
-            Text(t.label ?? "")
-                .font(.system(size: 12, weight: .semibold, design: .rounded))
-                .opacity(0.6)
-                .gridColumnAlignment(.leading)
-            
-            
-            CalcTextField(t.getStringValue(for: card),
-                          text: (t == transactionToEdit) ? $newTransactionValue : .constant(t.getStringValue(for: card)),
-                          onSubmit: { result in
-                                guard let res = result else {
-                                    self.attempts += 1
-                                    return
-                                }
-                                if res != 0 {
-                                    vm.editTransaction(t.id, value: res, card)
-                                }
-                                newTransactionValue = ""
-                                transactionToEdit = nil
-                          }, onEditingChanged: { edit in
-                              if (edit) {
-                                  transactionToEdit = t
-                              } else {
-                                  transactionToEdit = nil
-                                  newTransactionValue = ""
-                              }
-                          },
-                          accentColor: card.color.uiColorFont,
-                          bgColor: UIColor(card.color.dark),
-                          textColor: UIColor(card.color.contrast)
-            )
-            .padding(.horizontal, 5)
-                .gridColumnAlignment(t.label != nil ? .trailing : .leading)
-                .lineLimit(1)
-                .fixedSize()
-                .onDisappear {
-                    transactionToEdit = nil
-                    newTransactionValue = ""
-                }
-                .disabled(t.locked)
-                .background(
-                    RoundedRectangle(cornerRadius: 7)
-                        .foregroundColor(Color.black.opacity(0.1))
-                )
-                .padding(.top, 3)
-                .modifier(Shake(animatableData: CGFloat(self.attempts), isActive: t == transactionToEdit))
-                
-        }
-        .contentShape(Rectangle())
-        .contextMenu {
-            Button {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                    withAnimation {
-                        vm.removeTransaction(t.id, of: card.id)
-                    }
-                }
-            } label: {
-                Text("deleteTransaction")
-                Image(systemName: "minus.circle.fill")
-            }
-            if (t.shares.contains(where: { $0.value.manuallyAdjusted })) {
-                Button {
-                    withAnimation {
-                        vm.resetShare(t, of: card)
-                    }
-                } label: {
-                    Text("resetManualShare")
-                    Image(systemName: "eraser.fill")
-                }
-            }
-        }
-    }
-    
-    var TransactionsList: some View {
-        ScrollView(.vertical) {
-            VStack(alignment: .leading, spacing: 0) {
-                Grid(verticalSpacing: 0) {
-                    ForEach(vm.sortedTransactions(of: card), id: \.self) { tId in
-                        if let transaction = vm.getTransaction(tId) {
-                            if (transaction.type == .divider) {
-                                CardSpacer()
-                                    .gridCellColumns(2)
-                            } else {
-                                LabelRowItem(transaction)
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-            .frame(minWidth: isSelected ? 100 : nil, alignment: .leading)
-        }
-        .frame(maxHeight: 250)
-        .fixedSize()
-    }
-    
-    var TransactionsCard: some View {
+
+    var transactionsCard: some View {
         VStack(alignment: .center, spacing: 0) {
-            if (!(showTransactions && isSelected)) {
+            if !(showTransactions && isSelected) {
                 Spacer()
                     .frame(height: 20)
-            } else if (card.transactionIds.count > 0) {
-                TransactionsList
+            } else if card.transactionIds.count > 0 {
+                TransactionsList(cvm: cvm, card: card, isSelected: isSelected)
             } else {
                 Text("empty")
                     .padding(.vertical, 10)
@@ -162,11 +66,11 @@ struct SingleCardView: View {
         .opacity(showTransactions && isSelected ? 1 : 0)
         .clipped()
     }
-    
-    var SingleCard: some View {
+
+    var singleCard: some View {
         HStack(alignment: .center, spacing: 0) {
             VStack(alignment: isSelected && showTransactions ? .leading : .center, spacing: 0) {
-                Text("\(vm.sumString(of: card))")
+                Text("\(cvm.sumString(of: card))")
                     .minimumScaleFactor(0.01)
                     .lineLimit(1)
                     .truncationMode(.tail)
@@ -174,7 +78,7 @@ struct SingleCardView: View {
                 Text("\(card.stringName)")
                     .font(.system(size: 14, weight: .regular, design: .rounded))
             }
-            if (isSelected && showTransactions) {
+            if isSelected && showTransactions {
                 Spacer()
             }
             Image(systemName: "chevron.down.circle.fill")
@@ -190,34 +94,34 @@ struct SingleCardView: View {
         .padding(.trailing, isSelected && showTransactions ? 15 : 22)
         .contentShape(Rectangle())
         .gesture(TapGesture(count: 2).onEnded {
-            if (card.cardType == .total) {
+            if card.cardType == .total {
                 return
             }
-            vm.restoreActiveState(vm.previouslyActiveCardsIds)
-            if (vm.previouslyActiveCardsIds.first(where: { $0 == card.id }) != nil) {
-                vm.setActiveCard(card.id, value: false, multiple: true)
+            cvm.restoreActiveState(cvm.previouslyActiveCardsIds)
+            if (cvm.previouslyActiveCardsIds.first(where: { $0 == card.id }) != nil) {
+                cvm.setActiveCard(card.id, value: false, multiple: true)
             } else {
-                vm.setActiveCard(card.id, value: true, multiple: true)
+                cvm.setActiveCard(card.id, value: true, multiple: true)
             }
-            if (vm.activeCardsIds.count > 1) {
+            if cvm.activeCardsIds.count > 1 {
                 hideTransactions()
             }
         })
         .simultaneousGesture(TapGesture().onEnded {
-            let isLastCard = vm.isLastChosenCard(card)
+            let isLastCard = cvm.isLastChosenCard(card)
             withAnimation(.easeInOut(duration: 0.2)) {
-                vm.previouslyActiveCardsIds = vm.activeCardsIds
-                if (vm.activeCardsIds.count > 1) {
-                    vm.setActiveCard(card.id, multiple: false)
+                cvm.previouslyActiveCardsIds = cvm.activeCardsIds
+                if cvm.activeCardsIds.count > 1 {
+                    cvm.setActiveCard(card.id, multiple: false)
                     return
                 }
-                if (isSelected) {
-                    if (!showTransactions && isLastCard) {
+                if isSelected {
+                    if !showTransactions && isLastCard {
                         handleAutoScroll()
                     }
                     toggleTransaction()
                 } else {
-                    vm.setActiveCard(card.id)
+                    cvm.setActiveCard(card.id)
                     handleAutoScroll()
                 }
             }
@@ -227,12 +131,12 @@ struct SingleCardView: View {
         .clipShape(RoundedRectangle(cornerRadius: 50, style: .continuous))
         .foregroundColor(isSelected ? .white : card.color.font)
         .contextMenu {
-            if (card.cardType == .total) {
+            if card.cardType == .total {
                 Button(role: .destructive) {
                     withAnimation {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                             withAnimation {
-                                vm.removeAllTransactionsInAllCards()
+                                cvm.removeAllTransactionsInAllCards()
                             }
                         }
                     }
@@ -245,7 +149,7 @@ struct SingleCardView: View {
                     withAnimation {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                             withAnimation {
-                                vm.removeAllTransactions(of: card)
+                                cvm.removeAllTransactions(of: card)
                             }
                         }
                     }
@@ -257,7 +161,7 @@ struct SingleCardView: View {
             Button(role: .destructive) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     withAnimation {
-                        vm.setCardChosen(card.id, false)
+                        cvm.setCardChosen(card.id, false)
                     }
                 }
             } label: {
@@ -265,7 +169,7 @@ struct SingleCardView: View {
                 Image(systemName: "rectangle.stack.fill.badge.minus")
             }
             Divider()
-            ShareLink(item: vm.sumString(of: card)) {
+            ShareLink(item: cvm.sumString(of: card)) {
                 Label("shareResult", systemImage: "123.rectangle.fill")
             }
             Divider()
@@ -282,20 +186,20 @@ struct SingleCardView: View {
                 Image(systemName: "pencil.circle.fill")
             }
             Divider()
-            if (card.isActive && vm.activeCardsIds.count > 1 && card.cardType != .total) {
+            if card.isActive && cvm.activeCardsIds.count > 1 && card.cardType != .total {
                 Button {
                     withAnimation {
-                        vm.setActiveCard(card.id, value: false, multiple: true)
+                        cvm.setActiveCard(card.id, value: false, multiple: true)
                     }
                 } label: {
                     Text("setToInactive")
                     Image(systemName: "rectangle.fill.badge.minus")
                 }
             }
-            if (!card.isActive && card.cardType != .total) {
+            if !card.isActive && card.cardType != .total {
                 Button {
                     withAnimation {
-                        vm.setActiveCard(card.id, value: true, multiple: true)
+                        cvm.setActiveCard(card.id, value: true, multiple: true)
                     }
                 } label: {
                     Text("addToActive")
@@ -304,14 +208,13 @@ struct SingleCardView: View {
             }
         }
     }
-    
-    
+
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            TransactionsCard
+            transactionsCard
                 .frame(maxWidth: card.isActive && showTransactions ? nil : 0)
                 .padding(.horizontal, 10)
-            SingleCard
+            singleCard
         }
     }
 }

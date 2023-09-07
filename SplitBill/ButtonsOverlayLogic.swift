@@ -9,35 +9,34 @@ import Foundation
 import SwiftUI
 import LinkPresentation
 
-
-
 extension ButtonsOverlayView {
-    
+
     func getImageWithAnnotations() async -> UIImage? {
-        self.vm.isLoadingCounter += 1
-        guard let generate = vm.generateExportImage else {
+        self.cvm.isLoadingCounter += 1
+        guard let generate = cvm.generateExportImage else {
             print("vm.generateExportImage not assigned yet")
-            self.vm.isLoadingCounter -= 1
+            self.cvm.isLoadingCounter -= 1
             return nil
         }
         do {
             guard let image = try await generate() else {
                 throw ExportImageError.noImageFound
             }
-            self.vm.isLoadingCounter -= 1
+            self.cvm.isLoadingCounter -= 1
             return image
         } catch {
             print("Error while trying to export image: \(error)")
         }
-        self.vm.isLoadingCounter -= 1
+        self.cvm.isLoadingCounter -= 1
         return nil
     }
-    
+
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return ""
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         return nil
     }
 
@@ -49,7 +48,6 @@ extension ButtonsOverlayView {
         return metadata
     }
 }
-
 
 struct ImageModel: Transferable {
     let getImage: () async -> UIImage?

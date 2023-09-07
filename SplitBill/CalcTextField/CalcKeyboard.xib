@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -45,7 +44,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="q59-cu-BZl"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="q59-cu-BZl"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yfq-1o-ZZH" userLabel=")">
@@ -62,7 +61,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="bbi-0B-MgT"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="bbi-0B-MgT"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nnt-60-TYm" userLabel="del">
@@ -81,8 +80,8 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="TouchDown:" destination="-1" eventType="touchDown" id="q9O-1k-Wq8"/>
-                                        <action selector="TouchUp:" destination="-1" eventType="touchUpInside" id="PSN-y4-jo6"/>
+                                        <action selector="touchDown:" destination="-1" eventType="touchDown" id="q9O-1k-Wq8"/>
+                                        <action selector="touchUp:" destination="-1" eventType="touchUpInside" id="PSN-y4-jo6"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngl-Nh-GUx" userLabel="divide">
@@ -100,7 +99,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="5N8-DC-T80"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="5N8-DC-T80"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -132,7 +131,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="B1S-8F-Hb9"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="B1S-8F-Hb9"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ka-tk-6H5">
@@ -149,7 +148,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="OFE-Bs-PPq"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="OFE-Bs-PPq"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m4V-Wh-YaX">
@@ -166,7 +165,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="FDE-r4-Gp2"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="FDE-r4-Gp2"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMI-iu-X7P" userLabel="divide">
@@ -184,7 +183,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="tw9-Ac-VXl"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="tw9-Ac-VXl"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -216,7 +215,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="FWm-l9-nDb"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="FWm-l9-nDb"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y3I-WP-Prx">
@@ -233,7 +232,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="hrb-JR-L23"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="hrb-JR-L23"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuu-nP-lTy">
@@ -250,7 +249,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="mRf-ch-2nG"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="mRf-ch-2nG"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQQ-Bm-Hzl">
@@ -268,7 +267,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="HdS-8R-RYh"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="HdS-8R-RYh"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -301,7 +300,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="5dA-er-T05"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="5dA-er-T05"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7x-E7-L6T">
@@ -318,7 +317,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="mEM-by-aNB"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="mEM-by-aNB"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zl-B0-Dnt">
@@ -335,7 +334,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="gaq-PM-JbY"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="gaq-PM-JbY"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIc-sj-N3m">
@@ -353,7 +352,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="a1m-SN-au9"/>
+                                        <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="a1m-SN-au9"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -389,7 +388,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="4tD-Xh-GhI"/>
+                                                <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="4tD-Xh-GhI"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcY-FK-Jdy">
@@ -406,7 +405,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="DhM-G1-NoX"/>
+                                                <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="DhM-G1-NoX"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -437,7 +436,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <action selector="CalcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="uvi-pV-iwL"/>
+                                                <action selector="calcKeyboardWithSender:" destination="-1" eventType="touchUpInside" id="uvi-pV-iwL"/>
                                             </connections>
                                         </button>
                                     </subviews>

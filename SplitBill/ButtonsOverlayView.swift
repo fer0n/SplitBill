@@ -1,22 +1,17 @@
-
-
 import Foundation
 import SwiftUI
 
-
-
 struct ButtonsOverlayView: View {
     @Environment(\.undoManager) var undoManager
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var cvm: ContentViewModel
     @Binding var showImagePicker: Bool
     @Binding var showScanner: Bool
     @Binding var showSettings: Bool
     @Binding var showEditCardSheet: Bool
     @State var showDeleteImageAlert = false
     var showCardsView: Bool = false
-    
-    
-    var MenuWithOptions: some View {
+
+    var menuWithOptions: some View {
         Menu {
             Button(role: .destructive) {
                 showDeleteImageAlert = true
@@ -24,9 +19,9 @@ struct ButtonsOverlayView: View {
                 Text("clearImage")
                 Image(systemName: "trash.fill")
                     .padding(10)
-            }.disabled(vm.image == nil)
+            }.disabled(cvm.image == nil)
             Divider()
-            
+
             Button {
                 showScanner = true
             } label: {
@@ -42,7 +37,7 @@ struct ButtonsOverlayView: View {
                     .padding(10)
             }
             Divider()
-            
+
             Menu {
                 let img = ImageModel(getImage: getImageWithAnnotations)
                 ShareLink(item: img, preview: SharePreview(
@@ -51,15 +46,15 @@ struct ButtonsOverlayView: View {
                 )) {
                     Label("shareImage", systemImage: "text.below.photo.fill")
                 }
-                ShareLink(item: vm.getChosenCardSummary(of: vm.chosenCards)) {
+                ShareLink(item: cvm.getChosenCardSummary(of: cvm.chosenCards)) {
                     Label("shareSummary", systemImage: "list.number")
                 }
             } label: {
                 Text("share")
                 Image(systemName: "square.and.arrow.up.fill")
                     .padding(10)
-            }.disabled(vm.image == nil)
-        
+            }.disabled(cvm.image == nil)
+
             Button {
                 showSettings = true
             } label: {
@@ -68,7 +63,7 @@ struct ButtonsOverlayView: View {
                     .padding(10)
             }
         } label: {
-            if vm.isLoadingCounter != 0 {
+            if cvm.isLoadingCounter != 0 {
                 ProgressView()
                     .padding(10)
             } else {
@@ -81,21 +76,21 @@ struct ButtonsOverlayView: View {
         .clipShape(Circle())
         .alert("clearImage", isPresented: $showDeleteImageAlert) {
             Button("delete", role: .destructive) {
-                vm.clearImage()
-                vm.clearAllTransactionsAndHistory()
+                cvm.clearImage()
+                cvm.clearAllTransactionsAndHistory()
             }
             Button("cancel", role: .cancel) { }
         }
     }
-    
-    func UndoRedoStack() -> some View {
+
+    func undoRedoStack() -> some View {
         let canUndo = undoManager?.canUndo ?? false
         let canRedo = undoManager?.canRedo ?? false
         let undoDisabled = canRedo && !canUndo
-        
+
         return (
             VStack(alignment: .trailing, spacing: 20) {
-            
+
                 Button {
                     withAnimation {
                         undoManager?.undo()
@@ -111,8 +106,8 @@ struct ButtonsOverlayView: View {
                 .disabled(undoDisabled)
                 .animation(nil, value: UUID())
                 .opacity(canUndo || canRedo ? 1 : 0)
-                
-                if (canRedo) {
+
+                if canRedo {
                     Button {
                         withAnimation {
                             undoManager?.redo()
@@ -128,30 +123,29 @@ struct ButtonsOverlayView: View {
             }
         )
     }
-    
-    
+
     var body: some View {
         VStack {
             HStack {
                 HStack(alignment: .top) {
-                    MenuWithOptions
+                    menuWithOptions
                     Spacer()
-                    UndoRedoStack()
+                    undoRedoStack()
                 }
             }
             .foregroundColor(Color.foregroundColor)
             .padding()
             Spacer()
-            if (showCardsView) {
-                CardsView(vm: vm, showEditCardSheet: $showEditCardSheet)
+            if showCardsView {
+                CardsView(cvm: cvm, showEditCardSheet: $showEditCardSheet)
             }
         }
     }
 }
 
-struct Previews_ButtonsOverlayView_Previews: PreviewProvider {
+struct ButtonsOverlayViewPreview: PreviewProvider {
     static var previews: some View {
-        ButtonsOverlayView(vm: ContentViewModel(),
+        ButtonsOverlayView(cvm: ContentViewModel(),
                            showImagePicker: .constant(false),
                            showScanner: .constant(false),
                            showSettings: .constant(false),

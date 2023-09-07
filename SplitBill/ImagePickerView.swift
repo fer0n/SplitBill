@@ -1,20 +1,15 @@
-
-
 import SwiftUI
-
-
 
 public struct ImagePickerView: UIViewControllerRepresentable {
     private let sourceType: UIImagePickerController.SourceType
     private let onImagePicked: (UIImage, _ isHeic: Bool) -> Void
     @Environment(\.presentationMode) private var presentationMode
 
-    
-    public init(sourceType: UIImagePickerController.SourceType, onImagePicked: @escaping (UIImage, _ isHeic: Bool) -> Void) {
+    public init(sourceType: UIImagePickerController.SourceType,
+                onImagePicked: @escaping (UIImage, _ isHeic: Bool) -> Void) {
         self.sourceType = sourceType
         self.onImagePicked = onImagePicked
     }
-    
 
     public func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
@@ -32,7 +27,6 @@ public struct ImagePickerView: UIViewControllerRepresentable {
         )
     }
 
-    
     final public class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
         private let onDismiss: () -> Void
@@ -43,7 +37,8 @@ public struct ImagePickerView: UIViewControllerRepresentable {
             self.onImagePicked = onImagePicked
         }
 
-        public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        public func imagePickerController(_ picker: UIImagePickerController,
+                                          didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 let isHeic = imageIsHeic(info)
                 self.onImagePicked(image, isHeic)
@@ -54,7 +49,7 @@ public struct ImagePickerView: UIViewControllerRepresentable {
         public func imagePickerControllerDidCancel(_: UIImagePickerController) {
             self.onDismiss()
         }
-        
+
         public func imageIsHeic(_ info: [UIImagePickerController.InfoKey: Any]) -> Bool {
             if let assetPath = info[UIImagePickerController.InfoKey.referenceURL] as? NSURL,
                let ext = assetPath.pathExtension,

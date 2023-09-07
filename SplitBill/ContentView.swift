@@ -1,125 +1,118 @@
-
-
 import SwiftUI
 import PhotosUI
 import UniformTypeIdentifiers
-
-
 
 struct ContentView: View {
     @Environment(\.undoManager) var undoManager
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var alerter: Alerter
-    @StateObject var vm = ContentViewModel()
-    
+    @StateObject var cvm = ContentViewModel()
+
     @State var showScanner: Bool = false
     @State var showEditCardSheet: Bool = false
     @State var showImagePicker: Bool = false
     @State var showSettings: Bool = false
     @State var isLoadingReplacingImage: Bool = false
-    
+
     @State var showReplaceImageAlert: Bool = false
-    @State var replacingImage: UIImage? = nil
-    @State var replacingImageIsHeic: Bool? = nil
-    
-    @State private var presentationDetent: PresentationDetent? = nil
+    @State var replacingImage: UIImage?
+    @State var replacingImageIsHeic: Bool?
+
+    @State private var presentationDetent: PresentationDetent?
     @State private var settingsDetent: PresentationDetent = .medium
-    
+
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
 
     let zoomBufferPadding: CGFloat = 500
-        
-    
+
     func handleOpenOnStart() {
         let isPreservation = handleStoredImage()
-        if (replacingImage != nil && isPreservation == false) {
-            // avoid opening scanner/picker if an image is loaded via extension, do open it if the image was simply preserved
+        if replacingImage != nil && isPreservation == false {
+            // avoid opening scanner/picker if an image is loaded via extension,
+            // do open it if the image was simply preserved
             return
         }
-        
-        switch(startupItem) {
-            case .nothing:
-                break
-            case .scanner:
-                if (AVCaptureDevice.authorizationStatus(for: .video) == .authorized) {
-                    self.showScanner = true
-                }
-                break
-            case .imagePicker:
-                self.showImagePicker = true
-                break
+
+        switch startupItem {
+        case .nothing:
+            break
+        case .scanner:
+            if AVCaptureDevice.authorizationStatus(for: .video) == .authorized {
+                self.showScanner = true
+            }
+        case .imagePicker:
+            self.showImagePicker = true
         }
     }
-    
-    
+
     func handleStoredImage() -> Bool? {
-        
-        let (imageFromExtension, isHeic, isPreservation) = self.vm.consumeStoredImage()
-        guard let img = imageFromExtension else {
+
+        let info = self.cvm.consumeStoredImage()
+        guard let img = info.image else {
             self.isLoadingReplacingImage = false
             return nil
         }
-        if (vm.image == nil) {
-            let hasTransactions = vm.transactions.count > 0
-            vm.changeImage(img, isHeic, analyseTransactions: !hasTransactions)
+        if cvm.image == nil {
+            let hasTransactions = cvm.transactions.count > 0
+            cvm.changeImage(img, info.isHeic, analyseTransactions: !hasTransactions)
         } else {
-            replacingImage = imageFromExtension
-            replacingImageIsHeic = isHeic
+            replacingImage = info.image
+            replacingImageIsHeic = info.isHeic
             showReplaceImageAlert = true
         }
         self.isLoadingReplacingImage = false
-        return isPreservation
+        return info.isPreservation
     }
-
 
     func handleTransactionTap(_ transaction: Transaction) {
         withAnimation {
-            if (!vm.hasActiveCards) { return }
-            if (vm.transactionLinkedInAllActiveCards(transaction)) {
-                vm.removeTransaction(transaction.id, from: vm.activeCardsIds)
-                vm.flashTransaction(transaction.id, remove: true)
+            if !cvm.hasActiveCards { return }
+            if cvm.transactionLinkedInAllActiveCards(transaction) {
+                cvm.removeTransaction(transaction.id, from: cvm.activeCardsIds)
+                cvm.flashTransaction(transaction.id, remove: true)
             } else {
-                vm.linkTransactionToActiveCards(transaction)
-                if (vm.flashTransactionValue) {
-                    vm.flashTransaction(transaction.id)
+                cvm.linkTransactionToActiveCards(transaction)
+                if cvm.flashTransactionValue {
+                    cvm.flashTransaction(transaction.id)
                 }
             }
         }
     }
-    
-    
-    func ignoreTapsAt(_ point: CGPoint) -> Bool {
-        return vm.lastTapWasHitting
-    }
-    
-    func onGestureHasBegun() -> Void {
-        vm.emptyTapTimer?.invalidate()
-    }
-    
 
-    var LiveTextImage: some View {
-        ZoomableScrollView(contentPadding: zoomBufferPadding, ignoreTapsAt: self.ignoreTapsAt, onGestureHasBegun: self.onGestureHasBegun, contentChanged: vm.contentChanged) {
+    func ignoreTapsAt(_ point: CGPoint) -> Bool {
+        return cvm.lastTapWasHitting
+    }
+
+    func onGestureHasBegun() {
+        cvm.emptyTapTimer?.invalidate()
+    }
+
+    var liveTextImage: some View {
+        ZoomableScrollView(contentPadding: zoomBufferPadding,
+                           ignoreTapsAt: self.ignoreTapsAt,
+                           onGestureHasBegun: self.onGestureHasBegun,
+                           contentChanged: cvm.contentChanged) {
             ZStack {
-                LiveTextInteraction(vm: vm)
-                FloatingTransactionView(vm: vm)
+                LiveTextInteraction(cvm: cvm)
+                FloatingTransactionView(cvm: cvm)
             }
             .padding(zoomBufferPadding)
             .overlay(
                 Rectangle()
-                .stroke(Color.backgroundColor, lineWidth: 10)
+                    .stroke(Color.backgroundColor, lineWidth: 10)
             )
             .background(Color.backgroundColor)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                if (vm.chosenNormalCards.isEmpty) {
+                if cvm.chosenNormalCards.isEmpty {
                     showEditCardSheet = true
                 }
             }
         }
     }
-    
-    var SelectImageView: some View {
+
+    var selectImageView: some View {
         VStack {
             Spacer()
                 .frame(height: 40)
@@ -137,7 +130,7 @@ struct ContentView: View {
             .background(.white)
             .foregroundColor(Color.mainColor)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            
+
             Button {
                 self.showScanner = true
             } label: {
@@ -155,42 +148,41 @@ struct ContentView: View {
         }
         .fixedSize()
     }
-    
-    
+
     var body: some View {
         ZStack {
             Color.backgroundColor.ignoresSafeArea()
             ZStack {
-                if (vm.image != nil) {
-                    LiveTextImage
+                if cvm.image != nil {
+                    liveTextImage
                         .ignoresSafeArea()
                         .onAppear {
-                            if (vm.normalCards.count <= 0) {
+                            if cvm.normalCards.count <= 0 {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                                     self.showEditCardSheet = true
                                 }
                             }
                         }
                 } else {
-                   SelectImageView
+                    selectImageView
                 }
-                if (isLoadingReplacingImage) {
+                if isLoadingReplacingImage {
                     ProgressView()
                         .padding(.bottom, 100)
                 }
-                ButtonsOverlayView(vm: vm,
+                ButtonsOverlayView(cvm: cvm,
                                    showImagePicker: $showImagePicker,
                                    showScanner: $showScanner,
                                    showSettings: $showSettings,
                                    showEditCardSheet: $showEditCardSheet,
-                                   showCardsView: vm.image != nil)
+                                   showCardsView: cvm.image != nil)
             }
         }
         .sheet(isPresented: $showScanner) {
             ScannerView(completion: { image in
                 if let image = image {
-                    vm.changeImage(image)
-                    vm.clearAllTransactionsAndHistory()
+                    cvm.changeImage(image)
+                    cvm.clearAllTransactionsAndHistory()
                 }
                 self.showScanner = false
             })
@@ -198,36 +190,37 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showImagePicker) {
             ImagePickerView(sourceType: .photoLibrary) { image, isHeic  in
-                vm.changeImage(image, isHeic)
-                vm.clearAllTransactionsAndHistory()
+                cvm.changeImage(image, isHeic)
+                cvm.clearAllTransactionsAndHistory()
             }
             .ignoresSafeArea()
         }
         .sheet(isPresented: $showEditCardSheet) {
-            let detents: Set<PresentationDetent> = !vm.hasNormalCards ? [.small, .medium, .large] : [.medium, .large]
-            EditCardsView(vm: vm, presentationDetent: $presentationDetent)
+            let detents: Set<PresentationDetent> = !cvm.hasNormalCards ? [.small, .medium, .large] : [.medium, .large]
+            EditCardsView(cvm: cvm, presentationDetent: $presentationDetent)
                 .presentationDetents(
-                    detents, selection: Binding($presentationDetent) ?? .constant(!vm.hasNormalCards ? .small : .medium)
-                 )
+                    detents,
+                    selection: Binding($presentationDetent) ?? .constant(!cvm.hasNormalCards ? .small : .medium)
+                )
         }
         .sheet(isPresented: $showSettings) {
-            SettingsView(vm: vm,
+            SettingsView(cvm: cvm,
                          showSelf: $showSettings)
-                .presentationDetents(
-                    [.medium, .large], selection: $settingsDetent
-                 )
-                .ignoresSafeArea()
+            .presentationDetents(
+                [.medium, .large], selection: $settingsDetent
+            )
+            .ignoresSafeArea()
         }
         .onChange(of: undoManager) { newManager in
-            vm.undoManager = newManager
+            cvm.undoManager = newManager
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification), perform: { _ in
-            vm.handleSaveState()
-         })
+            cvm.handleSaveState()
+        })
         .onAppear {
-            vm.undoManager = undoManager
-            vm.alerter = self.alerter
-            vm.onTransactionTap = self.handleTransactionTap
+            cvm.undoManager = undoManager
+            cvm.alerter = self.alerter
+            cvm.onTransactionTap = self.handleTransactionTap
             handleOpenOnStart()
         }
         .onOpenURL { _ in
@@ -235,23 +228,20 @@ struct ContentView: View {
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                if !vm.savedImageIsPreserved() {
-                    let _ = handleStoredImage()
+                if !cvm.savedImageIsPreserved() {
+                    _ = handleStoredImage()
                 }
             } else if newPhase == .background {
-                vm.handleSaveState()
+                cvm.handleSaveState()
             }
         }
         .alert("replaceImage", isPresented: $showReplaceImageAlert) {
             Button("replaceYes") {
                 if let img = replacingImage {
-                    vm.changeImage(img, replacingImageIsHeic)
+                    cvm.changeImage(img, replacingImageIsHeic)
                 }
             }
             Button("replaceNo", role: .cancel) { }
         }
     }
 }
-
-
-

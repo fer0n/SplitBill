@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-class VC_CalcKeyboard: UIViewController, KeyboardDelegate {
+class CalcKeyboardViewController: UIViewController, KeyboardDelegate {
 
     let generator = UIImpactFeedbackGenerator(style: .light)
     let notificationGenerator = UINotificationFeedbackGenerator()
-    
-    var textField: UITextField? = nil
-    var onSubmit: ((Double?) -> ())? = nil
-    
+
+    var textField: UITextField?
+    var onSubmit: ((Double?) -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,39 +24,38 @@ class VC_CalcKeyboard: UIViewController, KeyboardDelegate {
 
     // required method for keyboard delegate protocol
     func keyWasTapped(action: KeyboardAction, character: String) {
-        guard let tf = textField else { return }
-        
+        guard let textField = textField else { return }
+
         switch action {
         case .insertNumber:
-            tf.insertText(character)
+            textField.insertText(character)
         case .delete:
-            tf.deleteBackward()
+            textField.deleteBackward()
         case .submit:
             self.notificationGenerator.prepare()
             self.evaluateExpression()
         case .point:
-            tf.insertText(".")
+            textField.insertText(".")
         case .insertOperand:
-            tf.insertText(character)
+            textField.insertText(character)
         }
     }
-    
 
     func evaluateExpression() {
-        guard let tf = textField,
-              let text = tf.text,
+        guard let textField = textField,
+              let text = textField.text,
               let callback = self.onSubmit else { return }
-        if (text.isEmpty) {
+        if text.isEmpty {
             self.generator.impactOccurred()
             callback(0)
-            tf.endEditing(true)
+            textField.endEditing(true)
             return
         }
         // check if expression is just a number
         if let res = Double(text) {
             self.generator.impactOccurred()
             callback(res)
-            tf.endEditing(true)
+            textField.endEditing(true)
         } else {
 
             // if not evaluate the expression
@@ -73,16 +72,15 @@ class VC_CalcKeyboard: UIViewController, KeyboardDelegate {
 
                         // set result
                         callback(result)
-                        tf.endEditing(true)
-                        tf.text = result.clean
+                        textField.endEditing(true)
+                        textField.text = result.clean
                         // set focus
                         self.generator.impactOccurred()
                     } else {
                         print("failed")
                     }
                 }
-            }
-            catch {
+            } catch {
                 print("Calc expression \(numericExpression) can't be resolved: \(error)")
                 self.notificationGenerator.notificationOccurred(.error)
                 withAnimation(Animation.default) {

@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-
-
-
-
 struct SettingsView: View {
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var cvm: ContentViewModel
     @Binding var showSelf: Bool
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
-    
+
+    let writeReviewUrl = URL(string: "https://apps.apple.com/app/id6444704240?action=write-review")!
+    let emailUrl = URL(string: "mailto:scores.templates@gmail.com")!
+    let githubUrl = URL(string: "https://github.com/fer0n/SplitBill")!
+
     var body: some View {
         NavigationView {
             List {
@@ -27,31 +27,31 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.menu)
                 }
-                
+
                 Section {
-                    Toggle(isOn: $vm.flashTransactionValue) {
+                    Toggle(isOn: $cvm.flashTransactionValue) {
                         Text("flashTransactionValue")
                     }
                     .tint(.markerColor)
-                    Picker("previewDuration", selection: $vm.previewDuration) {
+                    Picker("previewDuration", selection: $cvm.previewDuration) {
                         ForEach(PreviewDuration.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
                     .pickerStyle(.menu)
-                    .disabled(!vm.flashTransactionValue)
+                    .disabled(!cvm.flashTransactionValue)
                 }
-                
+
                 Section {
-                    LinkItemView(destination: URL(string: "https://apps.apple.com/app/id6444704240?action=write-review")!, label: "rateApp") {
+                    LinkItemView(destination: writeReviewUrl, label: "rateApp") {
                         Image(systemName: "star.fill")
                     }
-                    
-                    LinkItemView(destination: URL(string: "mailto:scores.templates@gmail.com")!, label: "contact") {
+
+                    LinkItemView(destination: emailUrl, label: "contact") {
                         Image(systemName: "envelope.fill")
                     }
-                    
-                    LinkItemView(destination: URL(string: "https://github.com/fer0n/SplitBill")!, label: "github") {
+
+                    LinkItemView(destination: githubUrl, label: "github") {
                         Image("github-logo")
                             .resizable()
                     }
@@ -59,18 +59,16 @@ struct SettingsView: View {
             }
             .navigationBarTitle("settings")
         }
-        
+
     }
 }
-
-
 
 enum PreviewDuration: Int, CaseIterable {
     case short
     case medium
     case long
     case tapAway
-    
+
     var description: String {
         switch self {
         case .short: return String(localized: "short")
@@ -79,7 +77,7 @@ enum PreviewDuration: Int, CaseIterable {
         case .tapAway: return String(localized: "tapAway")
         }
     }
-    
+
     var timeInterval: TimeInterval? {
         switch self {
         case .short: return 0.5
@@ -90,13 +88,11 @@ enum PreviewDuration: Int, CaseIterable {
     }
 }
 
-
-
 enum StartupItem: Int, CaseIterable {
     case nothing
     case scanner
     case imagePicker
-    
+
     var description: String {
         switch self {
         case .nothing: return String(localized: "nothing")
@@ -106,12 +102,11 @@ enum StartupItem: Int, CaseIterable {
     }
 }
 
-
 struct LinkItemView<Content: View>: View {
     let destination: URL
     let label: String
     let content: () -> Content
-    
+
     var body: some View {
         Link(destination: destination) {
             HStack(spacing: 20) {
@@ -129,12 +124,8 @@ struct LinkItemView<Content: View>: View {
     }
 }
 
-
-
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(vm: ContentViewModel(), showSelf: .constant(true))
+        SettingsView(cvm: ContentViewModel(), showSelf: .constant(true))
     }
 }
-
-

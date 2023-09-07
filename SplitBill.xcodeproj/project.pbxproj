@@ -12,6 +12,13 @@
 		88173DF3297BBAEC00ED89DA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88173DF1297BBAEC00ED89DA /* MainInterface.storyboard */; };
 		88173DF7297BBAEC00ED89DA /* SplitBill Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 88173DED297BBAEC00ED89DA /* SplitBill Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		88173E05297C3ABF00ED89DA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88B3739329531CAA007AD933 /* Localizable.strings */; };
+		881F07792AA9B40C005D1843 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F07782AA9B40C005D1843 /* CGRect.swift */; };
+		881F077B2AA9B541005D1843 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F077A2AA9B541005D1843 /* UIFont.swift */; };
+		881F077D2AA9B59E005D1843 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F077C2AA9B59E005D1843 /* UIImage.swift */; };
+		881F077F2AA9B5D4005D1843 /* PresentationDetent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F077E2AA9B5D4005D1843 /* PresentationDetent.swift */; };
+		881F07822AA9DD70005D1843 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F07812AA9DD70005D1843 /* UIColor.swift */; };
+		881F07842AA9E309005D1843 /* TransactionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F07832AA9E309005D1843 /* TransactionList.swift */; };
+		882660A82AA9B19300ED75A3 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882660A72AA9B19300ED75A3 /* Collection.swift */; };
 		883CA8D02A7BCB68000C7381 /* SplitBillShared.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CA8D32A7BCB68000C7381 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
 		883CA8D42A7BCB68000C7381 /* SplitBillShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -29,7 +36,7 @@
 		8883975A2AA45C13004D0722 /* CalcTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397562AA45C13004D0722 /* CalcTextField.swift */; };
 		8883975B2AA45C13004D0722 /* CalcKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 888397572AA45C13004D0722 /* CalcKeyboard.xib */; };
 		8883975C2AA45C13004D0722 /* CalcKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397582AA45C13004D0722 /* CalcKeyboard.swift */; };
-		8883975D2AA45C13004D0722 /* VC_CalcKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397592AA45C13004D0722 /* VC_CalcKeyboard.swift */; };
+		8883975D2AA45C13004D0722 /* CalcKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397592AA45C13004D0722 /* CalcKeyboardViewController.swift */; };
 		8883975F2AA45D01004D0722 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8883975E2AA45D01004D0722 /* Double.swift */; };
 		888397612AA46254004D0722 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397602AA46254004D0722 /* UIView.swift */; };
 		888397632AA4755B004D0722 /* GeometryEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397622AA4755B004D0722 /* GeometryEffect.swift */; };
@@ -111,6 +118,13 @@
 		88173DF4297BBAEC00ED89DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88173DFC297BCD1600ED89DA /* SplitBill Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SplitBill Extension.entitlements"; sourceTree = "<group>"; };
 		88173DFD297BCD9000ED89DA /* SplitBill.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SplitBill.entitlements; sourceTree = "<group>"; };
+		881F07782AA9B40C005D1843 /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		881F077A2AA9B541005D1843 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
+		881F077C2AA9B59E005D1843 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		881F077E2AA9B5D4005D1843 /* PresentationDetent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationDetent.swift; sourceTree = "<group>"; };
+		881F07812AA9DD70005D1843 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		881F07832AA9E309005D1843 /* TransactionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionList.swift; sourceTree = "<group>"; };
+		882660A72AA9B19300ED75A3 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SplitBillShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitBillShared.h; sourceTree = "<group>"; };
 		883CA8D82A7BCB86000C7381 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
@@ -128,7 +142,7 @@
 		888397562AA45C13004D0722 /* CalcTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcTextField.swift; sourceTree = "<group>"; };
 		888397572AA45C13004D0722 /* CalcKeyboard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalcKeyboard.xib; sourceTree = "<group>"; };
 		888397582AA45C13004D0722 /* CalcKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcKeyboard.swift; sourceTree = "<group>"; };
-		888397592AA45C13004D0722 /* VC_CalcKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VC_CalcKeyboard.swift; sourceTree = "<group>"; };
+		888397592AA45C13004D0722 /* CalcKeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcKeyboardViewController.swift; sourceTree = "<group>"; };
 		8883975E2AA45D01004D0722 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		888397602AA46254004D0722 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		888397622AA4755B004D0722 /* GeometryEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEffect.swift; sourceTree = "<group>"; };
@@ -213,6 +227,12 @@
 				8883975E2AA45D01004D0722 /* Double.swift */,
 				888397602AA46254004D0722 /* UIView.swift */,
 				888397622AA4755B004D0722 /* GeometryEffect.swift */,
+				882660A72AA9B19300ED75A3 /* Collection.swift */,
+				881F07782AA9B40C005D1843 /* CGRect.swift */,
+				881F077A2AA9B541005D1843 /* UIFont.swift */,
+				881F077C2AA9B59E005D1843 /* UIImage.swift */,
+				881F077E2AA9B5D4005D1843 /* PresentationDetent.swift */,
+				881F07812AA9DD70005D1843 /* UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -223,7 +243,7 @@
 				888397582AA45C13004D0722 /* CalcKeyboard.swift */,
 				888397572AA45C13004D0722 /* CalcKeyboard.xib */,
 				888397562AA45C13004D0722 /* CalcTextField.swift */,
-				888397592AA45C13004D0722 /* VC_CalcKeyboard.swift */,
+				888397592AA45C13004D0722 /* CalcKeyboardViewController.swift */,
 			);
 			path = CalcTextField;
 			sourceTree = "<group>";
@@ -294,6 +314,7 @@
 				88776E6B2AA85032009E683E /* EditableShares.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
 				88D5AC622A90DB2500879893 /* SingleCardView.swift */,
+				881F07832AA9E309005D1843 /* TransactionList.swift */,
 				888495B5291FDD4700AB74D7 /* EditCardsView.swift */,
 				88B3738D295305EB007AD933 /* SettingsView.swift */,
 				88677494291C3C17002C675C /* ZoomableScrollView.swift */,
@@ -377,6 +398,7 @@
 				BDD1322A285217CA00C69619 /* Resources */,
 				88173DF8297BBAEC00ED89DA /* Embed Foundation Extensions */,
 				8809670B2A7BC1990007C674 /* Embed Frameworks */,
+				881F07802AA9B6BB005D1843 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -466,6 +488,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		881F07802AA9B6BB005D1843 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		88173DE9297BBAEC00ED89DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -491,23 +534,29 @@
 				88B3738E295305EB007AD933 /* SettingsView.swift in Sources */,
 				88EA86092A825334004F2332 /* FloatingTransaction.swift in Sources */,
 				88677493291C3340002C675C /* CardsView.swift in Sources */,
+				881F077F2AA9B5D4005D1843 /* PresentationDetent.swift in Sources */,
 				888495B6291FDD4700AB74D7 /* EditCardsView.swift in Sources */,
 				8800D7C02932B1DA00FA6ADE /* util.swift in Sources */,
 				888B10BA2946E2E400D1AB3B /* Colors.swift in Sources */,
 				8883975F2AA45D01004D0722 /* Double.swift in Sources */,
 				8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */,
+				882660A82AA9B19300ED75A3 /* Collection.swift in Sources */,
+				881F07842AA9E309005D1843 /* TransactionList.swift in Sources */,
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
+				881F07822AA9DD70005D1843 /* UIColor.swift in Sources */,
 				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
 				88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */,
 				88776E6C2AA85032009E683E /* EditableShares.swift in Sources */,
 				88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */,
 				888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */,
+				881F077B2AA9B541005D1843 /* UIFont.swift in Sources */,
 				88523CA02A93F77B002AFEA6 /* NSExpression.swift in Sources */,
 				BDD13232285217CA00C69619 /* ContentView.swift in Sources */,
 				887E09642924311C00A6A116 /* CardModel.swift in Sources */,
 				8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */,
-				8883975D2AA45C13004D0722 /* VC_CalcKeyboard.swift in Sources */,
+				8883975D2AA45C13004D0722 /* CalcKeyboardViewController.swift in Sources */,
+				881F077D2AA9B59E005D1843 /* UIImage.swift in Sources */,
 				8883975A2AA45C13004D0722 /* CalcTextField.swift in Sources */,
 				BDD13230285217CA00C69619 /* SplitBill.swift in Sources */,
 				88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */,
@@ -517,6 +566,7 @@
 				88677495291C3C17002C675C /* ZoomableScrollView.swift in Sources */,
 				8883975C2AA45C13004D0722 /* CalcKeyboard.swift in Sources */,
 				BDD1323E28521D7000C69619 /* LiveTextInteraction.swift in Sources */,
+				881F07792AA9B40C005D1843 /* CGRect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

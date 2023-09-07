@@ -6,10 +6,10 @@
 //
 
 import Foundation
-
-//https://stackoverflow.com/questions/46550658/can-i-force-nsexpression-and-expressionvalue-to-assume-doubles-instead-of-ints-s
+// swiftlint:disable all
+// https://stackoverflow.com/questions/46550658/can-i-force-nsexpression-and-expressionvalue-to-assume-doubles-instead-of-ints-s
 extension NSExpression {
-    
+
     /**
      Converts an expression to floating point values if it includes a divition. Otherwise an integer division is used, resulting in a wrong result.
      */
@@ -25,7 +25,7 @@ extension NSExpression {
                         return arg
                     }
                 } else {
-                    return NSExpression(block: { (object, arguments, context) in
+                    return NSExpression(block: { (_, arguments, _) in
                         // NB: The type of `+[NSExpression expressionForBlock:arguments]` is incorrect.
                         // It claims the arguments is an array of NSExpressions, but it's not, it's
                         // actually an array of the evaluated values. We can work around this by going
@@ -63,7 +63,7 @@ extension NSExpression {
             let newArgs = args.map({ $0.toFloatingPointDivision() })
             return NSExpression(block: expressionBlock, arguments: newArgs)
         case .constantValue, .anyKey:
-        break // Nothing to do here
+            break // Nothing to do here
         case .evaluatedObject, .variable, .keyPath:
             // FIXME: These should probably be wrapped in blocks like the one
             // used in the `.function` case.
@@ -74,3 +74,4 @@ extension NSExpression {
         return self
     }
 }
+// swiftlint:enable all

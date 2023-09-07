@@ -1,58 +1,54 @@
-
-
 import SwiftUI
 
-
-
 struct EditCardsView: View {
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var cvm: ContentViewModel
     @Binding var presentationDetent: PresentationDetent?
     @State private var newCard = ""
-    
+
     @State private var showColorPicker = false
-    @State var selectedCard: Card? = nil
-    @State var selectedColor: ColorKeys? = nil
-    
+    @State var selectedCard: Card?
+    @State var selectedColor: ColorKeys?
+
     func addNewCard() {
         let name = newCard.trimmingCharacters(in: .whitespacesAndNewlines)
         guard name.count > 0 else { return }
-        vm.addNewCard(name)
+        cvm.addNewCard(name)
         newCard = ""
     }
-    
+
     func deleteCard(at index: IndexSet) {
-        vm.deleteCards(at: index)
+        cvm.deleteCards(at: index)
     }
-    
+
     func setNewColor(card: Card, color: ColorKeys) {
-        vm.setCardColor(card, color: color)
+        cvm.setCardColor(card, color: color)
     }
-    
+
     func move(from source: IndexSet, to destination: Int) {
-        vm.moveNormalCard(from: source, to: destination)
+        cvm.moveNormalCard(from: source, to: destination)
     }
-    
-    func CardListItem(_ card: Binding<Card>, disableEdit: Bool = false) -> some View {
+
+    func cardListItem(_ card: Binding<Card>, disableEdit: Bool = false) -> some View {
         HStack {
             (
                 card.wrappedValue.isChosen
-                    ? Image(systemName: "checkmark.circle.fill")
-                    : Image(systemName: "circle")
+                ? Image(systemName: "checkmark.circle.fill")
+                : Image(systemName: "circle")
             )
             .imageScale(.large)
             .onTapGesture {
-                vm.toggleChosen(card.id)
+                cvm.toggleChosen(card.id)
             }
 
             TextField(card.name.wrappedValue, text: card.name)
                 .disabled(disableEdit)
                 .onChange(of: card.wrappedValue.name, perform: { _ in
-                    vm.saveCardDataDebounced()
+                    cvm.saveCardDataDebounced()
                 })
                 .submitLabel(.done)
-        
+
             Spacer()
-            if (!disableEdit) {
+            if !disableEdit {
                 Circle()
                     .strokeBorder(card.wrappedValue.color.font, lineWidth: 1)
                     .background(Circle().foregroundColor(card.wrappedValue.color.dark))
@@ -65,30 +61,29 @@ struct EditCardsView: View {
                     }
             }
         }
-        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+        .alignmentGuide(.listRowSeparatorLeading) { _ in
             return 0
         }
     }
-    
-    
+
     var body: some View {
         List {
             Section {
                 TextField("newCard", text: $newCard)
                     .submitLabel(.done)
                     .onSubmit(addNewCard)
-                
-                ForEach(vm.normalCards.indices, id: \.self) { i in
-                    CardListItem($vm.normalCards[i])
-                    .id(vm.normalCards[i].id)
+
+                ForEach(cvm.normalCards.indices, id: \.self) { index in
+                    cardListItem($cvm.normalCards[index])
+                        .id(cvm.normalCards[index].id)
                 }
                 .onDelete(perform: deleteCard)
                 .onMove(perform: move)
             }
-            
+
             Section(header: Text("specialCard")) {
-                if (vm.totalCard != nil) {
-                    CardListItem(Binding($vm.totalCard)!, disableEdit: true)
+                if cvm.totalCard != nil {
+                    cardListItem(Binding($cvm.totalCard)!, disableEdit: true)
                 }
             }
         }
@@ -101,16 +96,15 @@ struct EditCardsView: View {
     }
 }
 
-
 struct CustomColorPicker: View {
     @Binding var isPresented: Bool
     @Binding var card: Card?
     @Binding var selectedColor: ColorKeys?
-    
+
     var setNewColor: (_ card: Card, _ color: ColorKeys) -> Void
-    
+
     let colors = ColorKeys.allCases
-    
+
     func singleColor(_ key: ColorKeys) -> some View {
         ZStack {
             Circle()
@@ -118,32 +112,32 @@ struct CustomColorPicker: View {
                 .background(Circle().foregroundColor(CardColor.get(key).dark))
                 .frame(width: 50, height: 50)
                 .onTapGesture {
-                    if let c = card {
-                        setNewColor(c, key)
+                    if let card = card {
+                        setNewColor(card, key)
                     }
                     isPresented = false
                 }
-                if (selectedColor == key) {
-                    Image(systemName: "checkmark")
-                }
+            if selectedColor == key {
+                Image(systemName: "checkmark")
+            }
         }
     }
-    
+
     var colorSelection: some View {
         Grid {
             GridRow {
-                ForEach(0..<4) { i in
-                    singleColor(colors[i])
+                ForEach(0..<4) { index in
+                    singleColor(colors[index])
                 }
             }
             GridRow {
-                ForEach(4..<8) { i in
-                    singleColor(colors[i])
+                ForEach(4..<8) { index in
+                    singleColor(colors[index])
                 }
             }
         }
     }
-    
+
     var body: some View {
         VStack {
             colorSelection
@@ -151,5 +145,5 @@ struct CustomColorPicker: View {
         }
         .presentationDetents([.height(250)])
     }
-    
+
 }

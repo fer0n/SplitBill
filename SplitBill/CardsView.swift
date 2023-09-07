@@ -1,25 +1,20 @@
-
-
 import SwiftUI
 
-
-
 struct CardsView: View {
-    @ObservedObject var vm: ContentViewModel
+    @ObservedObject var cvm: ContentViewModel
     @State var showCardTransactions = false
     @Binding var showEditCardSheet: Bool
-    
+
     func handleAutoScroll(_ scrollView: ScrollViewProxy, card: Card) {
         scrollView.scrollTo(card, anchor: .center)
     }
-    
-    
+
     func toggleTransactions() {
         showCardTransactions.toggle()
     }
-    
-    func SingleCardListItem(_ card: Card, scrollView: ScrollViewProxy) -> some View {
-        SingleCardView(vm: vm,
+
+    func singleCardListItem(_ card: Card, scrollView: ScrollViewProxy) -> some View {
+        SingleCardView(cvm: cvm,
                        showTransactions: $showCardTransactions,
                        showEditCardSheet: $showEditCardSheet,
                        card: card,
@@ -27,8 +22,8 @@ struct CardsView: View {
                        handleAutoScroll: { handleAutoScroll(scrollView, card: card) })
         .transition(.scale)
     }
-    
-    var AddCardsButton: some View {
+
+    var addCardsButton: some View {
         Button {
             showEditCardSheet = true
         } label: {
@@ -40,22 +35,21 @@ struct CardsView: View {
         .cardBackground(false, .black)
         .clipShape(Circle())
     }
-    
-    
+
     var body: some View {
         ScrollViewReader { scrollView in
             ScrollView(.horizontal) {
                 HStack(alignment: .bottom, spacing: 5) {
-                    AddCardsButton
+                    addCardsButton
                     CardSpacer()
-                    ForEach(vm.chosenNormalCards, id: \.self) { card in
-                        SingleCardListItem(card, scrollView: scrollView)
+                    ForEach(cvm.chosenNormalCards, id: \.self) { card in
+                        singleCardListItem(card, scrollView: scrollView)
                     }
-                    if (!vm.specialCards.isEmpty) {
+                    if !cvm.specialCards.isEmpty {
                         CardSpacer()
-                        if (vm.totalCard?.isChosen ?? false) {
-                            SingleCardListItem(vm.totalCard!, scrollView: scrollView)
-                                .id(vm.totalCard)
+                        if cvm.totalCard?.isChosen ?? false {
+                            singleCardListItem(cvm.totalCard!, scrollView: scrollView)
+                                .id(cvm.totalCard)
                         }
                     }
                 }
@@ -67,16 +61,12 @@ struct CardsView: View {
     }
 }
 
-
-
 struct CardSpacer: View {
     var body: some View {
         Spacer()
             .frame(width: 5, height: 5)
     }
 }
-
-
 
 extension View {
     func cardBackground(_ isSelected: Bool, _ selectedColor: Color) -> some View {
@@ -86,6 +76,3 @@ extension View {
             .background(isSelected ? Color.blue.opacity(0) : Color.black.opacity(0.3))
     }
 }
-
-
-

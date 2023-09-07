@@ -1,8 +1,4 @@
-
-
 import SwiftUI
-
-
 
 @main
 struct SplitBillApp: App {
