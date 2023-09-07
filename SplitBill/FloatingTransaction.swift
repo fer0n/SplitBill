@@ -20,44 +20,23 @@ struct FloatingTransactionView: View {
     @State var floatingTransactionDisappearTimer: Timer?
     @State var attempts: Int = 0
 
-    func getCardColorsAndTransaction(from tId: UUID) -> (cardColors: [Color]?, transaction: Transaction?) {
-        guard let transaction = cvm.transactions[tId] else {
-            return (nil, nil)
-        }
-        let cardIds = transaction.shares.keys
-        let cardIndeces = cardIds
-                .map { cvm.getCardsIndex(of: $0) }
-                .sorted { (index1, index2) -> Bool in
-            guard let index1, let index2 else { return false }
-            return index1 < index2
-        }
-        let cardColors = cardIndeces.map {
-            if let index = $0 {
-                return cvm.cards[index].color.light
-            }
-            return Color.black
-        }
-        return (cardColors, transaction)
-    }
-
     func flashTransaction(_ tId: UUID, _ remove: Bool) {
         if remove && floatingTransaction == nil {
             return
         }
 
-        let (cardColors, transaction) = getCardColorsAndTransaction(from: tId)
-        guard let cardColors = cardColors, let transaction = transaction, cardColors.count > 0 else {
+        let transaction = cvm.getTransaction(tId)
+        guard let transaction = transaction,
+           transaction.shares.count > 0 else {
             floatingTransaction = nil
             print("no transaction or card found to display")
             return
         }
-
         withAnimation {
             setFloatingTransactionColor(transaction)
             floatingTransaction = nil
             floatingTransaction = transaction
             floatingTransactionInfo.value = transaction.stringValue
-            floatingTransactionInfo.cardColors = cardColors
             floatingTransactionInfo.uiFont = UIFont.rounded(ofSize: floatingTransaction?.boundingBox?.height ?? 30,
                                                             weight: .semibold)
         }
@@ -81,28 +60,30 @@ struct FloatingTransactionView: View {
     }
 
     func handleTransactionLongPress(_ transaction: Transaction?, _ point: CGPoint?) {
-        setFloatingTransactionColor(transaction)
-        floatingTransactionInfo.editable = true
-        floatingTransactionIsFocused = true
-        if let transaction = transaction {
-            // edit existing transaction
-            floatingTransactionInfo.value = String(transaction.value)
-            floatingTransactionInfo.center = false
-            floatingTransaction = transaction
-            floatingTransactionInfo.uiFont = UIFont.rounded(ofSize: transaction.boundingBox?.height ?? 30,
-                                                            weight: .semibold)
-        } else {
-            // new transaction
-            guard let point = point else { return }
-            floatingTransactionInfo.value = ""
-            let boundingBox = cvm.getMedianBoundingBox()
-            floatingTransaction = Transaction(
-                value: 0,
-                boundingBox: CGRect(x: point.x - boundingBox.width / 2,
-                                    y: point.y - boundingBox.height / 2,
-                                    width: boundingBox.width,
-                                    height: boundingBox.height))
-            floatingTransactionInfo.center = true
+        withAnimation {
+            setFloatingTransactionColor(transaction)
+            floatingTransactionInfo.editable = true
+            floatingTransactionIsFocused = true
+            if let transaction = transaction {
+                // edit existing transaction
+                floatingTransactionInfo.value = String(transaction.value)
+                floatingTransactionInfo.center = false
+                floatingTransaction = transaction
+                floatingTransactionInfo.uiFont = UIFont.rounded(ofSize: transaction.boundingBox?.height ?? 30,
+                                                                weight: .semibold)
+            } else {
+                // new transaction
+                guard let point = point else { return }
+                floatingTransactionInfo.value = ""
+                let boundingBox = cvm.getMedianBoundingBox()
+                floatingTransaction = Transaction(
+                    value: 0,
+                    boundingBox: CGRect(x: point.x - boundingBox.width / 2,
+                                        y: point.y - boundingBox.height / 2,
+                                        width: boundingBox.width,
+                                        height: boundingBox.height))
+                floatingTransactionInfo.center = true
+            }
         }
     }
 
@@ -114,18 +95,41 @@ struct FloatingTransactionView: View {
         }
     }
 
-    func setFloatingTransactionColor(_ transaction: Transaction?) {
-        let firstactiveCard = cvm.getFirstActiveCard()
-        if let transaction = transaction, let card = cvm.getFirstChosencardOfTransaction(transaction) {
-            let cards = cvm.getChosencardsOfTransaction(transaction)
-            if let firstactiveCard = firstactiveCard, cards.contains(firstactiveCard) {
-                floatingTransactionInfo.color = firstactiveCard.color
-            } else {
-                floatingTransactionInfo.color = card.color
-            }
-        } else {
-            floatingTransactionInfo.color = firstactiveCard?.color ?? CardColor.get(.neutralGray)
+    func getCardColors(from cardIndeces: [Array<Card>.Index?]) -> [Color] {
+        let cardIndeces = cardIndeces
+                .sorted { (index1, index2) -> Bool in
+            guard let index1, let index2 else { return false }
+            return index1 < index2
         }
+        let cardColors = cardIndeces.map {
+            if let index = $0 {
+                return cvm.cards[index].color.light
+            }
+            return Color.black
+        }
+        return cardColors
+    }
+
+    func setFloatingTransactionColor(_ transaction: Transaction?) {
+        // get cardIds: either from transaction shares or from active cards
+        var cardIds: [UUID] = []
+        if let transaction = transaction {
+            cardIds = Array(transaction.shares.keys)
+        }
+        if cardIds.isEmpty {
+            cardIds = Array(cvm.activeCardsIds)
+        }
+        let cardIndices = cardIds.map { cvm.getCardsIndex(of: $0 )}
+
+        // set CardColor, used for CalcTextField keyboard
+        if let firstCardIndex = cardIndices[0] {
+            let color = cvm.cards[firstCardIndex].color
+            floatingTransactionInfo.color = color
+        }
+
+        // get colors of all cards
+        let cardColors = getCardColors(from: cardIndices)
+        floatingTransactionInfo.cardColors = !cardColors.isEmpty ? cardColors : [.black]
     }
 
     func handleFreeformTransaction(updatedTransaction: Transaction? = nil) {
