@@ -206,6 +206,9 @@ struct FloatingTransactionView: View {
     }
 
     var body: some View {
+        let padding = floatingTransactionInfo.padding / 2
+        let cornerRadius = floatingTransaction?.boundingBox?.cornerRadius ?? 0
+
         ZStack {
             if floatingTransaction != nil {
                 HStack {
@@ -217,6 +220,13 @@ struct FloatingTransactionView: View {
                     }
                     floatingTransactionTextField
                 }
+                .padding(padding)
+                .background(
+                    Color.black.opacity(0)
+                        .background(.ultraThinMaterial)
+                        .environment(\.colorScheme, cvm.imageIsLight ? ColorScheme.light : .dark)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius + padding, style: .continuous))
                 .onSizeChange(handleSizeChange)
                 .accentColor(.white)
                 .foregroundColor(floatingTransactionInfo.color.contrast)

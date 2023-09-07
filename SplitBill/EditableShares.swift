@@ -93,15 +93,8 @@ struct EditableShares: View {
         }
         .font(.system(size: ((floatingTransaction?.boundingBox?.height ?? 30) / 1.5),
                       weight: .semibold, design: .rounded))
-        .padding(padding)
         .animation(nil, value: UUID())
-        .background(
-            Color.black.opacity(0)
-                .background(.ultraThinMaterial)
-                .environment(\.colorScheme, colorScheme)
-        )
         .foregroundColor(.foregroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius + padding, style: .continuous))
     }
 }
 
