@@ -631,7 +631,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 76;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -643,7 +643,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -660,7 +660,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SplitBill Extension/SplitBill Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 76;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
@@ -672,7 +672,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pentlandfirth.splitbill.SplitBill-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

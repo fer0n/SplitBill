@@ -58,8 +58,8 @@ struct SettingsView: View {
                 }
             }
             .navigationBarTitle("settings")
+            .navigationBarTitleDisplayMode(.inline)
         }
-
     }
 }
 

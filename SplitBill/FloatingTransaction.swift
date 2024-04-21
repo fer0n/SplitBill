@@ -17,6 +17,8 @@ struct FloatingTransactionView: View {
         color: .neutralGray)
     @State var floatingTransaction: Transaction?
     @FocusState private var floatingTransactionIsFocused: Bool
+    @FocusState private var editableSharesFocused: Bool
+
     @State var floatingTransactionDisappearTimer: Timer?
     @State var attempts: Int = 0
 
@@ -51,7 +53,9 @@ struct FloatingTransactionView: View {
             } else if let duration = cvm.previewDuration.timeInterval {
                 floatingTransactionDisappearTimer = Timer.scheduledTimer(withTimeInterval: duration,
                                                                          repeats: false) { _ in
-                    floatingTransaction = nil
+                    if !editableSharesFocused {
+                        floatingTransaction = nil
+                    }
                 }
             }
         }
@@ -205,8 +209,14 @@ struct FloatingTransactionView: View {
                                        $floatingTransaction,
                                        handleTransactionChange: self.handleFreeformTransaction)
                             .id("edit-shares")
+                            .focused($editableSharesFocused)
                         Spacer()
                             .frame(width: padding)
+                            .onChange(of: $editableSharesFocused.wrappedValue) { isFocused in
+                                if !isFocused {
+                                    debouncedHideFloatingTransaction()
+                                }
+                            }
                     }
                     floatingTransactionTextField
                 }
