@@ -55,7 +55,7 @@ struct Card: Identifiable, Hashable, Codable {
         if cardType != .total
             || !(
                 ContentViewModel.totalTransactionId != nil
-                && transactionIds.contains(ContentViewModel.totalTransactionId!)
+                    && transactionIds.contains(ContentViewModel.totalTransactionId!)
             ) {
             return name
         }

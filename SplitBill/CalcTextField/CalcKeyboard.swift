@@ -84,7 +84,7 @@ class CalcKeyboard: UIView {
             if let button = view as? UIButton {
                 switch button.tag {
                 case KeyboardAction.insertNumber.rawValue,
-                    KeyboardAction.point.rawValue:
+                     KeyboardAction.point.rawValue:
                     button.setTitleColor(self.accentColor, for: .normal)
                 default:
                     button.backgroundColor = self.bgColor

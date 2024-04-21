@@ -291,7 +291,7 @@ class ContentViewModel: ObservableObject {
 
     func totalTransactionIsInvolved(_ card: Card, _ transactionId: UUID) -> Bool {
         return (card.cardType == .total && transactions[transactionId]?.shares.count ?? 0 >= 1)
-        || (card.cardType != .total && transactionId == ContentViewModel.totalTransactionId)
+            || (card.cardType != .total && transactionId == ContentViewModel.totalTransactionId)
     }
 
     func linkTransaction(_ cardId: UUID, transactionId: UUID) {

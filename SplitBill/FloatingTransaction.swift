@@ -27,7 +27,7 @@ struct FloatingTransactionView: View {
 
         let transaction = cvm.getTransaction(tId)
         guard let transaction = transaction,
-           transaction.shares.count > 0 else {
+              transaction.shares.count > 0 else {
             floatingTransaction = nil
             print("no transaction or card found to display")
             return
@@ -95,10 +95,10 @@ struct FloatingTransactionView: View {
 
     func getCardColors(from cardIndeces: [Array<Card>.Index?]) -> [Color] {
         let cardIndeces = cardIndeces
-                .sorted { (index1, index2) -> Bool in
-            guard let index1, let index2 else { return false }
-            return index1 < index2
-        }
+            .sorted { (index1, index2) -> Bool in
+                guard let index1, let index2 else { return false }
+                return index1 < index2
+            }
         let cardColors = cardIndeces.map {
             if let index = $0 {
                 return cvm.cards[index].color.light
@@ -204,7 +204,7 @@ struct FloatingTransactionView: View {
                                        $floatingTransactionInfo,
                                        $floatingTransaction,
                                        handleTransactionChange: self.handleFreeformTransaction)
-                        .id("edit-shares")
+                            .id("edit-shares")
                         Spacer()
                             .frame(width: padding)
                     }
@@ -277,10 +277,10 @@ extension View {
                                      _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
         self
             .position(x: floatingTransactionInfo.center
-                      ? floatingTransaction?.boundingBox?.midX ?? 0
-                      : (floatingTransaction?.boundingBox?.minX ?? 0)
-                      - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
-                      - floatingTransactionInfo.padding * 2,
+                        ? floatingTransaction?.boundingBox?.midX ?? 0
+                        : (floatingTransaction?.boundingBox?.minX ?? 0)
+                        - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
+                        - floatingTransactionInfo.padding * 2,
                       y: floatingTransaction?.boundingBox?.midY ?? 0)
     }
 
@@ -296,7 +296,7 @@ extension View {
                                 .frame(width: geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count),
                                        height: geometry.size.height)
                                 .offset(x: CGFloat(floatingTransactionInfo.cardColors.firstIndex(of: color)!)
-                                        * (geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count)),
+                                            * (geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count)),
                                         y: 0)
                         }
                     }
@@ -306,7 +306,7 @@ extension View {
                                             floatingTransaction?.boundingBox?.cornerRadius
                                             ?? floatingTransaction?.boundingBox?.minX
                                             ?? 0
-                                       ))
+            ))
     }
 
     func onSizeChange(_ onSizeChange: @escaping (_ size: CGSize) -> Void) -> some View {

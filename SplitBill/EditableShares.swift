@@ -78,7 +78,7 @@ struct EditableShares: View {
                                    floatingTransactionInfo: $floatingTransactionInfo,
                                    shareValue: String(share.value ?? 0),
                                    editShare: self.editShare)
-                    .id(share.cardId)
+                        .id(share.cardId)
                 }
                 if share.cardId != shares.last?.cardId {
                     Image(systemName: "plus")

@@ -20,7 +20,7 @@ struct CardsView: View {
                        card: card,
                        toggleTransaction: toggleTransactions,
                        handleAutoScroll: { handleAutoScroll(scrollView, card: card) })
-        .transition(.scale)
+            .transition(.scale)
     }
 
     var addCardsButton: some View {

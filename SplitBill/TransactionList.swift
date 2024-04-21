@@ -20,29 +20,29 @@ struct TransactionsList: View {
     func transactionTextField(_ transaction: Transaction) -> some View {
         CalcTextField(transaction.getStringValue(for: card),
                       text: (transaction == transactionToEdit)
-                            ? $newTransactionValue
-                            : .constant(transaction.getStringValue(for: card)),
+                        ? $newTransactionValue
+                        : .constant(transaction.getStringValue(for: card)),
                       onSubmit: { result in
-            guard let res = result else {
-                self.attempts += 1
-                return
-            }
-            if res != 0 {
-                cvm.editTransaction(transaction.id, value: res, card)
-            }
-            newTransactionValue = ""
-            transactionToEdit = nil
-        }, onEditingChanged: { edit in
-            if edit {
-                transactionToEdit = transaction
-            } else {
-                transactionToEdit = nil
-                newTransactionValue = ""
-            }
-        },
-            accentColor: card.color.uiColorFont,
-            bgColor: UIColor(card.color.dark),
-            textColor: UIColor(card.color.contrast)
+                        guard let res = result else {
+                            self.attempts += 1
+                            return
+                        }
+                        if res != 0 {
+                            cvm.editTransaction(transaction.id, value: res, card)
+                        }
+                        newTransactionValue = ""
+                        transactionToEdit = nil
+                      }, onEditingChanged: { edit in
+                        if edit {
+                            transactionToEdit = transaction
+                        } else {
+                            transactionToEdit = nil
+                            newTransactionValue = ""
+                        }
+                      },
+                      accentColor: card.color.uiColorFont,
+                      bgColor: UIColor(card.color.dark),
+                      textColor: UIColor(card.color.contrast)
         )
         .padding(.horizontal, 5)
         .gridColumnAlignment(transaction.label != nil ? .trailing : .leading)
