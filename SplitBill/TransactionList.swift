@@ -81,7 +81,7 @@ struct TransactionsList: View {
                 Text("deleteTransaction")
                 Image(systemName: "minus.circle.fill")
             }
-            if (transaction.shares.contains(where: { $0.value.manuallyAdjusted })) {
+            if transaction.shares.contains(where: { $0.value.manuallyAdjusted }) {
                 Button {
                     withAnimation {
                         cvm.resetShare(transaction, of: card)

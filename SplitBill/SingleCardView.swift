@@ -98,7 +98,7 @@ struct SingleCardView: View {
                 return
             }
             cvm.restoreActiveState(cvm.previouslyActiveCardsIds)
-            if (cvm.previouslyActiveCardsIds.first(where: { $0 == card.id }) != nil) {
+            if cvm.previouslyActiveCardsIds.first(where: { $0 == card.id }) != nil {
                 cvm.setActiveCard(card.id, value: false, multiple: true)
             } else {
                 cvm.setActiveCard(card.id, value: true, multiple: true)

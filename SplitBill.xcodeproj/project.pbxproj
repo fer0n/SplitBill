@@ -398,7 +398,7 @@
 				BDD1322A285217CA00C69619 /* Resources */,
 				88173DF8297BBAEC00ED89DA /* Embed Foundation Extensions */,
 				8809670B2A7BC1990007C674 /* Embed Frameworks */,
-				881F07802AA9B6BB005D1843 /* ShellScript */,
+				881F07802AA9B6BB005D1843 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -489,7 +489,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		881F07802AA9B6BB005D1843 /* ShellScript */ = {
+		881F07802AA9B6BB005D1843 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 12;
@@ -499,6 +499,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
