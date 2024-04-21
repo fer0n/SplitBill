@@ -130,6 +130,7 @@
 		883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SplitBillShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitBillShared.h; sourceTree = "<group>"; };
 		883CA8D82A7BCB86000C7381 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		88508D722BD514F9008384DA /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsOverlayLogic.swift; sourceTree = "<group>"; };
 		88523C992A93B607002AFEA6 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		88523C9C2A93F44E002AFEA6 /* SplitBill-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SplitBill-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -282,6 +283,7 @@
 		BDD13223285217C900C69619 = {
 			isa = PBXGroup;
 			children = (
+				88508D722BD514F9008384DA /* PrivacyInfo.xcprivacy */,
 				BDD1322E285217CA00C69619 /* SplitBill */,
 				88173DEE297BBAEC00ED89DA /* SplitBill Extension */,
 				883CA8CE2A7BCB68000C7381 /* SplitBillShared */,
@@ -883,7 +885,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 76;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -926,7 +928,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 76;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
