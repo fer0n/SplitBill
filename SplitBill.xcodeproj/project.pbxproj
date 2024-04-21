@@ -48,6 +48,8 @@
 		888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888B10B7294390BC00D1AB3B /* OneHandedZoomGesture.swift */; };
 		888B10BA2946E2E400D1AB3B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888B10B92946E2E400D1AB3B /* Colors.swift */; };
 		8892F61C2A7C2094001D00C0 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
+		88A002F82BD5013B00C2EC54 /* CardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A002F72BD5013B00C2EC54 /* CardListItem.swift */; };
+		88A002FA2BD5049300C2EC54 /* CustomColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A002F92BD5049300C2EC54 /* CustomColorPicker.swift */; };
 		88B3738E295305EB007AD933 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B3738D295305EB007AD933 /* SettingsView.swift */; };
 		88B3739129531CAA007AD933 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88B3739329531CAA007AD933 /* Localizable.strings */; };
 		88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D5AC622A90DB2500879893 /* SingleCardView.swift */; };
@@ -154,6 +156,8 @@
 		888B10B7294390BC00D1AB3B /* OneHandedZoomGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneHandedZoomGesture.swift; sourceTree = "<group>"; };
 		888B10B92946E2E400D1AB3B /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		88990A082930FF36003F7D8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		88A002F72BD5013B00C2EC54 /* CardListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListItem.swift; sourceTree = "<group>"; };
+		88A002F92BD5049300C2EC54 /* CustomColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPicker.swift; sourceTree = "<group>"; };
 		88A558942A84C7C600395879 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		88A558952A84C7C600395879 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
 		88B3738D295305EB007AD933 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -316,6 +320,8 @@
 				88D5AC622A90DB2500879893 /* SingleCardView.swift */,
 				881F07832AA9E309005D1843 /* TransactionList.swift */,
 				888495B5291FDD4700AB74D7 /* EditCardsView.swift */,
+				88A002F72BD5013B00C2EC54 /* CardListItem.swift */,
+				88A002F92BD5049300C2EC54 /* CustomColorPicker.swift */,
 				88B3738D295305EB007AD933 /* SettingsView.swift */,
 				88677494291C3C17002C675C /* ZoomableScrollView.swift */,
 				88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */,
@@ -545,6 +551,7 @@
 				881F07842AA9E309005D1843 /* TransactionList.swift in Sources */,
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
+				88A002FA2BD5049300C2EC54 /* CustomColorPicker.swift in Sources */,
 				881F07822AA9DD70005D1843 /* UIColor.swift in Sources */,
 				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
 				88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */,
@@ -553,6 +560,7 @@
 				888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */,
 				881F077B2AA9B541005D1843 /* UIFont.swift in Sources */,
 				88523CA02A93F77B002AFEA6 /* NSExpression.swift in Sources */,
+				88A002F82BD5013B00C2EC54 /* CardListItem.swift in Sources */,
 				BDD13232285217CA00C69619 /* ContentView.swift in Sources */,
 				887E09642924311C00A6A116 /* CardModel.swift in Sources */,
 				8875AE9B29433E3C0077FFA8 /* ScannerView.swift in Sources */,
@@ -627,7 +635,7 @@
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "SplitBill Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -656,7 +664,7 @@
 				INFOPLIST_FILE = "SplitBill Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "SplitBill Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -690,7 +698,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -729,7 +737,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -800,7 +808,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -855,7 +863,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -888,12 +896,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -931,12 +939,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

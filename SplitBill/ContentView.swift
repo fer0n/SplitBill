@@ -18,7 +18,6 @@ struct ContentView: View {
     @State var replacingImage: UIImage?
     @State var replacingImageIsHeic: Bool?
 
-    @State private var presentationDetent: PresentationDetent?
     @State private var settingsDetent: PresentationDetent = .medium
 
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
@@ -196,20 +195,29 @@ struct ContentView: View {
             .ignoresSafeArea()
         }
         .sheet(isPresented: $showEditCardSheet) {
-            let detents: Set<PresentationDetent> = !cvm.hasNormalCards ? [.small, .medium, .large] : [.medium, .large]
-            EditCardsView(cvm: cvm, presentationDetent: $presentationDetent)
-                .presentationDetents(
-                    detents,
-                    selection: Binding($presentationDetent) ?? .constant(!cvm.hasNormalCards ? .small : .medium)
-                )
+            // Workaround: in iOS 17, having a List { TextField(...) } breaks the partial sheet
+            // A partial sheet can be used again if/once this gets fixed by Apple
+            NavigationStack {
+                EditCardsView(cvm: cvm)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button {
+                                showEditCardSheet = false
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                            }
+                        }
+                    }
+                    .navigationTitle("editCards")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
         }
         .sheet(isPresented: $showSettings) {
-            SettingsView(cvm: cvm,
-                         showSelf: $showSettings)
-            .presentationDetents(
-                [.medium, .large], selection: $settingsDetent
-            )
-            .ignoresSafeArea()
+            SettingsView(cvm: cvm)
+                .presentationDetents(
+                    [.medium, .large], selection: $settingsDetent
+                )
+                .ignoresSafeArea()
         }
         .onChange(of: undoManager) { newManager in
             cvm.undoManager = newManager

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var cvm: ContentViewModel
-    @Binding var showSelf: Bool
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
 
     let writeReviewUrl = URL(string: "https://apps.apple.com/app/id6444704240?action=write-review")!
@@ -17,7 +17,7 @@ struct SettingsView: View {
     let githubUrl = URL(string: "https://github.com/fer0n/SplitBill")!
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section {
                     Picker("openOnStartUp", selection: $startupItem) {
@@ -126,6 +126,6 @@ struct LinkItemView<Content: View>: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(cvm: ContentViewModel(), showSelf: .constant(true))
+        SettingsView(cvm: ContentViewModel())
     }
 }
