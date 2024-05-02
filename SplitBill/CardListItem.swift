@@ -30,9 +30,9 @@ struct CardListItem: View {
 
             TextField(card.name.wrappedValue, text: card.name)
                 .disabled(disableEdit)
-                .onChange(of: card.wrappedValue.name, perform: { _ in
+                .onChange(of: card.wrappedValue.name) {
                     cvm.saveCardDataDebounced()
-                })
+                }
                 .submitLabel(.done)
 
             Spacer()

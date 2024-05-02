@@ -212,8 +212,8 @@ struct FloatingTransactionView: View {
                             .focused($editableSharesFocused)
                         Spacer()
                             .frame(width: padding)
-                            .onChange(of: $editableSharesFocused.wrappedValue) { isFocused in
-                                if !isFocused {
+                            .onChange(of: editableSharesFocused) {
+                                if !editableSharesFocused {
                                     debouncedHideFloatingTransaction()
                                 }
                             }
@@ -241,7 +241,7 @@ struct FloatingTransactionView: View {
             cvm.onFlashTransaction = self.flashTransaction
             cvm.onEmptyTap = self.handleEmptyTap
         }
-        .onChange(of: cvm.image) { _ in
+        .onChange(of: cvm.image) {
             floatingTransaction = nil
         }
     }

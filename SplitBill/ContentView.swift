@@ -219,8 +219,8 @@ struct ContentView: View {
                 )
                 .ignoresSafeArea()
         }
-        .onChange(of: undoManager) { newManager in
-            cvm.undoManager = newManager
+        .onChange(of: undoManager) {
+            cvm.undoManager = undoManager
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification), perform: { _ in
             cvm.handleSaveState()
@@ -234,12 +234,12 @@ struct ContentView: View {
         .onOpenURL { _ in
             self.isLoadingReplacingImage = true
         }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active {
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
                 if !cvm.savedImageIsPreserved() {
                     _ = handleStoredImage()
                 }
-            } else if newPhase == .background {
+            } else if scenePhase == .background {
                 cvm.handleSaveState()
             }
         }
