@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ButtonsOverlayView: View {
     @Environment(\.undoManager) var undoManager
+    @AppStorage("successfulUserActionCount") var successfulUserActionCount: Int = 0
     @ObservedObject var cvm: ContentViewModel
     @Binding var showImagePicker: Bool
     @Binding var showScanner: Bool
@@ -24,12 +25,14 @@ struct ButtonsOverlayView: View {
 
             Button {
                 showScanner = true
+                successfulUserActionCount -= 1
             } label: {
                 Text("documentScanner")
                 Image(systemName: "doc.viewfinder.fill")
                     .padding(10)
             }
             Button {
+                successfulUserActionCount -= 1
                 showImagePicker = true
             } label: {
                 Text("photoLibrary")
@@ -53,7 +56,11 @@ struct ButtonsOverlayView: View {
                 Text("share")
                 Image(systemName: "square.and.arrow.up.fill")
                     .padding(10)
-            }.disabled(cvm.image == nil)
+            }
+            .disabled(cvm.image == nil)
+            .onAppear {
+                successfulUserActionCount += 1
+            }
 
             Button {
                 showSettings = true

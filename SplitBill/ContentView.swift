@@ -1,11 +1,13 @@
 import SwiftUI
 import PhotosUI
 import UniformTypeIdentifiers
+import StoreKit
 
 struct ContentView: View {
     @Environment(\.undoManager) var undoManager
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var alerter: Alerter
+    @Environment(\.requestReview) var requestReview
     @StateObject var cvm = ContentViewModel()
 
     @State var showScanner: Bool = false
@@ -21,6 +23,7 @@ struct ContentView: View {
     @State private var settingsDetent: PresentationDetent = .medium
 
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
+    @AppStorage("successfulUserActionCount") var successfulUserActionCount: Int = 0
 
     let zoomBufferPadding: CGFloat = 500
 
@@ -241,6 +244,22 @@ struct ContentView: View {
                 }
             } else if scenePhase == .background {
                 cvm.handleSaveState()
+            }
+        }
+        .onChange(of: successfulUserActionCount) {
+            let limit = 5
+            if successfulUserActionCount > limit {
+                Task {
+                    do {
+                        try await Task.sleep(nanoseconds: 8_000_000_000)
+                        if successfulUserActionCount > limit {
+                            requestReview()
+                            successfulUserActionCount = 0
+                        }
+                    } catch {}
+                }
+            } else if successfulUserActionCount < 0 {
+                successfulUserActionCount = 0
             }
         }
         .alert("replaceImage", isPresented: $showReplaceImageAlert) {
