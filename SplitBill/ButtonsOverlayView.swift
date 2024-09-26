@@ -10,6 +10,8 @@ struct ButtonsOverlayView: View {
     @Binding var showSettings: Bool
     @Binding var showEditCardSheet: Bool
     @State var showDeleteImageAlert = false
+
+    @State var hasBeenSubtracted = false
     var showCardsView: Bool = false
 
     var menuWithOptions: some View {
@@ -25,15 +27,15 @@ struct ButtonsOverlayView: View {
 
             Button {
                 showScanner = true
-                successfulUserActionCount -= 1
+                handleSuccessfulUserActionCount()
             } label: {
                 Text("documentScanner")
                 Image(systemName: "doc.viewfinder.fill")
                     .padding(10)
             }
             Button {
-                successfulUserActionCount -= 1
                 showImagePicker = true
+                handleSuccessfulUserActionCount()
             } label: {
                 Text("photoLibrary")
                 Image(systemName: "photo.fill.on.rectangle.fill")
@@ -87,6 +89,13 @@ struct ButtonsOverlayView: View {
                 cvm.clearAllTransactionsAndHistory()
             }
             Button("cancel", role: .cancel) { }
+        }
+    }
+
+    func handleSuccessfulUserActionCount() {
+        if !hasBeenSubtracted {
+            successfulUserActionCount -= 1
+            hasBeenSubtracted = true
         }
     }
 
