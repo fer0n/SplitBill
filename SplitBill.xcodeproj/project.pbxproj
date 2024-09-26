@@ -40,8 +40,6 @@
 		8883975F2AA45D01004D0722 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8883975E2AA45D01004D0722 /* Double.swift */; };
 		888397612AA46254004D0722 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397602AA46254004D0722 /* UIView.swift */; };
 		888397632AA4755B004D0722 /* GeometryEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888397622AA4755B004D0722 /* GeometryEffect.swift */; };
-		8883976A2AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 888397682AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf */; };
-		8883976B2AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 888397692AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf */; };
 		888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888495B3291E6E4400AB74D7 /* ContentViewModel.swift */; };
 		888495B6291FDD4700AB74D7 /* EditCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888495B5291FDD4700AB74D7 /* EditCardsView.swift */; };
 		88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */; };
@@ -61,6 +59,8 @@
 		BDD13234285217CA00C69619 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD13233285217CA00C69619 /* Assets.xcassets */; };
 		BDD13237285217CA00C69619 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD13236285217CA00C69619 /* Preview Assets.xcassets */; };
 		BDD1323E28521D7000C69619 /* LiveTextInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1323D28521D7000C69619 /* LiveTextInteraction.swift */; };
+		CD5E74522CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5E74512CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf */; };
+		CD5E74532CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5E74502CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,8 +149,6 @@
 		8883975E2AA45D01004D0722 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		888397602AA46254004D0722 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		888397622AA4755B004D0722 /* GeometryEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEffect.swift; sourceTree = "<group>"; };
-		888397682AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Semibold.otf"; path = "../../../../../../../Library/Fonts/SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
-		888397692AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Bold.otf"; path = "../../../../../../../Library/Fonts/SF-Pro-Rounded-Bold.otf"; sourceTree = "<group>"; };
 		888495B3291E6E4400AB74D7 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		888495B5291FDD4700AB74D7 /* EditCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardsView.swift; sourceTree = "<group>"; };
 		88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsOverlayView.swift; sourceTree = "<group>"; };
@@ -174,6 +172,8 @@
 		BDD13233285217CA00C69619 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDD13236285217CA00C69619 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BDD1323D28521D7000C69619 /* LiveTextInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTextInteraction.swift; sourceTree = "<group>"; };
+		CD5E74502CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Bold.otf"; sourceTree = "<group>"; };
+		CD5E74512CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,15 +253,6 @@
 			path = CalcTextField;
 			sourceTree = "<group>";
 		};
-		888397672AA4B132004D0722 /* Font */ = {
-			isa = PBXGroup;
-			children = (
-				888397692AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf */,
-				888397682AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf */,
-			);
-			path = Font;
-			sourceTree = "<group>";
-		};
 		888B10BB2946E2EF00D1AB3B /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,7 +296,7 @@
 		BDD1322E285217CA00C69619 /* SplitBill */ = {
 			isa = PBXGroup;
 			children = (
-				888397672AA4B132004D0722 /* Font */,
+				CD5E744F2CA5450A00E2EC07 /* Font */,
 				888397552AA45AB3004D0722 /* CalcTextField */,
 				88523C9B2A93F3B8002AFEA6 /* Extensions */,
 				88173DFD297BCD9000ED89DA /* SplitBill.entitlements */,
@@ -345,6 +336,15 @@
 				BDD13236285217CA00C69619 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CD5E744F2CA5450A00E2EC07 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				CD5E74502CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf */,
+				CD5E74512CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -485,12 +485,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD5E74522CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf in Resources */,
+				CD5E74532CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf in Resources */,
 				BDD13237285217CA00C69619 /* Preview Assets.xcassets in Resources */,
 				8883975B2AA45C13004D0722 /* CalcKeyboard.xib in Resources */,
 				88B3739129531CAA007AD933 /* Localizable.strings in Resources */,
-				8883976B2AA4B1A9004D0722 /* SF-Pro-Rounded-Bold.otf in Resources */,
 				BDD13234285217CA00C69619 /* Assets.xcassets in Resources */,
-				8883976A2AA4B1A9004D0722 /* SF-Pro-Rounded-Semibold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,7 +885,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 80;
+				CURRENT_PROJECT_VERSION = 81;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -903,7 +903,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -928,7 +928,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 80;
+				CURRENT_PROJECT_VERSION = 81;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -946,7 +946,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
