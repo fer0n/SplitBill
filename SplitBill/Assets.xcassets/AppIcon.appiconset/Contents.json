@@ -1,7 +1,31 @@
 {
   "images" : [
     {
-      "filename" : "SplitBill Icon 3.png",
+      "filename" : "icon.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "dark icon.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "filename" : "tinted icon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
