@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8800D7C02932B1DA00FA6ADE /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8800D7BF2932B1DA00FA6ADE /* util.swift */; };
+		880BBF662D97F0C500AA4B57 /* CardTapInteractionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880BBF652D97F0C500AA4B57 /* CardTapInteractionModifier.swift */; };
 		88173DF0297BBAEC00ED89DA /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88173DEF297BBAEC00ED89DA /* ShareViewController.swift */; };
 		88173DF3297BBAEC00ED89DA /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88173DF1297BBAEC00ED89DA /* MainInterface.storyboard */; };
 		88173DF7297BBAEC00ED89DA /* SplitBill Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 88173DED297BBAEC00ED89DA /* SplitBill Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -114,6 +115,7 @@
 
 /* Begin PBXFileReference section */
 		8800D7BF2932B1DA00FA6ADE /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
+		880BBF652D97F0C500AA4B57 /* CardTapInteractionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTapInteractionModifier.swift; sourceTree = "<group>"; };
 		88173DED297BBAEC00ED89DA /* SplitBill Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SplitBill Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88173DEF297BBAEC00ED89DA /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		88173DF2297BBAEC00ED89DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				88776E6B2AA85032009E683E /* EditableShares.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
 				88D5AC622A90DB2500879893 /* SingleCardView.swift */,
+				880BBF652D97F0C500AA4B57 /* CardTapInteractionModifier.swift */,
 				881F07832AA9E309005D1843 /* TransactionList.swift */,
 				888495B5291FDD4700AB74D7 /* EditCardsView.swift */,
 				88A002F72BD5013B00C2EC54 /* CardListItem.swift */,
@@ -557,6 +560,7 @@
 				881F07822AA9DD70005D1843 /* UIColor.swift in Sources */,
 				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
 				88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */,
+				880BBF662D97F0C500AA4B57 /* CardTapInteractionModifier.swift in Sources */,
 				88776E6C2AA85032009E683E /* EditableShares.swift in Sources */,
 				88894F7E292795A50069BCF3 /* ButtonsOverlayView.swift in Sources */,
 				888B10B8294390BC00D1AB3B /* OneHandedZoomGesture.swift in Sources */,
@@ -885,7 +889,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 81;
+				CURRENT_PROJECT_VERSION = 82;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -903,7 +907,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.5;
+				MARKETING_VERSION = 1.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -928,7 +932,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 81;
+				CURRENT_PROJECT_VERSION = 82;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -946,7 +950,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.5;
+				MARKETING_VERSION = 1.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

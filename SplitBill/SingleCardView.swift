@@ -34,12 +34,6 @@ struct SingleCardView: View {
         self._showEditCardSheet = showEditCardSheet
     }
 
-    func hideTransactions() {
-        if showTransactions {
-            toggleTransaction()
-        }
-    }
-
     var transactionsCard: some View {
         VStack(alignment: .center, spacing: 0) {
             if !(showTransactions && isSelected) {
@@ -93,39 +87,14 @@ struct SingleCardView: View {
         .padding(.leading, 22)
         .padding(.trailing, isSelected && showTransactions ? 15 : 22)
         .contentShape(Rectangle())
-        .gesture(TapGesture(count: 2).onEnded {
-            if card.cardType == .total {
-                return
-            }
-            cvm.restoreActiveState(cvm.previouslyActiveCardsIds)
-            if cvm.previouslyActiveCardsIds.first(where: { $0 == card.id }) != nil {
-                cvm.setActiveCard(card.id, value: false, multiple: true)
-            } else {
-                cvm.setActiveCard(card.id, value: true, multiple: true)
-            }
-            if cvm.activeCardsIds.count > 1 {
-                hideTransactions()
-            }
-        })
-        .simultaneousGesture(TapGesture().onEnded {
-            let isLastCard = cvm.isLastChosenCard(card)
-            withAnimation(.easeInOut(duration: 0.2)) {
-                cvm.previouslyActiveCardsIds = cvm.activeCardsIds
-                if cvm.activeCardsIds.count > 1 {
-                    cvm.setActiveCard(card.id, multiple: false)
-                    return
-                }
-                if isSelected {
-                    if !showTransactions && isLastCard {
-                        handleAutoScroll()
-                    }
-                    toggleTransaction()
-                } else {
-                    cvm.setActiveCard(card.id)
-                    handleAutoScroll()
-                }
-            }
-        })
+        .cardTapInteraction(
+            cvm: cvm,
+            showTransactions: $showTransactions,
+            card: card,
+            isSelected: isSelected,
+            toggleTransaction: toggleTransaction,
+            handleAutoScroll: handleAutoScroll
+        )
         .padding([.top, .bottom], 1)
         .cardBackground(isSelected, card.color.dark)
         .clipShape(RoundedRectangle(cornerRadius: 50, style: .continuous))
