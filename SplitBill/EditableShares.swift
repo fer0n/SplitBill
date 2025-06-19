@@ -13,6 +13,8 @@ enum ShareEditType {
 }
 
 struct EditableShares: View {
+    @Namespace var namespace
+
     @ObservedObject var cvm: ContentViewModel
     @Binding var floatingTransactionInfo: FloatingTransactionInfo
     @Binding var floatingTransaction: Transaction?
@@ -78,22 +80,26 @@ struct EditableShares: View {
                                    floatingTransactionInfo: $floatingTransactionInfo,
                                    shareValue: String(share.value ?? 0),
                                    editShare: self.editShare)
-                        .id(share.cardId)
+                        .geometryGroup()
+                        .matchedGeometryEffect(id: "share-\(share.cardId)", in: namespace)
                 }
                 if share.cardId != shares.last?.cardId {
                     Image(systemName: "plus")
                         .padding(padding)
                         .environment(\.colorScheme, colorScheme)
-                        .id("\(share.cardId)-plus")
+                        .geometryGroup()
+                        .matchedGeometryEffect(id: "\(share.cardId)-plus", in: namespace)
                 }
             }
             if shares.count > 0 {
                 Image(systemName: "equal")
                     .padding(.leading, padding)
                     .environment(\.colorScheme, colorScheme)
-                    .id("equal")
+                    .geometryGroup()
+                    .matchedGeometryEffect(id: "share-equal", in: namespace)
             }
         }
+        .geometryGroup()
         .font(.system(size: ((floatingTransaction?.boundingBox?.height ?? 30) / 1.5),
                       weight: .semibold, design: .rounded))
         .foregroundColor(.foregroundColor)

@@ -208,7 +208,6 @@ struct FloatingTransactionView: View {
                                        $floatingTransactionInfo,
                                        $floatingTransaction,
                                        handleTransactionChange: self.handleFreeformTransaction)
-                            .id("edit-shares")
                             .focused($editableSharesFocused)
                         Spacer()
                             .frame(width: padding)
@@ -220,7 +219,6 @@ struct FloatingTransactionView: View {
                     }
                     floatingTransactionTextField
                 }
-                .id("editableShares")
                 .padding(padding)
                 .background(
                     Color.black.opacity(0)
