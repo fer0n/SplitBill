@@ -815,11 +815,18 @@ class ContentViewModel: ObservableObject {
 
     func getMedianBoundingBox() -> CGRect {
         let list = transactionList.filter { $0.boundingBox?.width ?? 0 > 0 && $0.boundingBox?.height ?? 0 > 0 }
+        guard list.count > 0 else {
+            var height: CGFloat = 200
+            if let imageHeight = self.image?.size.height {
+                height = imageHeight * 0.05
+            }
+            return CGRect(x: 0, y: 0, width: height * 2, height: height)
+        }
         let medianWidth = list.sorted {
-            $0.boundingBox!.width < $1.boundingBox!.width
-        }[list.count / 2].boundingBox!.width
+            $0.boundingBox?.width ?? 0 < $1.boundingBox?.width ?? 0
+        }[list.count / 2].boundingBox?.width ?? 0
         let medianHeight = list.sorted {
-            $0.boundingBox!.height < $1.boundingBox!.height
+            $0.boundingBox?.height ?? 0 < $1.boundingBox?.height ?? 0
         }[list.count / 2].boundingBox!.height
         return CGRect(x: 0, y: 0, width: medianWidth, height: medianHeight)
     }
