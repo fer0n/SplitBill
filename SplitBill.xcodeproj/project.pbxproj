@@ -60,6 +60,9 @@
 		BDD13234285217CA00C69619 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD13233285217CA00C69619 /* Assets.xcassets */; };
 		BDD13237285217CA00C69619 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD13236285217CA00C69619 /* Preview Assets.xcassets */; };
 		BDD1323E28521D7000C69619 /* LiveTextInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD1323D28521D7000C69619 /* LiveTextInteraction.swift */; };
+		CD5D97A92E0562C4009B757D /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = CD5D97A82E0562C4009B757D /* AppIcon.icon */; };
+		CD5D97AA2E0562C4009B757D /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = CD5D97A82E0562C4009B757D /* AppIcon.icon */; };
+		CD5D97AB2E0562C4009B757D /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = CD5D97A82E0562C4009B757D /* AppIcon.icon */; };
 		CD5E74522CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5E74512CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf */; };
 		CD5E74532CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5E74502CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf */; };
 /* End PBXBuildFile section */
@@ -174,6 +177,7 @@
 		BDD13233285217CA00C69619 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDD13236285217CA00C69619 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BDD1323D28521D7000C69619 /* LiveTextInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTextInteraction.swift; sourceTree = "<group>"; };
+		CD5D97A82E0562C4009B757D /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		CD5E74502CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Bold.otf"; sourceTree = "<group>"; };
 		CD5E74512CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -328,6 +332,7 @@
 				8875AE9A29433E3C0077FFA8 /* ScannerView.swift */,
 				88B3739329531CAA007AD933 /* Localizable.strings */,
 				BDD13233285217CA00C69619 /* Assets.xcassets */,
+				CD5D97A82E0562C4009B757D /* AppIcon.icon */,
 				BDD13235285217CA00C69619 /* Preview Content */,
 			);
 			path = SplitBill;
@@ -474,6 +479,7 @@
 			files = (
 				88173DF3297BBAEC00ED89DA /* MainInterface.storyboard in Resources */,
 				88173E05297C3ABF00ED89DA /* Localizable.strings in Resources */,
+				CD5D97AA2E0562C4009B757D /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +487,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD5D97AB2E0562C4009B757D /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +498,7 @@
 				CD5E74522CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf in Resources */,
 				CD5E74532CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf in Resources */,
 				BDD13237285217CA00C69619 /* Preview Assets.xcassets in Resources */,
+				CD5D97A92E0562C4009B757D /* AppIcon.icon in Resources */,
 				8883975B2AA45C13004D0722 /* CalcKeyboard.xib in Resources */,
 				88B3739129531CAA007AD933 /* Localizable.strings in Resources */,
 				BDD13234285217CA00C69619 /* Assets.xcassets in Resources */,
@@ -885,6 +893,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -928,6 +937,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";

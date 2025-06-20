@@ -219,6 +219,7 @@ struct FloatingTransactionView: View {
                     }
                     floatingTransactionTextField
                 }
+                .geometryGroup()
                 .padding(padding)
                 .background(
                     Color.black.opacity(0)
