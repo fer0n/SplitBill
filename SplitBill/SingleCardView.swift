@@ -34,6 +34,15 @@ struct SingleCardView: View {
         self._showEditCardSheet = showEditCardSheet
     }
 
+    var body: some View {
+        VStack(alignment: .center, spacing: 0) {
+            transactionsCard
+                .frame(maxWidth: card.isActive && showTransactions ? nil : 0)
+                .padding(.horizontal, 10)
+            singleCard
+        }
+    }
+
     var transactionsCard: some View {
         VStack(alignment: .center, spacing: 0) {
             if !(showTransactions && isSelected) {
@@ -96,8 +105,7 @@ struct SingleCardView: View {
             handleAutoScroll: handleAutoScroll
         )
         .padding([.top, .bottom], 1)
-        .cardBackground(isSelected, card.color.dark)
-        .clipShape(RoundedRectangle(cornerRadius: 50, style: .continuous))
+        .cardBackground(isSelected, card.color.dark, in: clipShape)
         .foregroundColor(isSelected ? .white : card.color.font)
         .contextMenu {
             if card.cardType == .total {
@@ -178,12 +186,23 @@ struct SingleCardView: View {
         }
     }
 
-    var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            transactionsCard
-                .frame(maxWidth: card.isActive && showTransactions ? nil : 0)
-                .padding(.horizontal, 10)
-            singleCard
-        }
+    private var clipShape: some Shape {
+        RoundedRectangle(cornerRadius: 50, style: .continuous)
     }
+}
+
+#Preview {
+    SingleCardView(cvm: ContentViewModel(),
+                   showTransactions: .constant(false),
+                   showEditCardSheet: .constant(false),
+                   card: Card(name: "Daniel"),
+                   toggleTransaction: { },
+                   handleAutoScroll: { })
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            HStack(spacing: 0) {
+                Color.black
+                Color.white
+            }
+        }
 }

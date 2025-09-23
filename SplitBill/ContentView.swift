@@ -4,6 +4,9 @@ import UniformTypeIdentifiers
 import StoreKit
 
 struct ContentView: View {
+    @AppStorage("startupItem") var startupItem: StartupItem = .scanner
+    @AppStorage("successfulUserActionCount") var successfulUserActionCount: Int = 0
+
     @Environment(\.undoManager) var undoManager
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var alerter: Alerter
@@ -20,12 +23,111 @@ struct ContentView: View {
     @State var replacingImage: UIImage?
     @State var replacingImageIsHeic: Bool?
 
-    @State private var settingsDetent: PresentationDetent = .medium
-
-    @AppStorage("startupItem") var startupItem: StartupItem = .scanner
-    @AppStorage("successfulUserActionCount") var successfulUserActionCount: Int = 0
-
     let zoomBufferPadding: CGFloat = 500
+
+    var body: some View {
+        ZStack {
+            Color.backgroundColor.ignoresSafeArea()
+            ZStack {
+                if cvm.image != nil {
+                    liveTextImage
+                        .ignoresSafeArea()
+                        .onAppear {
+                            if cvm.normalCards.count <= 0 {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    self.showEditCardSheet = true
+                                }
+                            }
+                        }
+                } else {
+                    selectImageView
+                }
+                if isLoadingReplacingImage {
+                    ProgressView()
+                        .padding(.bottom, 100)
+                }
+                ButtonsOverlayView(cvm: cvm,
+                                   showImagePicker: $showImagePicker,
+                                   showScanner: $showScanner,
+                                   showSettings: $showSettings,
+                                   showEditCardSheet: $showEditCardSheet,
+                                   showCardsView: cvm.image != nil)
+            }
+        }
+        .sheet(isPresented: $showScanner) {
+            ScannerView(completion: { image in
+                if let image = image {
+                    cvm.changeImage(image)
+                    cvm.clearAllTransactionsAndHistory()
+                }
+                self.showScanner = false
+            })
+            .ignoresSafeArea()
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePickerView(sourceType: .photoLibrary) { image, isHeic  in
+                cvm.changeImage(image, isHeic)
+                cvm.clearAllTransactionsAndHistory()
+            }
+            .ignoresSafeArea()
+        }
+        .editCardsSheet(
+            show: $showEditCardSheet,
+            cvm: cvm
+        )
+        .settingsSheet(
+            show: $showSettings,
+            cvm: cvm,
+            )
+        .onChange(of: undoManager) {
+            cvm.undoManager = undoManager
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification), perform: { _ in
+            cvm.handleSaveState()
+        })
+        .onAppear {
+            cvm.undoManager = undoManager
+            cvm.alerter = self.alerter
+            cvm.onTransactionTap = self.handleTransactionTap
+            handleOpenOnStart()
+        }
+        .onOpenURL { _ in
+            self.isLoadingReplacingImage = true
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                if !cvm.savedImageIsPreserved() {
+                    _ = handleStoredImage()
+                }
+            } else if scenePhase == .background {
+                cvm.handleSaveState()
+            }
+        }
+        .onChange(of: successfulUserActionCount) {
+            let limit = 5
+            if successfulUserActionCount > limit {
+                Task {
+                    do {
+                        try await Task.sleep(nanoseconds: 8_000_000_000)
+                        if successfulUserActionCount > limit {
+                            requestReview()
+                            successfulUserActionCount = 0
+                        }
+                    } catch {}
+                }
+            } else if successfulUserActionCount < 0 {
+                successfulUserActionCount = 0
+            }
+        }
+        .alert("replaceImage", isPresented: $showReplaceImageAlert) {
+            Button("replaceYes") {
+                if let img = replacingImage {
+                    cvm.changeImage(img, replacingImageIsHeic)
+                }
+            }
+            Button("replaceNo", role: .cancel) { }
+        }
+    }
 
     func handleOpenOnStart() {
         let isPreservation = handleStoredImage()
@@ -149,126 +251,5 @@ struct ContentView: View {
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         }
         .fixedSize()
-    }
-
-    var body: some View {
-        ZStack {
-            Color.backgroundColor.ignoresSafeArea()
-            ZStack {
-                if cvm.image != nil {
-                    liveTextImage
-                        .ignoresSafeArea()
-                        .onAppear {
-                            if cvm.normalCards.count <= 0 {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                    self.showEditCardSheet = true
-                                }
-                            }
-                        }
-                } else {
-                    selectImageView
-                }
-                if isLoadingReplacingImage {
-                    ProgressView()
-                        .padding(.bottom, 100)
-                }
-                ButtonsOverlayView(cvm: cvm,
-                                   showImagePicker: $showImagePicker,
-                                   showScanner: $showScanner,
-                                   showSettings: $showSettings,
-                                   showEditCardSheet: $showEditCardSheet,
-                                   showCardsView: cvm.image != nil)
-            }
-        }
-        .sheet(isPresented: $showScanner) {
-            ScannerView(completion: { image in
-                if let image = image {
-                    cvm.changeImage(image)
-                    cvm.clearAllTransactionsAndHistory()
-                }
-                self.showScanner = false
-            })
-            .ignoresSafeArea()
-        }
-        .sheet(isPresented: $showImagePicker) {
-            ImagePickerView(sourceType: .photoLibrary) { image, isHeic  in
-                cvm.changeImage(image, isHeic)
-                cvm.clearAllTransactionsAndHistory()
-            }
-            .ignoresSafeArea()
-        }
-        .sheet(isPresented: $showEditCardSheet) {
-            // Workaround: in iOS 17, having a List { TextField(...) } breaks the partial sheet
-            // A partial sheet can be used again if/once this gets fixed by Apple
-            NavigationStack {
-                EditCardsView(cvm: cvm)
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button {
-                                showEditCardSheet = false
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                            }
-                        }
-                    }
-                    .navigationTitle("editCards")
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-        }
-        .sheet(isPresented: $showSettings) {
-            SettingsView(cvm: cvm)
-                .presentationDetents(
-                    [.medium, .large], selection: $settingsDetent
-                )
-                .ignoresSafeArea()
-        }
-        .onChange(of: undoManager) {
-            cvm.undoManager = undoManager
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification), perform: { _ in
-            cvm.handleSaveState()
-        })
-        .onAppear {
-            cvm.undoManager = undoManager
-            cvm.alerter = self.alerter
-            cvm.onTransactionTap = self.handleTransactionTap
-            handleOpenOnStart()
-        }
-        .onOpenURL { _ in
-            self.isLoadingReplacingImage = true
-        }
-        .onChange(of: scenePhase) {
-            if scenePhase == .active {
-                if !cvm.savedImageIsPreserved() {
-                    _ = handleStoredImage()
-                }
-            } else if scenePhase == .background {
-                cvm.handleSaveState()
-            }
-        }
-        .onChange(of: successfulUserActionCount) {
-            let limit = 5
-            if successfulUserActionCount > limit {
-                Task {
-                    do {
-                        try await Task.sleep(nanoseconds: 8_000_000_000)
-                        if successfulUserActionCount > limit {
-                            requestReview()
-                            successfulUserActionCount = 0
-                        }
-                    } catch {}
-                }
-            } else if successfulUserActionCount < 0 {
-                successfulUserActionCount = 0
-            }
-        }
-        .alert("replaceImage", isPresented: $showReplaceImageAlert) {
-            Button("replaceYes") {
-                if let img = replacingImage {
-                    cvm.changeImage(img, replacingImageIsHeic)
-                }
-            }
-            Button("replaceNo", role: .cancel) { }
-        }
     }
 }

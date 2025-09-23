@@ -124,8 +124,6 @@ struct LinkItemView<Content: View>: View {
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(cvm: ContentViewModel())
-    }
+#Preview {
+    SettingsView(cvm: ContentViewModel())
 }

@@ -4,21 +4,6 @@ struct EditCardsView: View {
     @ObservedObject var cvm: ContentViewModel
     @State private var newCard = ""
 
-    func addNewCard() {
-        let name = newCard.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard name.count > 0 else { return }
-        cvm.addNewCard(name)
-        newCard = ""
-    }
-
-    func deleteCard(at index: IndexSet) {
-        cvm.deleteCards(at: index)
-    }
-
-    func move(from source: IndexSet, to destination: Int) {
-        cvm.moveNormalCard(from: source, to: destination)
-    }
-
     var body: some View {
         List {
             Section {
@@ -40,5 +25,20 @@ struct EditCardsView: View {
                 }
             }
         }
+    }
+
+    func addNewCard() {
+        let name = newCard.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard name.count > 0 else { return }
+        cvm.addNewCard(name)
+        newCard = ""
+    }
+
+    func deleteCard(at index: IndexSet) {
+        cvm.deleteCards(at: index)
+    }
+
+    func move(from source: IndexSet, to destination: Int) {
+        cvm.moveNormalCard(from: source, to: destination)
     }
 }

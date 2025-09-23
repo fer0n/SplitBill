@@ -320,22 +320,10 @@ extension View {
 
     func onSizeChange(_ onSizeChange: @escaping (_ size: CGSize) -> Void) -> some View {
         self
-            .background(
-                GeometryReader { geometry in
-                    Color.clear
-                        .preference(key: ViewSizeKey.self, value: geometry.size)
-                        .onPreferenceChange(ViewSizeKey.self) { size in
-                            onSizeChange(size)
-                        }
-                }
-            )
-    }
-}
-
-struct ViewSizeKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
+            .onGeometryChange(for: CGSize.self) { proxy in
+                proxy.size
+            } action: { newValue in
+                onSizeChange(newValue)
+            }
     }
 }

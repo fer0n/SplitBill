@@ -171,29 +171,21 @@ struct ShareTextField: View {
     }
 }
 
-// struct EditableShares_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EditableShares(ContentViewModel(), .constant(
-//            FloatingTransactionInfo(
-//                center: false,
-//                width: 300,
-//                value: "hello",
-//                color: .green,
-//                contrastColor: .white,
-//                darkColor: .black,
-//                cardColors: [
-//                    .red,
-//                    .green
-//                ],
-//                shares: [
-//                    Share(value: 12, cardId: UUID()),
-//                    Share(value: 10, cardId: UUID()),
-//                ]
-//            )
-//        ), .constant(
-//            Transaction(
-//                value: 10
-//            )
-//        ), handleTransactionChange: { _ in })
-//    }
-// }
+#Preview {
+    EditableShares(ContentViewModel(), .constant(
+        FloatingTransactionInfo(
+            center: false,
+            width: nil,
+            value: "",
+            color: .neutralGray,
+            cardColors: [
+                .red,
+                .green,
+            ],
+            )
+    ), .constant(
+        Transaction(
+            value: 10
+        )
+    ), handleTransactionChange: { _ in })
+}

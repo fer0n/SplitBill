@@ -19,6 +19,9 @@
 		881F077F2AA9B5D4005D1843 /* PresentationDetent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F077E2AA9B5D4005D1843 /* PresentationDetent.swift */; };
 		881F07822AA9DD70005D1843 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F07812AA9DD70005D1843 /* UIColor.swift */; };
 		881F07842AA9E309005D1843 /* TransactionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F07832AA9E309005D1843 /* TransactionList.swift */; };
+		881F8EF62E829FBF00F8947B /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F8EF52E829FBF00F8947B /* View.swift */; };
+		881F8EF82E82B5AC00F8947B /* EditCardSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F8EF72E82B5AC00F8947B /* EditCardSheet.swift */; };
+		881F8EFA2E82BB1D00F8947B /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F8EF92E82BB1D00F8947B /* SettingsSheet.swift */; };
 		882660A82AA9B19300ED75A3 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882660A72AA9B19300ED75A3 /* Collection.swift */; };
 		883CA8D02A7BCB68000C7381 /* SplitBillShared.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CA8D32A7BCB68000C7381 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
@@ -131,6 +134,9 @@
 		881F077E2AA9B5D4005D1843 /* PresentationDetent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationDetent.swift; sourceTree = "<group>"; };
 		881F07812AA9DD70005D1843 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		881F07832AA9E309005D1843 /* TransactionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionList.swift; sourceTree = "<group>"; };
+		881F8EF52E829FBF00F8947B /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		881F8EF72E82B5AC00F8947B /* EditCardSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardSheet.swift; sourceTree = "<group>"; };
+		881F8EF92E82BB1D00F8947B /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		882660A72AA9B19300ED75A3 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SplitBillShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitBillShared.h; sourceTree = "<group>"; };
@@ -242,6 +248,7 @@
 				881F07782AA9B40C005D1843 /* CGRect.swift */,
 				881F077A2AA9B541005D1843 /* UIFont.swift */,
 				881F077C2AA9B59E005D1843 /* UIImage.swift */,
+				881F8EF52E829FBF00F8947B /* View.swift */,
 				881F077E2AA9B5D4005D1843 /* PresentationDetent.swift */,
 				881F07812AA9DD70005D1843 /* UIColor.swift */,
 			);
@@ -313,6 +320,8 @@
 				88523C992A93B607002AFEA6 /* TransactionModel.swift */,
 				888495B3291E6E4400AB74D7 /* ContentViewModel.swift */,
 				BDD13231285217CA00C69619 /* ContentView.swift */,
+				881F8EF72E82B5AC00F8947B /* EditCardSheet.swift */,
+				881F8EF92E82BB1D00F8947B /* SettingsSheet.swift */,
 				88EA86082A825334004F2332 /* FloatingTransaction.swift */,
 				88776E6B2AA85032009E683E /* EditableShares.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
@@ -559,9 +568,12 @@
 				8800D7C02932B1DA00FA6ADE /* util.swift in Sources */,
 				888B10BA2946E2E400D1AB3B /* Colors.swift in Sources */,
 				8883975F2AA45D01004D0722 /* Double.swift in Sources */,
+				881F8EFA2E82BB1D00F8947B /* SettingsSheet.swift in Sources */,
 				8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */,
+				881F8EF62E829FBF00F8947B /* View.swift in Sources */,
 				882660A82AA9B19300ED75A3 /* Collection.swift in Sources */,
 				881F07842AA9E309005D1843 /* TransactionList.swift in Sources */,
+				881F8EF82E82B5AC00F8947B /* EditCardSheet.swift in Sources */,
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
 				88A002FA2BD5049300C2EC54 /* CustomColorPicker.swift in Sources */,
@@ -898,7 +910,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 82;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -916,7 +928,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.6;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -942,7 +954,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 82;
+				CURRENT_PROJECT_VERSION = 83;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -960,7 +972,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.6;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

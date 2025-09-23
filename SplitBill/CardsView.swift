@@ -5,6 +5,40 @@ struct CardsView: View {
     @State var showCardTransactions = false
     @Binding var showEditCardSheet: Bool
 
+    var body: some View {
+        ScrollViewReader { scrollView in
+            ScrollView(.horizontal) {
+                if #available(iOS 26.0, *) {
+                    GlassEffectContainer(spacing: 0) {
+                        cardsList(scrollView)
+                    }
+                } else {
+                    cardsList(scrollView)
+                }
+            }
+            .scrollIndicators(.hidden)
+        }
+    }
+
+    func cardsList(_ scrollView: ScrollViewProxy) -> some View {
+        HStack(alignment: .bottom, spacing: 6) {
+            addCardsButton
+            CardSpacer()
+            ForEach(cvm.chosenNormalCards, id: \.self) { card in
+                singleCardListItem(card, scrollView: scrollView)
+            }
+            if !cvm.specialCards.isEmpty {
+                CardSpacer()
+                if cvm.totalCard?.isChosen ?? false {
+                    singleCardListItem(cvm.totalCard!, scrollView: scrollView)
+                        .id(cvm.totalCard)
+                }
+            }
+        }
+        .padding([.leading, .trailing], 15)
+        .padding(.bottom, 12)
+    }
+
     func handleAutoScroll(_ scrollView: ScrollViewProxy, card: Card) {
         scrollView.scrollTo(card, anchor: .center)
     }
@@ -32,32 +66,7 @@ struct CardsView: View {
                 .fontWeight(.bold)
         }
         .frame(width: 50, height: 50)
-        .cardBackground(false, .black)
-        .clipShape(Circle())
-    }
-
-    var body: some View {
-        ScrollViewReader { scrollView in
-            ScrollView(.horizontal) {
-                HStack(alignment: .bottom, spacing: 5) {
-                    addCardsButton
-                    CardSpacer()
-                    ForEach(cvm.chosenNormalCards, id: \.self) { card in
-                        singleCardListItem(card, scrollView: scrollView)
-                    }
-                    if !cvm.specialCards.isEmpty {
-                        CardSpacer()
-                        if cvm.totalCard?.isChosen ?? false {
-                            singleCardListItem(cvm.totalCard!, scrollView: scrollView)
-                                .id(cvm.totalCard)
-                        }
-                    }
-                }
-                .padding([.leading, .trailing], 15)
-                .padding(.bottom, 12)
-            }
-            .scrollIndicators(.hidden)
-        }
+        .cardBackground(false, .black, in: .circle)
     }
 }
 
@@ -68,11 +77,14 @@ struct CardSpacer: View {
     }
 }
 
-extension View {
-    func cardBackground(_ isSelected: Bool, _ selectedColor: Color) -> some View {
-        self
-            .background(isSelected ? selectedColor : nil)
-            .background(.thinMaterial)
-            .background(isSelected ? Color.blue.opacity(0) : Color.black.opacity(0.3))
-    }
+#Preview {
+    @Previewable @State var cvm = ContentViewModel.preview
+
+    CardsView(
+        cvm: cvm,
+        showEditCardSheet: .constant(
+            false
+        )
+    )
+    .background(.black)
 }

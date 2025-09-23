@@ -942,3 +942,19 @@ struct StoredImageInfo {
 }
 
 // swiftlint:enable type_body_length
+
+extension ContentViewModel {
+    static var preview: ContentViewModel {
+        let cvm = ContentViewModel()
+        cvm.cards = [
+            Card(name: "Alice"),
+            Card(name: "Bob"),
+            Card(name: "Charlie")
+        ]
+        cvm.cards[0].isChosen = true
+        cvm.cards[0].isActive = true
+        cvm.cards[1].isChosen = true
+        cvm.cards[2].isChosen = true
+        return cvm
+    }
+}

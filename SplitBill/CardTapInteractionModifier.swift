@@ -21,35 +21,16 @@ struct CardTapInteractionModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        if dragCancelled
-                            || value.translation.width.magnitude > 3
-                            || value.translation.height.magnitude > 3 {
-                            dragCancelled = true
-                        }
+            .gesture(
+                TapGesture(count: 2)
+                    .onEnded {
+                        handleDoubleTap()
                     }
-                    .onEnded { _ in
-                        if dragCancelled {
-                            dragCancelled = false
-                            return
-                        }
-
-                        // double tap
-                        if let lastTapTime {
-                            let timeInterval = Date.now.timeIntervalSince(lastTapTime)
-                            if timeInterval < 0.5 {
-                                handleDoubleTap()
-                                return
-                            }
-                        }
-
-                        // single tap
-                        handleSingleTap()
-
-                        lastTapTime = .now
-                    }
+                    .simultaneously(with: TapGesture(count: 1)
+                                        .onEnded {
+                                            handleSingleTap()
+                                        }
+                    )
             )
     }
 

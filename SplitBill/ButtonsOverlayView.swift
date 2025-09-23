@@ -14,32 +14,48 @@ struct ButtonsOverlayView: View {
     @State var hasBeenSubtracted = false
     var showCardsView: Bool = false
 
+    let size: CGFloat = 45
+
+    var body: some View {
+        VStack {
+            HStack {
+                HStack(alignment: .top) {
+                    menuWithOptions
+                    Spacer()
+                    undoRedoStack()
+                }
+            }
+            .foregroundColor(Color.foregroundColor)
+            .padding()
+            Spacer()
+            if showCardsView {
+                CardsView(cvm: cvm, showEditCardSheet: $showEditCardSheet)
+            }
+        }
+    }
+
     var menuWithOptions: some View {
         Menu {
             Button(role: .destructive) {
                 showDeleteImageAlert = true
             } label: {
-                Text("clearImage")
-                Image(systemName: "trash.fill")
-                    .padding(10)
-            }.disabled(cvm.image == nil)
+                Label("clearImage", systemImage: "trash.fill")
+            }
+            .disabled(cvm.image == nil)
+
             Divider()
 
             Button {
                 showScanner = true
                 handleSuccessfulUserActionCount()
             } label: {
-                Text("documentScanner")
-                Image(systemName: "doc.viewfinder.fill")
-                    .padding(10)
+                Label("documentScanner", systemImage: "doc.viewfinder.fill")
             }
             Button {
                 showImagePicker = true
                 handleSuccessfulUserActionCount()
             } label: {
-                Text("photoLibrary")
-                Image(systemName: "photo.fill.on.rectangle.fill")
-                    .padding(10)
+                Label("photoLibrary", systemImage: "photo.fill.on.rectangle.fill")
             }
             Divider()
 
@@ -49,15 +65,13 @@ struct ButtonsOverlayView: View {
                     "shareImage",
                     image: img
                 )) {
-                    Label("shareImage", systemImage: "text.below.photo.fill")
+                    Text("shareImage")
                 }
                 ShareLink(item: cvm.getChosenCardSummary(of: cvm.chosenCards)) {
-                    Label("shareSummary", systemImage: "list.number")
+                    Text("shareSummary")
                 }
             } label: {
-                Text("share")
-                Image(systemName: "square.and.arrow.up.fill")
-                    .padding(10)
+                Label("share", systemImage: "square.and.arrow.up.fill")
             }
             .disabled(cvm.image == nil)
             .onAppear {
@@ -67,22 +81,17 @@ struct ButtonsOverlayView: View {
             Button {
                 showSettings = true
             } label: {
-                Text("settings")
-                Image(systemName: "gearshape.fill")
-                    .padding(10)
+                Label("settings", systemImage: "gearshape.fill")
             }
         } label: {
-            if cvm.isLoadingCounter != 0 {
-                ProgressView()
-                    .padding(10)
-            } else {
-                Image(systemName: "doc.viewfinder.fill")
-                    .padding(10)
-            }
+            Image(systemName: isLoading
+                    ? "progress.indicator"
+                    : "doc.viewfinder.fill")
+                .contentTransition(.symbolEffect(.replace))
+                .frame(width: size, height: size)
+                .myGlassEffect()
         }
         .foregroundColor(Color.foregroundColor)
-        .background(.thinMaterial)
-        .clipShape(Circle())
         .alert("clearImage", isPresented: $showDeleteImageAlert) {
             Button("delete", role: .destructive) {
                 cvm.clearImage()
@@ -105,20 +114,18 @@ struct ButtonsOverlayView: View {
         let undoDisabled = canRedo && !canUndo
 
         return (
-            VStack(alignment: .trailing, spacing: 20) {
-
+            VStack(alignment: .trailing, spacing: 10) {
                 Button {
                     withAnimation {
                         undoManager?.undo()
                     }
                 } label: {
                     Image(systemName: "arrow.uturn.backward")
-                        .padding(10)
+                        .frame(width: size, height: size)
                         .foregroundColor(Color.foregroundColor.opacity(undoDisabled ? 0.3 : 1))
                         .animation(nil, value: UUID())
                 }
-                .background(.thinMaterial)
-                .clipShape(Circle())
+                .myGlassEffect(interactive: true)
                 .disabled(undoDisabled)
                 .animation(nil, value: UUID())
                 .opacity(canUndo || canRedo ? 1 : 0)
@@ -130,42 +137,27 @@ struct ButtonsOverlayView: View {
                         }
                     } label: {
                         Image(systemName: "arrow.uturn.forward")
-                            .padding(10)
+                            .frame(width: size, height: size)
                     }
-                    .background(.thinMaterial)
-                    .clipShape(Circle())
+                    .myGlassEffect(interactive: true)
                     .animation(nil, value: UUID())
                 }
             }
         )
     }
 
-    var body: some View {
-        VStack {
-            HStack {
-                HStack(alignment: .top) {
-                    menuWithOptions
-                    Spacer()
-                    undoRedoStack()
-                }
-            }
-            .foregroundColor(Color.foregroundColor)
-            .padding()
-            Spacer()
-            if showCardsView {
-                CardsView(cvm: cvm, showEditCardSheet: $showEditCardSheet)
-            }
-        }
+    var isLoading: Bool {
+        cvm.isLoadingCounter != 0
     }
+
 }
 
-struct ButtonsOverlayViewPreview: PreviewProvider {
-    static var previews: some View {
-        ButtonsOverlayView(cvm: ContentViewModel(),
-                           showImagePicker: .constant(false),
-                           showScanner: .constant(false),
-                           showSettings: .constant(false),
-                           showEditCardSheet: .constant(false),
-                           showCardsView: false)
-    }
+#Preview {
+    ButtonsOverlayView(cvm: ContentViewModel(),
+                       showImagePicker: .constant(false),
+                       showScanner: .constant(false),
+                       showSettings: .constant(false),
+                       showEditCardSheet: .constant(false),
+                       showCardsView: false)
+        .background(.black)
 }

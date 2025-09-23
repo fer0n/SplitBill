@@ -17,6 +17,23 @@ struct CustomColorPicker: View {
 
     let colors = ColorKeys.allCases
 
+    var body: some View {
+        ZStack {
+            Grid {
+                GridRow {
+                    ForEach(0..<4) { index in
+                        singleColor(colors[index])
+                    }
+                }
+                GridRow {
+                    ForEach(4..<8) { index in
+                        singleColor(colors[index])
+                    }
+                }
+            }
+        }
+    }
+
     func singleColor(_ key: ColorKeys) -> some View {
         ZStack {
             Circle()
@@ -33,21 +50,24 @@ struct CustomColorPicker: View {
             }
         }
     }
+}
 
-    var body: some View {
-        ZStack {
-            Grid {
-                GridRow {
-                    ForEach(0..<4) { index in
-                        singleColor(colors[index])
-                    }
-                }
-                GridRow {
-                    ForEach(4..<8) { index in
-                        singleColor(colors[index])
-                    }
-                }
-            }
-        }
+#Preview {
+    @Previewable @State var show = true
+
+    Button {
+        show.toggle()
+    } label: {
+        Text(verbatim: "show")
+    }
+    .popover(isPresented: $show) {
+        CustomColorPicker(
+            isPresented: .constant(true),
+            card: .constant(Card(name: "Test")),
+            selectedColor: .constant(.cardRed),
+            setNewColor: { _, _ in }
+        )
+        .padding(10)
+        .presentationCompactAdaptation(.popover)
     }
 }
