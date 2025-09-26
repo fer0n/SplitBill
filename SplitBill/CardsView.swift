@@ -8,13 +8,7 @@ struct CardsView: View {
     var body: some View {
         ScrollViewReader { scrollView in
             ScrollView(.horizontal) {
-                if #available(iOS 26.0, *) {
-                    GlassEffectContainer(spacing: 0) {
-                        cardsList(scrollView)
-                    }
-                } else {
-                    cardsList(scrollView)
-                }
+                cardsList(scrollView)
             }
             .scrollIndicators(.hidden)
         }

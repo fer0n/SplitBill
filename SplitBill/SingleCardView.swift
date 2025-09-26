@@ -105,8 +105,8 @@ struct SingleCardView: View {
             handleAutoScroll: handleAutoScroll
         )
         .padding([.top, .bottom], 1)
-        .cardBackground(isSelected, card.color.dark, in: clipShape)
         .foregroundColor(isSelected ? .white : card.color.font)
+        .cardBackground(isSelected, card.color.dark, in: clipShape)
         .contextMenu {
             if card.cardType == .total {
                 Button(role: .destructive) {
