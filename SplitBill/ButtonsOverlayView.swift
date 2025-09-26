@@ -26,7 +26,7 @@ struct ButtonsOverlayView: View {
                 }
             }
             .foregroundColor(Color.foregroundColor)
-            .padding()
+            .padding(.horizontal)
             Spacer()
             if showCardsView {
                 CardsView(cvm: cvm, showEditCardSheet: $showEditCardSheet)

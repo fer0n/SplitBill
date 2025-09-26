@@ -28,6 +28,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Color.backgroundColor.ignoresSafeArea()
+
             ZStack {
                 if cvm.image != nil {
                     liveTextImage
@@ -46,6 +47,9 @@ struct ContentView: View {
                     ProgressView()
                         .padding(.bottom, 100)
                 }
+
+                BlurTop()
+
                 ButtonsOverlayView(cvm: cvm,
                                    showImagePicker: $showImagePicker,
                                    showScanner: $showScanner,
