@@ -8,29 +8,25 @@ struct CardsView: View {
     var body: some View {
         ScrollViewReader { scrollView in
             ScrollView(.horizontal) {
-                cardsList(scrollView)
+                HStack(alignment: .bottom, spacing: 6) {
+                    addCardsButton
+                    CardSpacer()
+                    ForEach(cvm.chosenNormalCards, id: \.self) { card in
+                        singleCardListItem(card, scrollView: scrollView)
+                    }
+                    if !cvm.specialCards.isEmpty {
+                        CardSpacer()
+                        if cvm.totalCard?.isChosen ?? false {
+                            singleCardListItem(cvm.totalCard!, scrollView: scrollView)
+                                .id(cvm.totalCard)
+                        }
+                    }
+                }
+                .padding([.leading, .trailing], 15)
+                .padding(.bottom, 12)
             }
             .scrollIndicators(.hidden)
         }
-    }
-
-    func cardsList(_ scrollView: ScrollViewProxy) -> some View {
-        HStack(alignment: .bottom, spacing: 6) {
-            addCardsButton
-            CardSpacer()
-            ForEach(cvm.chosenNormalCards, id: \.self) { card in
-                singleCardListItem(card, scrollView: scrollView)
-            }
-            if !cvm.specialCards.isEmpty {
-                CardSpacer()
-                if cvm.totalCard?.isChosen ?? false {
-                    singleCardListItem(cvm.totalCard!, scrollView: scrollView)
-                        .id(cvm.totalCard)
-                }
-            }
-        }
-        .padding([.leading, .trailing], 15)
-        .padding(.bottom, 12)
     }
 
     func handleAutoScroll(_ scrollView: ScrollViewProxy, card: Card) {

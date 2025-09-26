@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FloatingTransactionView: View {
-    @ObservedObject var cvm = ContentViewModel()
+    @EnvironmentObject var cvm: ContentViewModel
 
     @State var floatingTransactionInfo = FloatingTransactionInfo(
         center: false,
@@ -21,6 +21,59 @@ struct FloatingTransactionView: View {
 
     @State var floatingTransactionDisappearTimer: Timer?
     @State var attempts: Int = 0
+
+    var body: some View {
+        let padding = floatingTransactionInfo.padding / 2
+        let cornerRadius = floatingTransaction?.boundingBox?.cornerRadius ?? 0
+
+        ZStack {
+            if floatingTransaction != nil {
+                HStack(alignment: .center, spacing: 0) {
+                    if floatingTransaction?.shares.count ?? 0 > 1 {
+                        EditableShares($floatingTransactionInfo,
+                                       $floatingTransaction,
+                                       handleTransactionChange: self.handleFreeformTransaction)
+                            .focused($editableSharesFocused)
+                        Spacer()
+                            .frame(width: padding)
+                            .onChange(of: editableSharesFocused) {
+                                if !editableSharesFocused {
+                                    debouncedHideFloatingTransaction()
+                                }
+                            }
+                    }
+                    FloatingTransactionTextField(floatingTransactionInfo: $floatingTransactionInfo,
+                                                 floatingTransaction: $floatingTransaction,
+                                                 floatingTransactionIsFocused: $floatingTransactionIsFocused,
+                                                 attempts: $attempts,
+                                                 floatingTransactionDisappearTimer: floatingTransactionDisappearTimer,
+                                                 handleFreeformTransaction: self.handleFreeformTransaction)
+                }
+                .geometryGroup()
+                .padding(padding)
+                .background(
+                    Color.black.opacity(0)
+                        .background(.ultraThinMaterial)
+                        .environment(\.colorScheme, cvm.imageIsLight ? ColorScheme.light : .dark)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius + padding, style: .continuous))
+                .onSizeChange(handleSizeChange)
+                .accentColor(.white)
+                .foregroundColor(floatingTransactionInfo.color.contrast)
+                .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30),
+                              weight: .semibold, design: .rounded))
+                .floatingTransactionPosition(floatingTransaction, floatingTransactionInfo)
+            }
+        }
+        .onAppear {
+            cvm.onImageLongPress = self.handleTransactionLongPress
+            cvm.onFlashTransaction = self.flashTransaction
+            cvm.onEmptyTap = self.handleEmptyTap
+        }
+        .onChange(of: cvm.image) {
+            floatingTransaction = nil
+        }
+    }
 
     func flashTransaction(_ tId: UUID, _ remove: Bool) {
         if remove && floatingTransaction == nil {
@@ -161,168 +214,5 @@ struct FloatingTransactionView: View {
             floatingTransactionInfo.width = size.width
             floatingTransactionInfo.padding = size.height * 0.2
         }
-    }
-
-    var floatingTransactionTextField: some View {
-        ZStack {
-            CalcTextField(
-                "",
-                text: $floatingTransactionInfo.value,
-                onSubmit: { result in
-                    guard let res = result else {
-                        self.attempts += 1
-                        return
-                    }
-                    if res != 0 {
-                        floatingTransactionInfo.value = String(res)
-                    }
-                },
-                onEditingChanged: { edit in
-                    if !edit {
-                        handleFreeformTransaction()
-                    } else {
-                        floatingTransactionDisappearTimer?.invalidate()
-                    }
-                },
-                accentColor: floatingTransactionInfo.color.uiColorFont,
-                bgColor: UIColor(floatingTransactionInfo.color.dark),
-                textColor: UIColor(floatingTransactionInfo.color.contrast),
-                font: floatingTransactionInfo.uiFont
-            )
-            .fixedSize()
-            .focused($floatingTransactionIsFocused)
-        }
-        .floatingTransactionModifier(floatingTransaction, floatingTransactionInfo)
-        .modifier(Shake(animatableData: CGFloat(self.attempts)))
-    }
-
-    var body: some View {
-        let padding = floatingTransactionInfo.padding / 2
-        let cornerRadius = floatingTransaction?.boundingBox?.cornerRadius ?? 0
-
-        ZStack {
-            if floatingTransaction != nil {
-                HStack(alignment: .center, spacing: 0) {
-                    if floatingTransaction?.shares.count ?? 0 > 1 {
-                        EditableShares($floatingTransactionInfo,
-                                       $floatingTransaction,
-                                       handleTransactionChange: self.handleFreeformTransaction)
-                            .focused($editableSharesFocused)
-                        Spacer()
-                            .frame(width: padding)
-                            .onChange(of: editableSharesFocused) {
-                                if !editableSharesFocused {
-                                    debouncedHideFloatingTransaction()
-                                }
-                            }
-                    }
-                    floatingTransactionTextField
-                }
-                .geometryGroup()
-                .padding(padding)
-                .background(
-                    Color.black.opacity(0)
-                        .background(.ultraThinMaterial)
-                        .environment(\.colorScheme, cvm.imageIsLight ? ColorScheme.light : .dark)
-                )
-                .clipShape(RoundedRectangle(cornerRadius: cornerRadius + padding, style: .continuous))
-                .onSizeChange(handleSizeChange)
-                .accentColor(.white)
-                .foregroundColor(floatingTransactionInfo.color.contrast)
-                .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30),
-                              weight: .semibold, design: .rounded))
-                .floatingTransactionPosition(floatingTransaction, floatingTransactionInfo)
-            }
-        }
-        .onAppear {
-            cvm.onImageLongPress = self.handleTransactionLongPress
-            cvm.onFlashTransaction = self.flashTransaction
-            cvm.onEmptyTap = self.handleEmptyTap
-        }
-        .onChange(of: cvm.image) {
-            floatingTransaction = nil
-        }
-    }
-}
-
-struct FloatingTransactionInfo {
-    init(center: Bool, width: CGFloat?, value: String, color: ColorKeys, cardColors: [Color] = []) {
-        self.center = center
-        self.width = width
-        self.value = value
-        self.cardColors = cardColors
-        self.colorKey = color
-    }
-
-    var center: Bool
-    var width: CGFloat?
-    var padding: CGFloat = 0
-    var value: String
-    var colorKey: ColorKeys
-    var editable = false
-    var cardColors: [Color]
-    var uiFont: UIFont = UIFont.rounded(ofSize: 20, weight: .semibold)
-
-    var color: CardColor {
-        get {
-            CardColor.get(colorKey)
-        }
-        set {
-            self.colorKey = newValue.id
-        }
-    }
-}
-
-extension View {
-    func floatingTransactionModifier(_ floatingTransaction: Transaction?,
-                                     _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
-        self
-            .padding(.horizontal, floatingTransactionInfo.padding)
-            .floatingTransactionBackground(floatingTransaction, floatingTransactionInfo)
-    }
-
-    func floatingTransactionPosition(_ floatingTransaction: Transaction?,
-                                     _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
-        self
-            .position(x: floatingTransactionInfo.center
-                        ? floatingTransaction?.boundingBox?.midX ?? 0
-                        : (floatingTransaction?.boundingBox?.minX ?? 0)
-                        - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
-                        - floatingTransactionInfo.padding * 2,
-                      y: floatingTransaction?.boundingBox?.midY ?? 0)
-    }
-
-    func floatingTransactionBackground(_ floatingTransaction: Transaction?,
-                                       _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
-        self
-            .background(
-                GeometryReader { geometry in
-                    ZStack {
-                        ForEach(floatingTransactionInfo.cardColors, id: \.self) { color in
-                            Rectangle()
-                                .fill(color)
-                                .frame(width: geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count),
-                                       height: geometry.size.height)
-                                .offset(x: CGFloat(floatingTransactionInfo.cardColors.firstIndex(of: color)!)
-                                            * (geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count)),
-                                        y: 0)
-                        }
-                    }
-                }
-            )
-            .clipShape(RoundedRectangle(cornerRadius:
-                                            floatingTransaction?.boundingBox?.cornerRadius
-                                            ?? floatingTransaction?.boundingBox?.minX
-                                            ?? 0
-            ))
-    }
-
-    func onSizeChange(_ onSizeChange: @escaping (_ size: CGSize) -> Void) -> some View {
-        self
-            .onGeometryChange(for: CGSize.self) { proxy in
-                proxy.size
-            } action: { newValue in
-                onSizeChange(newValue)
-            }
     }
 }

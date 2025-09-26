@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,13 @@
 		881F8EF82E82B5AC00F8947B /* EditCardSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F8EF72E82B5AC00F8947B /* EditCardSheet.swift */; };
 		881F8EFA2E82BB1D00F8947B /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881F8EF92E82BB1D00F8947B /* SettingsSheet.swift */; };
 		882660A82AA9B19300ED75A3 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882660A72AA9B19300ED75A3 /* Collection.swift */; };
+		882B8F042E8721DD0071A9E8 /* LiveTextImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F032E8721DD0071A9E8 /* LiveTextImage.swift */; };
+		882B8F062E87226A0071A9E8 /* SelectImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F052E87226A0071A9E8 /* SelectImageView.swift */; };
+		882B8F0B2E8723F20071A9E8 /* FloatingTransactionTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F0A2E8723F20071A9E8 /* FloatingTransactionTextField.swift */; };
+		882B8F0D2E8726130071A9E8 /* UndoRedoStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F0C2E8726130071A9E8 /* UndoRedoStackView.swift */; };
+		882B8F0F2E8726210071A9E8 /* MenuOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F0E2E8726210071A9E8 /* MenuOptionsView.swift */; };
+		882B8F112E8726D30071A9E8 /* LinkItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F102E8726D30071A9E8 /* LinkItemView.swift */; };
+		882B8F132E8727340071A9E8 /* ShareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B8F122E8727340071A9E8 /* ShareTextField.swift */; };
 		883CA8D02A7BCB68000C7381 /* SplitBillShared.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CA8D32A7BCB68000C7381 /* SplitBillShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; };
 		883CA8D42A7BCB68000C7381 /* SplitBillShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -139,6 +146,13 @@
 		881F8EF72E82B5AC00F8947B /* EditCardSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardSheet.swift; sourceTree = "<group>"; };
 		881F8EF92E82BB1D00F8947B /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		882660A72AA9B19300ED75A3 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		882B8F032E8721DD0071A9E8 /* LiveTextImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTextImage.swift; sourceTree = "<group>"; };
+		882B8F052E87226A0071A9E8 /* SelectImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageView.swift; sourceTree = "<group>"; };
+		882B8F0A2E8723F20071A9E8 /* FloatingTransactionTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTransactionTextField.swift; sourceTree = "<group>"; };
+		882B8F0C2E8726130071A9E8 /* UndoRedoStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoRedoStackView.swift; sourceTree = "<group>"; };
+		882B8F0E2E8726210071A9E8 /* MenuOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOptionsView.swift; sourceTree = "<group>"; };
+		882B8F102E8726D30071A9E8 /* LinkItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkItemView.swift; sourceTree = "<group>"; };
+		882B8F122E8727340071A9E8 /* ShareTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTextField.swift; sourceTree = "<group>"; };
 		883CA8CD2A7BCB68000C7381 /* SplitBillShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SplitBillShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		883CA8CF2A7BCB68000C7381 /* SplitBillShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitBillShared.h; sourceTree = "<group>"; };
 		883CA8D82A7BCB86000C7381 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
@@ -189,6 +203,10 @@
 		CD5E74502CA5452700E2EC07 /* SF-Pro-Rounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Bold.otf"; sourceTree = "<group>"; };
 		CD5E74512CA5452700E2EC07 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		882B8F072E8722CE0071A9E8 /* HelperModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HelperModels; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		88173DEA297BBAEC00ED89DA /* Frameworks */ = {
@@ -311,6 +329,7 @@
 		BDD1322E285217CA00C69619 /* SplitBill */ = {
 			isa = PBXGroup;
 			children = (
+				882B8F072E8722CE0071A9E8 /* HelperModels */,
 				CD5E744F2CA5450A00E2EC07 /* Font */,
 				888397552AA45AB3004D0722 /* CalcTextField */,
 				88523C9B2A93F3B8002AFEA6 /* Extensions */,
@@ -323,10 +342,14 @@
 				88523C992A93B607002AFEA6 /* TransactionModel.swift */,
 				888495B3291E6E4400AB74D7 /* ContentViewModel.swift */,
 				BDD13231285217CA00C69619 /* ContentView.swift */,
+				882B8F052E87226A0071A9E8 /* SelectImageView.swift */,
+				882B8F032E8721DD0071A9E8 /* LiveTextImage.swift */,
 				881F8EF72E82B5AC00F8947B /* EditCardSheet.swift */,
 				881F8EF92E82BB1D00F8947B /* SettingsSheet.swift */,
 				88EA86082A825334004F2332 /* FloatingTransaction.swift */,
+				882B8F0A2E8723F20071A9E8 /* FloatingTransactionTextField.swift */,
 				88776E6B2AA85032009E683E /* EditableShares.swift */,
+				882B8F122E8727340071A9E8 /* ShareTextField.swift */,
 				88677492291C3340002C675C /* CardsView.swift */,
 				88D5AC622A90DB2500879893 /* SingleCardView.swift */,
 				880BBF652D97F0C500AA4B57 /* CardTapInteractionModifier.swift */,
@@ -335,8 +358,11 @@
 				88A002F72BD5013B00C2EC54 /* CardListItem.swift */,
 				88A002F92BD5049300C2EC54 /* CustomColorPicker.swift */,
 				88B3738D295305EB007AD933 /* SettingsView.swift */,
+				882B8F102E8726D30071A9E8 /* LinkItemView.swift */,
 				88677494291C3C17002C675C /* ZoomableScrollView.swift */,
 				88894F7D292795A50069BCF3 /* ButtonsOverlayView.swift */,
+				882B8F0E2E8726210071A9E8 /* MenuOptionsView.swift */,
+				882B8F0C2E8726130071A9E8 /* UndoRedoStackView.swift */,
 				88511B952A8D28E00065D0D2 /* ButtonsOverlayLogic.swift */,
 				BDD1323D28521D7000C69619 /* LiveTextInteraction.swift */,
 				88D5AC662A927BAB00879893 /* LiveTextInteractionExport.swift */,
@@ -433,6 +459,9 @@
 			dependencies = (
 				88173DF6297BBAEC00ED89DA /* PBXTargetDependency */,
 				883CA8D22A7BCB68000C7381 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				882B8F072E8722CE0071A9E8 /* HelperModels */,
 			);
 			name = SplitBill;
 			productName = LiveTextWithImage;
@@ -562,8 +591,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				882B8F0F2E8726210071A9E8 /* MenuOptionsView.swift in Sources */,
 				88D5AC672A927BAB00879893 /* LiveTextInteractionExport.swift in Sources */,
 				88B3738E295305EB007AD933 /* SettingsView.swift in Sources */,
+				882B8F062E87226A0071A9E8 /* SelectImageView.swift in Sources */,
 				88EA86092A825334004F2332 /* FloatingTransaction.swift in Sources */,
 				88677493291C3340002C675C /* CardsView.swift in Sources */,
 				881F077F2AA9B5D4005D1843 /* PresentationDetent.swift in Sources */,
@@ -573,14 +604,18 @@
 				8883975F2AA45D01004D0722 /* Double.swift in Sources */,
 				881F8EFA2E82BB1D00F8947B /* SettingsSheet.swift in Sources */,
 				8867748F291C2ABA002C675C /* ImagePickerView.swift in Sources */,
+				882B8F0D2E8726130071A9E8 /* UndoRedoStackView.swift in Sources */,
+				882B8F042E8721DD0071A9E8 /* LiveTextImage.swift in Sources */,
 				881F8EF62E829FBF00F8947B /* View.swift in Sources */,
 				882660A82AA9B19300ED75A3 /* Collection.swift in Sources */,
+				882B8F0B2E8723F20071A9E8 /* FloatingTransactionTextField.swift in Sources */,
 				881F07842AA9E309005D1843 /* TransactionList.swift in Sources */,
 				881F8EF82E82B5AC00F8947B /* EditCardSheet.swift in Sources */,
 				888495B4291E6E4400AB74D7 /* ContentViewModel.swift in Sources */,
 				88FA4B1529A35D97001375B4 /* Alerter.swift in Sources */,
 				88A002FA2BD5049300C2EC54 /* CustomColorPicker.swift in Sources */,
 				881F07822AA9DD70005D1843 /* UIColor.swift in Sources */,
+				882B8F112E8726D30071A9E8 /* LinkItemView.swift in Sources */,
 				88D5AC632A90DB2500879893 /* SingleCardView.swift in Sources */,
 				88523C9E2A93F44E002AFEA6 /* ObjC.m in Sources */,
 				880BBF662D97F0C500AA4B57 /* CardTapInteractionModifier.swift in Sources */,
@@ -598,6 +633,7 @@
 				8883975A2AA45C13004D0722 /* CalcTextField.swift in Sources */,
 				BDD13230285217CA00C69619 /* SplitBill.swift in Sources */,
 				88511B962A8D28E00065D0D2 /* ButtonsOverlayLogic.swift in Sources */,
+				882B8F132E8727340071A9E8 /* ShareTextField.swift in Sources */,
 				888397632AA4755B004D0722 /* GeometryEffect.swift in Sources */,
 				88523C9A2A93B607002AFEA6 /* TransactionModel.swift in Sources */,
 				888397612AA46254004D0722 /* UIView.swift in Sources */,
@@ -914,7 +950,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 83;
+				CURRENT_PROJECT_VERSION = 84;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -932,7 +968,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -958,7 +994,7 @@
 				CODE_SIGN_ENTITLEMENTS = SplitBill/SplitBill.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 83;
+				CURRENT_PROJECT_VERSION = 84;
 				DEVELOPMENT_ASSET_PATHS = "\"SplitBill/Preview Content\"";
 				DEVELOPMENT_TEAM = HU6B6E9383;
 				ENABLE_PREVIEWS = YES;
@@ -976,7 +1012,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pentlandfirth.splitbill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

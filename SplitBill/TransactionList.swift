@@ -17,6 +17,30 @@ struct TransactionsList: View {
     @State var transactionToEdit: Transaction?
     @State var newTransactionValue: String = ""
 
+    var body: some View {
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 0) {
+                Grid(verticalSpacing: 0) {
+                    ForEach(cvm.sortedTransactions(of: card), id: \.self) { tId in
+                        if let transaction = cvm.getTransaction(tId) {
+                            if transaction.type == .divider {
+                                CardSpacer()
+                                    .gridCellColumns(2)
+                            } else {
+                                labelRowItem(transaction)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal, 15)
+            .padding(.vertical, 10)
+            .frame(minWidth: isSelected ? 100 : nil, alignment: .leading)
+        }
+        .frame(maxHeight: 250)
+        .fixedSize()
+    }
+
     func transactionTextField(_ transaction: Transaction) -> some View {
         CalcTextField(transaction.getStringValue(for: card),
                       text: (transaction == transactionToEdit)
@@ -92,29 +116,5 @@ struct TransactionsList: View {
                 }
             }
         }
-    }
-
-    var body: some View {
-        ScrollView(.vertical) {
-            VStack(alignment: .leading, spacing: 0) {
-                Grid(verticalSpacing: 0) {
-                    ForEach(cvm.sortedTransactions(of: card), id: \.self) { tId in
-                        if let transaction = cvm.getTransaction(tId) {
-                            if transaction.type == .divider {
-                                CardSpacer()
-                                    .gridCellColumns(2)
-                            } else {
-                                labelRowItem(transaction)
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-            .frame(minWidth: isSelected ? 100 : nil, alignment: .leading)
-        }
-        .frame(maxHeight: 250)
-        .fixedSize()
     }
 }

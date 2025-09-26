@@ -65,3 +65,57 @@ extension View {
             .contentShape(shape)
     }
 }
+
+extension View {
+    func floatingTransactionModifier(_ floatingTransaction: Transaction?,
+                                     _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
+        self
+            .padding(.horizontal, floatingTransactionInfo.padding)
+            .floatingTransactionBackground(floatingTransaction, floatingTransactionInfo)
+    }
+
+    func floatingTransactionPosition(_ floatingTransaction: Transaction?,
+                                     _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
+        self
+            .position(x: floatingTransactionInfo.center
+                        ? floatingTransaction?.boundingBox?.midX ?? 0
+                        : (floatingTransaction?.boundingBox?.minX ?? 0)
+                        - (floatingTransactionInfo.width ?? floatingTransaction?.boundingBox?.width ?? 0) / 2
+                        - floatingTransactionInfo.padding * 2,
+                      y: floatingTransaction?.boundingBox?.midY ?? 0)
+    }
+
+    func floatingTransactionBackground(_ floatingTransaction: Transaction?,
+                                       _ floatingTransactionInfo: FloatingTransactionInfo) -> some View {
+        self
+            .background(
+                GeometryReader { geometry in
+                    ZStack {
+                        ForEach(floatingTransactionInfo.cardColors, id: \.self) { color in
+                            Rectangle()
+                                .fill(color)
+                                .frame(width: geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count),
+                                       height: geometry.size.height)
+                                .offset(x: CGFloat(floatingTransactionInfo.cardColors.firstIndex(of: color)!)
+                                            * (geometry.size.width / CGFloat(floatingTransactionInfo.cardColors.count)),
+                                        y: 0)
+                        }
+                    }
+                }
+            )
+            .clipShape(RoundedRectangle(cornerRadius:
+                                            floatingTransaction?.boundingBox?.cornerRadius
+                                            ?? floatingTransaction?.boundingBox?.minX
+                                            ?? 0
+            ))
+    }
+
+    func onSizeChange(_ onSizeChange: @escaping (_ size: CGSize) -> Void) -> some View {
+        self
+            .onGeometryChange(for: CGSize.self) { proxy in
+                proxy.size
+            } action: { newValue in
+                onSizeChange(newValue)
+            }
+    }
+}

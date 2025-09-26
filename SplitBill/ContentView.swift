@@ -31,7 +31,7 @@ struct ContentView: View {
 
             ZStack {
                 if cvm.image != nil {
-                    liveTextImage
+                    LiveTextImage(showEditCardSheet: $showEditCardSheet, zoomBufferPadding: zoomBufferPadding)
                         .ignoresSafeArea()
                         .onAppear {
                             if cvm.normalCards.count <= 0 {
@@ -41,7 +41,7 @@ struct ContentView: View {
                             }
                         }
                 } else {
-                    selectImageView
+                    SelectImageView(showImagePicker: $showImagePicker, showScanner: $showScanner)
                 }
                 if isLoadingReplacingImage {
                     ProgressView()
@@ -147,7 +147,6 @@ struct ContentView: View {
     }
 
     func handleStoredImage() -> Bool? {
-
         let info = self.cvm.consumeStoredImage()
         guard let img = info.image else {
             self.isLoadingReplacingImage = false
@@ -186,68 +185,6 @@ struct ContentView: View {
 
     func onGestureHasBegun() {
         cvm.emptyTapTimer?.invalidate()
-    }
-
-    var liveTextImage: some View {
-        ZoomableScrollView(contentPadding: zoomBufferPadding,
-                           ignoreTapsAt: self.ignoreTapsAt,
-                           onGestureHasBegun: self.onGestureHasBegun,
-                           contentChanged: cvm.contentChanged) {
-            ZStack {
-                LiveTextInteraction()
-                FloatingTransactionView(cvm: cvm)
-            }
-            .padding(zoomBufferPadding)
-            .overlay(
-                Rectangle()
-                    .stroke(Color.backgroundColor, lineWidth: 10)
-            )
-            .background(Color.backgroundColor)
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                if cvm.chosenNormalCards.isEmpty {
-                    showEditCardSheet = true
-                }
-            }
-        }
-    }
-
-    var selectImageView: some View {
-        VStack {
-            Spacer()
-                .frame(height: 40)
-            Button {
-                self.showImagePicker = true
-            } label: {
-                Image(systemName: "photo.fill.on.rectangle.fill")
-                Spacer()
-                Text("selectImage")
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-            }
-            .padding([.vertical], 10)
-            .padding([.horizontal], 15)
-            .frame(maxWidth: .infinity)
-            .background(.white)
-            .foregroundColor(Color.mainColor)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-
-            Button {
-                self.showScanner = true
-            } label: {
-                Image(systemName: "doc.viewfinder.fill")
-                Spacer()
-                Text("openScanner")
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-            }
-            .padding([.vertical], 10)
-            .padding([.horizontal], 15)
-            .frame(maxWidth: .infinity)
-            .background(.white)
-            .foregroundColor(Color.mainColor)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        }
-        .fixedSize()
     }
 }
 
