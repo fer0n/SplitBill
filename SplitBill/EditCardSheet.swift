@@ -7,7 +7,6 @@ import SwiftUI
 
 struct EditCardSheet: ViewModifier {
     @Binding var show: Bool
-    @ObservedObject var cvm: ContentViewModel
     @Environment(\.dismiss) var dismiss
 
     func body(content: Content) -> some View {
@@ -15,7 +14,7 @@ struct EditCardSheet: ViewModifier {
             // Workaround: in iOS 17, having a List { TextField(...) } breaks the partial sheet
             // A partial sheet can be used again if/once this gets fixed by Apple
             NavigationStack {
-                EditCardsView(cvm: cvm)
+                EditCardsView()
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button {
@@ -33,15 +32,13 @@ struct EditCardSheet: ViewModifier {
 }
 
 extension View {
-    func editCardsSheet(show: Binding<Bool>, cvm: ContentViewModel) -> some View {
-        self.modifier(EditCardSheet(show: show, cvm: cvm))
+    func editCardsSheet(show: Binding<Bool>) -> some View {
+        self.modifier(EditCardSheet(show: show))
     }
 }
 
 #Preview {
     ZStack {}
-        .editCardsSheet(
-            show: .constant(true),
-            cvm: ContentViewModel()
-        )
+        .editCardsSheet(show: .constant(true))
+        .environmentObject(ContentViewModel())
 }

@@ -5,7 +5,7 @@ import Vision
 
 struct LiveTextInteraction: UIViewRepresentable {
     let imageView = UIImageView()
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
 
     class Coordinator: NSObject, ImageAnalysisInteractionDelegate {
         var parent: LiveTextInteraction

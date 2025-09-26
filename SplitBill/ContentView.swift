@@ -9,9 +9,9 @@ struct ContentView: View {
 
     @Environment(\.undoManager) var undoManager
     @Environment(\.scenePhase) var scenePhase
-    @EnvironmentObject var alerter: Alerter
+    @Environment(Alerter.self) var alerter
     @Environment(\.requestReview) var requestReview
-    @StateObject var cvm = ContentViewModel()
+    @EnvironmentObject var cvm: ContentViewModel
 
     @State var showScanner: Bool = false
     @State var showEditCardSheet: Bool = false
@@ -50,8 +50,7 @@ struct ContentView: View {
 
                 BlurTop()
 
-                ButtonsOverlayView(cvm: cvm,
-                                   showImagePicker: $showImagePicker,
+                ButtonsOverlayView(showImagePicker: $showImagePicker,
                                    showScanner: $showScanner,
                                    showSettings: $showSettings,
                                    showEditCardSheet: $showEditCardSheet,
@@ -75,14 +74,8 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
         }
-        .editCardsSheet(
-            show: $showEditCardSheet,
-            cvm: cvm
-        )
-        .settingsSheet(
-            show: $showSettings,
-            cvm: cvm,
-            )
+        .editCardsSheet(show: $showEditCardSheet)
+        .settingsSheet(show: $showSettings)
         .onChange(of: undoManager) {
             cvm.undoManager = undoManager
         }
@@ -201,7 +194,7 @@ struct ContentView: View {
                            onGestureHasBegun: self.onGestureHasBegun,
                            contentChanged: cvm.contentChanged) {
             ZStack {
-                LiveTextInteraction(cvm: cvm)
+                LiveTextInteraction()
                 FloatingTransactionView(cvm: cvm)
             }
             .padding(zoomBufferPadding)
@@ -256,4 +249,9 @@ struct ContentView: View {
         }
         .fixedSize()
     }
+}
+
+#Preview {
+    ContentView()
+        .environment(Alerter())
 }

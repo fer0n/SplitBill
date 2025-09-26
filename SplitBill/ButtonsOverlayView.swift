@@ -4,7 +4,7 @@ import SwiftUI
 struct ButtonsOverlayView: View {
     @Environment(\.undoManager) var undoManager
     @AppStorage("successfulUserActionCount") var successfulUserActionCount: Int = 0
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     @Binding var showImagePicker: Bool
     @Binding var showScanner: Bool
     @Binding var showSettings: Bool
@@ -29,7 +29,7 @@ struct ButtonsOverlayView: View {
             .padding(.horizontal)
             Spacer()
             if showCardsView {
-                CardsView(cvm: cvm, showEditCardSheet: $showEditCardSheet)
+                CardsView(showEditCardSheet: $showEditCardSheet)
             }
         }
     }
@@ -153,11 +153,11 @@ struct ButtonsOverlayView: View {
 }
 
 #Preview {
-    ButtonsOverlayView(cvm: ContentViewModel(),
-                       showImagePicker: .constant(false),
+    ButtonsOverlayView(showImagePicker: .constant(false),
                        showScanner: .constant(false),
                        showSettings: .constant(false),
                        showEditCardSheet: .constant(false),
                        showCardsView: false)
         .background(.black)
+        .environmentObject(ContentViewModel())
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EditCardsView: View {
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     @State private var newCard = ""
 
     var body: some View {
@@ -12,7 +12,7 @@ struct EditCardsView: View {
                     .onSubmit(addNewCard)
 
                 ForEach(cvm.normalCards.indices, id: \.self) { index in
-                    CardListItem(card: $cvm.normalCards[index], cvm: cvm)
+                    CardListItem(card: $cvm.normalCards[index])
                         .id(cvm.normalCards[index].id)
                 }
                 .onDelete(perform: deleteCard)
@@ -21,7 +21,7 @@ struct EditCardsView: View {
 
             Section(header: Text("specialCard")) {
                 if cvm.totalCard != nil {
-                    CardListItem(card: Binding($cvm.totalCard)!, cvm: cvm, disableEdit: true)
+                    CardListItem(card: Binding($cvm.totalCard)!, disableEdit: true)
                 }
             }
         }

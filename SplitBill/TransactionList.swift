@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct TransactionsList: View {
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     var card: Card
     var isSelected: Bool
 

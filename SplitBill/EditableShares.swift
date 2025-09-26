@@ -15,17 +15,15 @@ enum ShareEditType {
 struct EditableShares: View {
     @Namespace var namespace
 
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     @Binding var floatingTransactionInfo: FloatingTransactionInfo
     @Binding var floatingTransaction: Transaction?
 
     let handleTransactionChange: (_ updatedTransaction: Transaction) -> Void
 
-    init(_ cvm: ContentViewModel,
-         _ floatingTransactionInfo: Binding<FloatingTransactionInfo>,
+    init(_ floatingTransactionInfo: Binding<FloatingTransactionInfo>,
          _ floatingTransaction: Binding<Transaction?>,
          handleTransactionChange: @escaping (Transaction) -> Void) {
-        self.cvm = cvm
         self._floatingTransactionInfo = floatingTransactionInfo
         self._floatingTransaction = floatingTransaction
         self.handleTransactionChange = handleTransactionChange
@@ -172,7 +170,7 @@ struct ShareTextField: View {
 }
 
 #Preview {
-    EditableShares(ContentViewModel(), .constant(
+    EditableShares(.constant(
         FloatingTransactionInfo(
             center: false,
             width: nil,
@@ -188,4 +186,5 @@ struct ShareTextField: View {
             value: 10
         )
     ), handleTransactionChange: { _ in })
+    .environmentObject(ContentViewModel())
 }

@@ -11,25 +11,24 @@ import SwiftUI
 // maybe the contextmenu as well
 
 struct SingleCardView: View {
-    @ObservedObject var cvm: ContentViewModel
     @Binding public var showTransactions: Bool
     @Binding public var showEditCardSheet: Bool
+    @EnvironmentObject var cvm: ContentViewModel
     var card: Card
     var toggleTransaction: () -> Void
     let isSelected: Bool
     let handleAutoScroll: () -> Void
 
-    init(cvm: ContentViewModel,
-         showTransactions: Binding<Bool>,
+    init(showTransactions: Binding<Bool>,
          showEditCardSheet: Binding<Bool>,
          card: Card,
+         isSelected: Bool,
          toggleTransaction: @escaping () -> Void,
          handleAutoScroll: @escaping () -> Void) {
-        self.cvm = cvm
         self._showTransactions = showTransactions
         self.card = card
         self.toggleTransaction = toggleTransaction
-        self.isSelected = card.isActive || cvm.isActiveCard(card)
+        self.isSelected = isSelected
         self.handleAutoScroll = handleAutoScroll
         self._showEditCardSheet = showEditCardSheet
     }
@@ -49,7 +48,7 @@ struct SingleCardView: View {
                 Spacer()
                     .frame(height: 20)
             } else if card.transactionIds.count > 0 {
-                TransactionsList(cvm: cvm, card: card, isSelected: isSelected)
+                TransactionsList(card: card, isSelected: isSelected)
             } else {
                 Text("empty")
                     .padding(.vertical, 10)
@@ -73,12 +72,12 @@ struct SingleCardView: View {
     var singleCard: some View {
         HStack(alignment: .center, spacing: 0) {
             VStack(alignment: isSelected && showTransactions ? .leading : .center, spacing: 0) {
-                Text("\(cvm.sumString(of: card))")
+                Text(cvm.sumString(of: card))
                     .minimumScaleFactor(0.01)
                     .lineLimit(1)
                     .truncationMode(.tail)
                     .font(.system(size: 20, weight: .heavy, design: .rounded))
-                Text("\(card.stringName)")
+                Text(card.stringName)
                     .font(.system(size: 14, weight: .regular, design: .rounded))
             }
             if isSelected && showTransactions {
@@ -97,7 +96,6 @@ struct SingleCardView: View {
         .padding(.trailing, isSelected && showTransactions ? 15 : 22)
         .contentShape(Rectangle())
         .cardTapInteraction(
-            cvm: cvm,
             showTransactions: $showTransactions,
             card: card,
             isSelected: isSelected,
@@ -192,10 +190,10 @@ struct SingleCardView: View {
 }
 
 #Preview {
-    SingleCardView(cvm: ContentViewModel(),
-                   showTransactions: .constant(false),
+    SingleCardView(showTransactions: .constant(false),
                    showEditCardSheet: .constant(false),
                    card: Card(name: "Daniel"),
+                   isSelected: true,
                    toggleTransaction: { },
                    handleAutoScroll: { })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -205,4 +203,5 @@ struct SingleCardView: View {
                 Color.white
             }
         }
+        .environmentObject(ContentViewModel())
 }

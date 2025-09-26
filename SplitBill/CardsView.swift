@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CardsView: View {
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     @State var showCardTransactions = false
     @Binding var showEditCardSheet: Bool
 
@@ -42,10 +42,10 @@ struct CardsView: View {
     }
 
     func singleCardListItem(_ card: Card, scrollView: ScrollViewProxy) -> some View {
-        SingleCardView(cvm: cvm,
-                       showTransactions: $showCardTransactions,
+        SingleCardView(showTransactions: $showCardTransactions,
                        showEditCardSheet: $showEditCardSheet,
                        card: card,
+                       isSelected: card.isActive || cvm.isActiveCard(card),
                        toggleTransaction: toggleTransactions,
                        handleAutoScroll: { handleAutoScroll(scrollView, card: card) })
             .transition(.scale)
@@ -75,10 +75,10 @@ struct CardSpacer: View {
     @Previewable @State var cvm = ContentViewModel.preview
 
     CardsView(
-        cvm: cvm,
         showEditCardSheet: .constant(
             false
         )
     )
     .background(.black)
+    .environmentObject(ContentViewModel())
 }

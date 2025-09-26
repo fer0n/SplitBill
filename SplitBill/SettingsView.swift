@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
 
     let writeReviewUrl = URL(string: "https://apps.apple.com/app/id6444704240?action=write-review")!
@@ -125,5 +125,6 @@ struct LinkItemView<Content: View>: View {
 }
 
 #Preview {
-    SettingsView(cvm: ContentViewModel())
+    SettingsView()
+        .environmentObject(ContentViewModel())
 }

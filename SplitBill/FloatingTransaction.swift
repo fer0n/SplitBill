@@ -204,8 +204,7 @@ struct FloatingTransactionView: View {
             if floatingTransaction != nil {
                 HStack(alignment: .center, spacing: 0) {
                     if floatingTransaction?.shares.count ?? 0 > 1 {
-                        EditableShares(cvm,
-                                       $floatingTransactionInfo,
+                        EditableShares($floatingTransactionInfo,
                                        $floatingTransaction,
                                        handleTransactionChange: self.handleFreeformTransaction)
                             .focused($editableSharesFocused)

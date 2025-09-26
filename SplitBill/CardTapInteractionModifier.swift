@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardTapInteractionModifier: ViewModifier {
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     @Binding var showTransactions: Bool
 
     let card: Card
@@ -78,7 +78,6 @@ struct CardTapInteractionModifier: ViewModifier {
 
 extension View {
     func cardTapInteraction(
-        cvm: ContentViewModel,
         showTransactions: Binding<Bool>,
         card: Card,
         isSelected: Bool,
@@ -87,7 +86,6 @@ extension View {
     ) -> some View {
         self.modifier(
             CardTapInteractionModifier(
-                cvm: cvm,
                 showTransactions: showTransactions,
                 card: card,
                 isSelected: isSelected,

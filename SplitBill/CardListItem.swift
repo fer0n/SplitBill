@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CardListItem: View {
     var card: Binding<Card>
-    @ObservedObject var cvm: ContentViewModel
+    @EnvironmentObject var cvm: ContentViewModel
     var disableEdit: Bool = false
 
     @State private var showColorPicker = false

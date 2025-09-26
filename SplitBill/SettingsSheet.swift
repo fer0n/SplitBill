@@ -7,19 +7,18 @@ import SwiftUI
 
 struct SettingsSheet: ViewModifier {
     @Binding var show: Bool
-    @ObservedObject var cvm: ContentViewModel
 
     func body(content: Content) -> some View {
         content.sheet(isPresented: $show) {
-            SettingsView(cvm: cvm)
+            SettingsView()
                 .ignoresSafeArea()
         }
     }
 }
 
 extension View {
-    func settingsSheet(show: Binding<Bool>, cvm: ContentViewModel) -> some View {
-        self.modifier(SettingsSheet(show: show, cvm: cvm))
+    func settingsSheet(show: Binding<Bool>) -> some View {
+        self.modifier(SettingsSheet(show: show))
     }
 }
 
@@ -29,6 +28,6 @@ extension View {
     }
     .settingsSheet(
         show: .constant(true),
-        cvm: ContentViewModel(),
         )
+    .environmentObject(ContentViewModel())
 }

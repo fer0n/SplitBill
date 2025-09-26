@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUI
+import Observation
 
-class Alerter: ObservableObject {
-    @Published var alert: Alert? {
+@Observable class Alerter {
+    var alert: Alert? {
         didSet { isShowingAlert = alert != nil }
     }
-    @Published var isShowingAlert = false
+    var isShowingAlert = false
 }
