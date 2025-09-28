@@ -18,6 +18,7 @@ class ContentViewModel: ObservableObject {
     @AppStorage("previewDuration") var previewDuration: PreviewDuration = .tapAway
     @AppStorage("flashTransactionValue") var flashTransactionValue: Bool = true
     @AppStorage("transactions") var encodedTransactions: Data?
+    @AppStorage("invertImage") var invertImage = true
 
     private static let cardsSaveKey = "Cards"
 
@@ -714,7 +715,6 @@ class ContentViewModel: ObservableObject {
         DispatchQueue.main.async {
             let averageColorOfImage = image.averageColor
             self.imageIsLight = averageColorOfImage?.isLight() ?? true
-            self.markerColor = self.imageIsLight ? .black : .white
         }
         self.isLoadingCounter -= 1
     }
@@ -926,6 +926,34 @@ class ContentViewModel: ObservableObject {
             total += sum(of: card)
         }
         return total
+    }
+
+    func requiresInvertedColors(_ colorScheme: ColorScheme) -> Bool {
+        return imageIsLight != (colorScheme == .light) && invertImage
+    }
+
+    func getMarkerColor(_ colorScheme: ColorScheme) -> Color {
+        if requiresInvertedColors(colorScheme) {
+            imageIsLight ? .white : .black
+        } else {
+            imageIsLight ? .black : .white
+        }
+    }
+
+    func getMarkerBackgroundColor(_ colorScheme: ColorScheme) -> Color {
+        if requiresInvertedColors(colorScheme) {
+            imageIsLight ? .black : .white
+        } else {
+            imageIsLight ? .white : .black
+        }
+    }
+
+    func getColorScheme(_ colorScheme: ColorScheme) -> ColorScheme {
+        if requiresInvertedColors(colorScheme) {
+            imageIsLight ? .dark : .light
+        } else {
+            imageIsLight ? .light : .dark
+        }
     }
 }
 

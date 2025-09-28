@@ -11,6 +11,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var cvm: ContentViewModel
     @AppStorage("startupItem") var startupItem: StartupItem = .scanner
+    @AppStorage("invertImage") var invertImage = true
 
     let writeReviewUrl = URL(string: "https://apps.apple.com/app/id6444704240?action=write-review")!
     let emailUrl = URL(string: "mailto:scores.templates@gmail.com")!
@@ -31,6 +32,10 @@ struct SettingsView: View {
                 Section {
                     Toggle(isOn: $cvm.flashTransactionValue) {
                         Text("flashTransactionValue")
+                    }
+                    .tint(.markerColor)
+                    Toggle(isOn: $invertImage) {
+                        Text("invertImage")
                     }
                     .tint(.markerColor)
                     Picker("previewDuration", selection: $cvm.previewDuration) {

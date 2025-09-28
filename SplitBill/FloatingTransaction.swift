@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FloatingTransactionView: View {
     @EnvironmentObject var cvm: ContentViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     @State var floatingTransactionInfo = FloatingTransactionInfo(
         center: false,
@@ -23,9 +24,6 @@ struct FloatingTransactionView: View {
     @State var attempts: Int = 0
 
     var body: some View {
-        let padding = floatingTransactionInfo.padding / 2
-        let cornerRadius = floatingTransaction?.boundingBox?.cornerRadius ?? 0
-
         ZStack {
             if floatingTransaction != nil {
                 HStack(alignment: .center, spacing: 0) {
@@ -51,17 +49,27 @@ struct FloatingTransactionView: View {
                 }
                 .geometryGroup()
                 .padding(padding)
-                .background(
-                    Color.black.opacity(0)
-                        .background(.ultraThinMaterial)
-                        .environment(\.colorScheme, cvm.imageIsLight ? ColorScheme.light : .dark)
-                )
-                .clipShape(RoundedRectangle(cornerRadius: cornerRadius + padding, style: .continuous))
-                .onSizeChange(handleSizeChange)
-                .accentColor(.white)
-                .foregroundColor(floatingTransactionInfo.color.contrast)
                 .font(.system(size: (floatingTransaction?.boundingBox?.height ?? 30),
                               weight: .semibold, design: .rounded))
+                .apply {
+                    if #available(iOS 26.0, *) {
+                        $0
+                            .glassEffect(
+                                .regular,
+                                in: shape
+                            )
+                    } else {
+                        $0
+                            .background(
+                                Color.black.opacity(0)
+                                    .background(.ultraThinMaterial)
+                            )
+                            .clipShape(shape)
+                    }
+                }
+                .foregroundStyle(cvm.getMarkerColor(colorScheme))
+                .environment(\.colorScheme, cvm.getColorScheme(colorScheme))
+                .onSizeChange(handleSizeChange)
                 .floatingTransactionPosition(floatingTransaction, floatingTransactionInfo)
             }
         }
@@ -73,6 +81,18 @@ struct FloatingTransactionView: View {
         .onChange(of: cvm.image) {
             floatingTransaction = nil
         }
+    }
+
+    var shape: some Shape {
+        RoundedRectangle(cornerRadius: cornerRadius + padding, style: .continuous)
+    }
+
+    var cornerRadius: CGFloat {
+        floatingTransaction?.boundingBox?.cornerRadius ?? 0
+    }
+
+    var padding: CGFloat {
+        floatingTransactionInfo.padding / 2
     }
 
     func flashTransaction(_ tId: UUID, _ remove: Bool) {

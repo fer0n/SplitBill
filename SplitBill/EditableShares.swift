@@ -39,7 +39,6 @@ struct EditableShares: View {
             }
             return index1 < index2
         } ?? []
-        let colorScheme = cvm.imageIsLight ? ColorScheme.light : .dark
 
         HStack(alignment: .center, spacing: 0) {
             ForEach(shares, id: \.self) { share in
@@ -56,7 +55,6 @@ struct EditableShares: View {
                 if share.cardId != shares.last?.cardId {
                     Image(systemName: "plus")
                         .padding(padding)
-                        .environment(\.colorScheme, colorScheme)
                         .geometryGroup()
                         .matchedGeometryEffect(id: "\(share.cardId)-plus", in: namespace)
                 }
@@ -64,7 +62,6 @@ struct EditableShares: View {
             if shares.count > 0 {
                 Image(systemName: "equal")
                     .padding(.leading, padding)
-                    .environment(\.colorScheme, colorScheme)
                     .geometryGroup()
                     .matchedGeometryEffect(id: "share-equal", in: namespace)
             }
@@ -72,7 +69,6 @@ struct EditableShares: View {
         .geometryGroup()
         .font(.system(size: ((floatingTransaction?.boundingBox?.height ?? 30) / 1.5),
                       weight: .semibold, design: .rounded))
-        .foregroundColor(.foregroundColor)
     }
 
     func editShare(type: ShareEditType, cardId: UUID, value: Double? = nil, onError: @escaping () -> Void) {

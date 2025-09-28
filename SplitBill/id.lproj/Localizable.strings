@@ -45,6 +45,7 @@
 // SettingsView
 "openOnStartUp" = "Buka saat startup";
 "nothing" = "Tidak ada";
+"invertImage" = "Pembalikan Gambar Adaptif";
 "scanner" = "Pemindai";
 "imagePicker" = "Pemilih Gambar";
 "flashTransactionValue" = "Pratinjau angka yang dikenali";

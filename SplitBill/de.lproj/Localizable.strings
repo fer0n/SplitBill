@@ -45,6 +45,7 @@
 // SettingsView
 "openOnStartUp" = "Beim Start öffnen";
 "nothing" = "Nichts";
+"invertImage" = "Adaptive Bild Inversion";
 "scanner" = "Scanner";
 "imagePicker" = "Bild Auswahl";
 "flashTransactionValue" = "Erkannte Zahl anzeigen";

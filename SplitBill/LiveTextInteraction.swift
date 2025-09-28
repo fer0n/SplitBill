@@ -2,10 +2,15 @@ import UIKit
 import SwiftUI
 import VisionKit
 import Vision
+import CoreImage
 
 struct LiveTextInteraction: UIViewRepresentable {
     let imageView = UIImageView()
     @EnvironmentObject var cvm: ContentViewModel
+    let invertColors: Bool
+    let markerColor: Color
+
+    private static var invertedImageCache = [Int: UIImage]()
 
     class Coordinator: NSObject, ImageAnalysisInteractionDelegate {
         var parent: LiveTextInteraction
@@ -48,7 +53,12 @@ struct LiveTextInteraction: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIImageView, context: Context) {
-        uiView.image = cvm.image
+        if invertColors, let image = cvm.image {
+            uiView.image = invertImage(image)
+        } else {
+            uiView.image = cvm.image
+        }
+
         if let drawingLayer = drawTransactions() {
             uiView.layer.sublayers?.removeAll()
             uiView.layer.addSublayer(drawingLayer)
@@ -98,7 +108,7 @@ struct LiveTextInteraction: UIViewRepresentable {
         }
         let unusedRectsLayer = drawRectsOnImage(unusedRects,
                                                 img,
-                                                color: Color(cvm.markerColor ?? .black),
+                                                color: markerColor,
                                                 fill: false,
                                                 stroke: true)
         layer.insertSublayer(unusedRectsLayer, at: 0)
@@ -166,6 +176,28 @@ struct LiveTextInteraction: UIViewRepresentable {
             layer.addSublayer(sublayer)
         }
         return layer
+    }
+
+    func invertImage(_ image: UIImage) -> UIImage? {
+        let imageIdentifier = image.hashValue
+        if let cachedImage = Self.invertedImageCache[imageIdentifier] {
+            return cachedImage
+        }
+        guard let cgImage = image.cgImage else { return nil }
+
+        let ciImage = CIImage(cgImage: cgImage)
+        let filter = CIFilter(name: "CIColorInvert")
+        filter?.setValue(ciImage, forKey: kCIInputImageKey)
+
+        guard let outputCIImage = filter?.outputImage,
+              let outputCGImage = CIContext().createCGImage(outputCIImage, from: outputCIImage.extent) else {
+            return nil
+        }
+
+        let invertedImage = UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
+        Self.invertedImageCache[imageIdentifier] = invertedImage
+
+        return invertedImage
     }
 }
 

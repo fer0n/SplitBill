@@ -7,6 +7,8 @@ import SwiftUI
 
 struct LiveTextImage: View {
     @EnvironmentObject var cvm: ContentViewModel
+    @Environment(\.colorScheme) var colorScheme
+
     @Binding var showEditCardSheet: Bool
     let zoomBufferPadding: CGFloat
 
@@ -16,7 +18,10 @@ struct LiveTextImage: View {
                            onGestureHasBegun: self.onGestureHasBegun,
                            contentChanged: cvm.contentChanged) {
             ZStack {
-                LiveTextInteraction()
+                LiveTextInteraction(
+                    invertColors: cvm.requiresInvertedColors(colorScheme),
+                    markerColor: cvm.getMarkerColor(colorScheme)
+                )
                 FloatingTransactionView()
             }
             .padding(zoomBufferPadding)
