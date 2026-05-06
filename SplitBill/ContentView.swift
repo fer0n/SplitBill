@@ -21,7 +21,6 @@ struct ContentView: View {
 
     @State var showReplaceImageAlert: Bool = false
     @State var replacingImage: UIImage?
-    @State var replacingImageIsHeic: Bool?
 
     let zoomBufferPadding: CGFloat = 500
 
@@ -68,8 +67,8 @@ struct ContentView: View {
             .ignoresSafeArea()
         }
         .sheet(isPresented: $showImagePicker) {
-            ImagePickerView(sourceType: .photoLibrary) { image, isHeic  in
-                cvm.changeImage(image, isHeic)
+            ImagePickerView(sourceType: .photoLibrary) { image in
+                cvm.changeImage(image)
                 cvm.clearAllTransactionsAndHistory()
             }
             .ignoresSafeArea()
@@ -119,7 +118,7 @@ struct ContentView: View {
         .alert("replaceImage", isPresented: $showReplaceImageAlert) {
             Button("replaceYes") {
                 if let img = replacingImage {
-                    cvm.changeImage(img, replacingImageIsHeic)
+                    cvm.changeImage(img)
                 }
             }
             Button("replaceNo", role: .cancel) { }
@@ -154,10 +153,9 @@ struct ContentView: View {
         }
         if cvm.image == nil {
             let hasTransactions = cvm.transactions.count > 0
-            cvm.changeImage(img, info.isHeic, analyseTransactions: !hasTransactions)
+            cvm.changeImage(img, analyseTransactions: !hasTransactions)
         } else {
             replacingImage = info.image
-            replacingImageIsHeic = info.isHeic
             showReplaceImageAlert = true
         }
         self.isLoadingReplacingImage = false

@@ -31,7 +31,6 @@ class ContentViewModel: ObservableObject {
     var markerColor: UIColor?
     var imageIsLight: Bool = true
     var lineWidth: CGFloat?
-    var imageIsHeic = false
 
     var observations: [VNRecognizedTextObservation] = []
     var onTransactionTap: ((_ transaction: Transaction) -> Void)?
@@ -159,7 +158,7 @@ class ContentViewModel: ObservableObject {
     func saveImageData() {
         if let img = self.image {
             do {
-                _ = try saveImageDataToSplitBill(img, isHeic: self.imageIsHeic, isPreservation: true)
+                _ = try saveImageDataToSplitBill(img, isPreservation: true)
             } catch {
                 print("error saving image: \(error)")
             }
@@ -201,7 +200,7 @@ class ContentViewModel: ObservableObject {
     func  consumeStoredImage() -> StoredImageInfo {
         let info = loadImage()
         if info.image == nil {
-            return StoredImageInfo(nil, nil, nil)
+            return StoredImageInfo(nil, nil)
         }
         resetStoredImage()
         return info
@@ -217,12 +216,11 @@ class ContentViewModel: ObservableObject {
         guard let data = userDefaults?.data(forKey: "imageData"),
               let decoded = try? PropertyListDecoder().decode(Data.self, from: data)
         else {
-            return StoredImageInfo(nil, nil, nil)
+            return StoredImageInfo(nil, nil)
         }
-        let isHeic = userDefaults?.bool(forKey: "isHeic")
         let isPreservation = savedImageIsPreserved()
         let image = UIImage(data: decoded)
-        return StoredImageInfo(image, isHeic, isPreservation)
+        return StoredImageInfo(image, isPreservation)
     }
 
     func resetStoredImage() {
@@ -701,11 +699,10 @@ class ContentViewModel: ObservableObject {
         })
     }
 
-    func changeImage(_ image: UIImage, _ isHeic: Bool? = false, analyseTransactions: Bool = true) {
+    func changeImage(_ image: UIImage, analyseTransactions: Bool = true) {
         self.isLoadingCounter += 1
         self.image = image
         self.contentChanged.send()
-        self.imageIsHeic = isHeic ?? false
 
         if analyseTransactions {
             self.transactions = [:]
@@ -757,10 +754,7 @@ class ContentViewModel: ObservableObject {
         let boxObservation = try? candidate.boundingBox(for: stringRange)
 
         // Get the normalized CGRect value.
-        var boundingBox = boxObservation?.boundingBox ?? .zero
-        if imageIsHeic {
-            boundingBox = heicBoundingBoxWorkaround(boundingBox)
-        }
+        let boundingBox = boxObservation?.boundingBox ?? .zero
 
         // Convert the rectangle from normalized coordinates to image coordinates.
         var rect = VNImageRectForNormalizedRect(boundingBox,
@@ -770,14 +764,6 @@ class ContentViewModel: ObservableObject {
         rect.origin = CGPoint(x: rect.origin.x, y: image.size.height - rect.origin.y - rect.height)
 
         return Transaction(value: number, boundingBox: rect)
-    }
-
-    // this can be removed if heic images no longer result in the wrong coordinates
-    func heicBoundingBoxWorkaround(_ boundingBoxInHeic: CGRect) -> CGRect {
-        let rect = boundingBoxInHeic,
-            width = rect.height,
-            height = rect.width
-        return CGRect(x: rect.minY, y: 1 - rect.minX - height, width: width, height: height)
     }
 
     func getNumberFromString(_ string: String) -> Double? {
@@ -869,8 +855,9 @@ class ContentViewModel: ObservableObject {
     func processImage() {
         print("processImage")
         self.isLoadingCounter += 1
-        guard let cgImage = image?.cgImage else { return }
-        let requestHandler = VNImageRequestHandler(cgImage: cgImage)
+        guard let image = self.image, let cgImage = image.cgImage else { return }
+        let requestHandler = VNImageRequestHandler(cgImage: cgImage,
+                                                   orientation: CGImagePropertyOrientation(image.imageOrientation))
         let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
 
         DispatchQueue.global().async {
@@ -959,12 +946,10 @@ class ContentViewModel: ObservableObject {
 
 struct StoredImageInfo {
     let image: UIImage?
-    let isHeic: Bool?
     let isPreservation: Bool?
 
-    init(_ image: UIImage?, _ isHeic: Bool?, _ isPreservation: Bool?) {
+    init(_ image: UIImage?, _ isPreservation: Bool?) {
         self.image = image
-        self.isHeic = isHeic
         self.isPreservation = isPreservation
     }
 }

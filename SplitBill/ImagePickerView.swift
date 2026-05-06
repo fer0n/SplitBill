@@ -2,11 +2,11 @@ import SwiftUI
 
 public struct ImagePickerView: UIViewControllerRepresentable {
     private let sourceType: UIImagePickerController.SourceType
-    private let onImagePicked: (UIImage, _ isHeic: Bool) -> Void
+    private let onImagePicked: (UIImage) -> Void
     @Environment(\.presentationMode) private var presentationMode
 
     public init(sourceType: UIImagePickerController.SourceType,
-                onImagePicked: @escaping (UIImage, _ isHeic: Bool) -> Void) {
+                onImagePicked: @escaping (UIImage) -> Void) {
         self.sourceType = sourceType
         self.onImagePicked = onImagePicked
     }
@@ -30,9 +30,9 @@ public struct ImagePickerView: UIViewControllerRepresentable {
     final public class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
         private let onDismiss: () -> Void
-        private let onImagePicked: (UIImage, _ isHeic: Bool) -> Void
+        private let onImagePicked: (UIImage) -> Void
 
-        init(onDismiss: @escaping () -> Void, onImagePicked: @escaping (UIImage, _ isHeic: Bool) -> Void) {
+        init(onDismiss: @escaping () -> Void, onImagePicked: @escaping (UIImage) -> Void) {
             self.onDismiss = onDismiss
             self.onImagePicked = onImagePicked
         }
@@ -40,23 +40,13 @@ public struct ImagePickerView: UIViewControllerRepresentable {
         public func imagePickerController(_ picker: UIImagePickerController,
                                           didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
-                let isHeic = imageIsHeic(info)
-                self.onImagePicked(image, isHeic)
+                self.onImagePicked(image)
             }
             self.onDismiss()
         }
 
         public func imagePickerControllerDidCancel(_: UIImagePickerController) {
             self.onDismiss()
-        }
-
-        public func imageIsHeic(_ info: [UIImagePickerController.InfoKey: Any]) -> Bool {
-            if let assetPath = info[UIImagePickerController.InfoKey.referenceURL] as? NSURL,
-               let ext = assetPath.pathExtension,
-               ext == "HEIC" {
-                return true
-            }
-            return false
         }
 
     }

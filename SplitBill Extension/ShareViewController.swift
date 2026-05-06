@@ -84,12 +84,6 @@ class ShareViewController: UIViewController {
         for provider in attachments {
             if provider.hasItemConformingToTypeIdentifier(identifier) {
                 provider.loadItem(forTypeIdentifier: identifier, options: nil) { (data, error) in
-                    /*
-                     For some reason, the coordinates of heic images are different.
-                     Images here appear to have a .heic and .jpeg version, where the .jpeg has the same
-                     coordinate issues. This workaround tries to use the .heic version and
-                     apply the coordinate workaround later on
-                     */
                     self.storeImage(data, error)
                 }
             } else if provider.hasItemConformingToTypeIdentifier(contentType) {
@@ -107,14 +101,12 @@ class ShareViewController: UIViewController {
         guard error == nil else { return }
         if let url = data as? URL,
            let uiImg = UIImage(contentsOfFile: url.path) {
-            let isHeic = url.pathExtension == "HEIC"
-            saveImageData(uiImg, isHeic: isHeic)
+            saveImageData(uiImg)
         } else if let uiImg = data as? UIImage {
-            // always use png here since it's a screenshot
-            saveImageData(uiImg, isHeic: false)
+            saveImageData(uiImg)
         } else if let data = data as? Data,
                   let uiImg = UIImage(data: data) {
-            saveImageData(uiImg, isHeic: false)
+            saveImageData(uiImg)
         } else {
             fatalError("Impossible to save image")
         }
@@ -129,11 +121,11 @@ class ShareViewController: UIViewController {
         self.spinner.stopAnimating()
     }
 
-    private func saveImageData(_ image: UIImage, isHeic: Bool?) {
+    private func saveImageData(_ image: UIImage) {
         DispatchQueue.main.async {
             var data: Data
             do {
-                data = try saveImageDataToSplitBill(image, isHeic: isHeic, isPreservation: false)
+                data = try saveImageDataToSplitBill(image, isPreservation: false)
             } catch {
                 self.displayError()
                 return
