@@ -50,7 +50,6 @@ class ShareViewController: UIViewController {
 
     @IBAction func handleOpenInAppButton() {
         openSplitBillApp()
-        closeExtension()
     }
 
     @IBAction func handleCloseButton() {
@@ -147,20 +146,43 @@ class ShareViewController: UIViewController {
     }
 
     private func openSplitBillApp() {
-        if let url = URL(string: "splitbill://") {
-            _ = openURL(url)
+        guard let url = URL(string: "splitbill://") else {
+            closeExtension()
+            return
         }
+        let close: (Bool) -> Void = { [weak self] _ in self?.closeExtension() }
+        // Prefer the host UIApplication (reached via the responder chain); `extensionContext.open`
+        // is only reliable for Today widgets, not share extensions opening a custom scheme.
+        if hostApplication?.openFromExtension(url, completion: close) == true {
+            return
+        }
+        extensionContext?.open(url, completionHandler: close)
     }
 
-    @objc func openURL(_ url: URL) -> Bool {
-        var responder: UIResponder? = self
-        while responder != nil {
-            if let application = responder as? UIApplication {
-                return application.perform(#selector(openURL(_:)), with: url) != nil
-            }
-            responder = responder?.next
-        }
-        return false
+    /// The host process's `UIApplication`, reachable through the responder chain in an extension.
+    private var hostApplication: UIApplication? {
+        sequence(first: self as UIResponder, next: { $0.next })
+            .first { $0 is UIApplication } as? UIApplication
+    }
+}
+
+private extension UIApplication {
+    /// Opens `url` from inside an app extension.
+    ///
+    /// `open(_:options:completionHandler:)` is unavailable to extensions at compile time, and the
+    /// legacy `openURL:` is now hard-blocked by UIKit (force-returns NO), so we invoke the modern
+    /// method through the Obj-C runtime. Returns `false` if it isn't available, so the caller can
+    /// fall back to `NSExtensionContext.open`.
+    @discardableResult
+    func openFromExtension(_ url: URL, completion: @escaping (Bool) -> Void) -> Bool {
+        let selector = NSSelectorFromString("openURL:options:completionHandler:")
+        guard responds(to: selector) else { return false }
+
+        typealias OpenURL = @convention(c)
+            (NSObject, Selector, NSURL, NSDictionary, @escaping (Bool) -> Void) -> Void
+        let open = unsafeBitCast(method(for: selector), to: OpenURL.self)
+        open(self, selector, url as NSURL, NSDictionary(), completion)
+        return true
     }
 }
 
